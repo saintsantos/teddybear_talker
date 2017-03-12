@@ -1,0 +1,27 @@
+{
+  "name": "teddy_bear_talker_servr",
+  "version": "1.0.0",
+  "description": "Teddy Bear talker receiving server",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "nodemon --debug app/index.js",
+    "postinstall": "node -e \"/*https://gist.github.com/branneman/8048520#gistcomment-1412502*/ var srcpath='../app'; var dstpath='node_modules/app';var fs=require('fs'); fs.exists(dstpath,function(exists){if(!exists){fs.symlinkSync(srcpath, dstpath,'dir');}});\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "debug": "^2.6.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "express-formidable": "^1.0.0",
+    "formidable": "^1.1.1",
+    "knex": "^0.12.7",
+    "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0",
+    "q": "^1.4.1"
+  }
+}
