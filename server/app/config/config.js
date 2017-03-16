@@ -1,7 +1,5 @@
 // this will get the S3 credentials and other config from the .env file
-require('dotenv').config({ path: 'app/util/config.env'});
-
-var config = module.exports;
+var config = {};
 
 config.express = {
     port: process.env.PORT || 3000,
@@ -11,10 +9,10 @@ config.express = {
 //mysql stuff
 config.dbConnection = {
     host: 'localhost',
-    user: process.env.DB_USER_NAME,
+    user: '',
     port: 3306,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    password: '',
+    database: '',
     charset: 'utf8',
     debug: true
 }
@@ -30,3 +28,5 @@ config.uploadDir = {
 config.secret = {
     secret: 'Driver-watchdog'
 }
+
+export default config;
