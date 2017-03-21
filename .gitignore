@@ -4,4 +4,4 @@ server/app/util/config.env
 .tags
 *.env
 server/dist/
-electron/node_modules/
+react-app/node_modules/
