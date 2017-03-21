@@ -2,3 +2,6 @@ server/node_modules/
 npm-debug.log
 server/app/util/config.env
 .tags
+*.env
+server/dist/
+electron/node_modules/
