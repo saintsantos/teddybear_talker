@@ -15,10 +15,10 @@ export default class SideNavbar extends Component {
           <Col sm={4}>
             <Nav bsStyle="pills" stacked>
               <NavItem eventKey="first">
-                Tab 1
+                Current Events
               </NavItem>
               <NavItem eventKey="second">
-                Tab 2
+                Uploads
               </NavItem>
             </Nav>
           </Col>
@@ -28,7 +28,7 @@ export default class SideNavbar extends Component {
                 <EventList />
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-                Tab 2 content
+                Upload a file WIP
               </Tab.Pane>
             </Tab.Content>
           </Col>
