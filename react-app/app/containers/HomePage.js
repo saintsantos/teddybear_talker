@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
+import EventElement from '../components/EventElement/EventElement.jsx';
 
-import Navbar from '../components/Navbar/Navbar';
 export default class HomePage extends Component {
   render() {
     return (
       <div>
-          <Navbar />
+          <EventElement />
       </div>
     );
   }
