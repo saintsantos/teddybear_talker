@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
-import { Panel, Button, ListGroup, ListGroupItem, Row, Col, Table } from 'react-bootstrap';
-import './EventElement.jsx';
+import { Panel, Button, ListGroup, ListGroupItem, Row, Col, Glyphicon } from 'react-bootstrap';
+import './EventElement.css';
 
 export default class EventElement extends Component {
     render() {
         return (
-            <Panel>
-                <Table bordered>
-                    <thead>
-                        <th>Time</th>
-                        <th>Saying</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>8am</td>
-                            <td>Good Morning</td>
-                        </tr>
-                    </tbody>
-                </Table>
-            </Panel>
-        )
+            <ListGroupItem header="8am">
+                Good Morning!
+                <Button className="pull-right" bsStyle="info">
+                    <Glyphicon glyph="edit"/>
+                </Button>
+            </ListGroupItem>
+       )
     }
 }
