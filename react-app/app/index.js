@@ -5,6 +5,7 @@ import { AppContainer } from 'react-hot-loader';
 import { syncHistoryWithStore } from 'react-router-redux';
 import Root from './containers/Root';
 import configureStore from './store/configureStore';
+import 'bootstrap/dist/css/bootstrap.css';
 import './app.global.css';
 
 const store = configureStore();
