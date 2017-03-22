@@ -4,6 +4,7 @@ import {Grid, Row, Col} from 'react-bootstrap';
 import EventList from '../components/EventList/EventList.jsx';
 import Header from '../components/Header/Header.jsx';
 import Navbar from '../components/Navbar/Navbar.js';
+import FileModal from '../components/FileModal/FileModal.jsx';
 
 export default class HomePage extends Component {
   render() {
