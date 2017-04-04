@@ -1,3 +1,4 @@
 node_modules/
-app/asstes/lib/
+app/assets/lib/
 .DS_Store
+_build/
