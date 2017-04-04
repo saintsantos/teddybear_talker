@@ -1,0 +1,17 @@
+{
+  "name": "teddybear_talker",
+  "version": "0.1.0",
+  "description": "Interface app for teddybear talker",
+  "main": "app/app.js",
+  "scripts": {
+    "prestart": "npm install",
+    "postinstall": "bower install --no-interactive --allow-root",
+    "start": "http-server -a localhost -p 8000 -c-1 ./app"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "http-server": "^0.9.0"
+  }
+}

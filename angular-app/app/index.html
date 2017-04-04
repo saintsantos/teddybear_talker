@@ -1,0 +1,53 @@
+<!Doctype html>
+
+<html land="en" ng-csp="" ng-app="teddybeartalker">
+    <head>
+        <base href="/">
+        <meta charset="utf-8">
+        <title>Teddybear Talker</title>
+        <meta name="description" content="Your cuddly friend that talks!">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="assets/css/style.css" />
+    </head>
+    <body class="main-wrapper">
+        <!-- Throw navigation stuff here -->
+        <ui-view></ui-view>
+        <!-- Dependencies go here -->
+
+        <!-- Angular dependency -->
+        <script type="text/javascript" src="assets/lib/angular/angular.js"></script>
+        <script type="text/javascript" src="assets/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script type="text/javascript" src="assets/lib/angular-sanitize/angular-sanitize.js"></script>
+        <script type="text/javascript" src="assets/lib/angular-route/angular-route.js"></script>
+        <!-- end Angular Dependencies -->
+
+        <!-- Main App entrypoint -->
+        <script type="text/javascript" src="app.module.js"></script>
+        <script type="text/javascript" src="app.config.js"></script>
+        <!-- End Main App entrypoint
+
+        <!-- Home Component -->
+        <script type="text/javascript" src="components/home/home.controller.js"></script>
+        <script type="text/javascript" src="components/home/home.service.js"></script>
+        <script type="text/javascript" src="components/home/home.module.js"></script>
+        <!-- End Home Component -->
+
+        <!-- Settings Component -->
+        <script type="text/javascript" src="components/settings/settings.controller.js"></script>
+        <script type="text/javascript" src="components/settings/settings.service.js"></script>
+        <script type="text/javascript" src="components/settings/settings.module.js"></script>
+        <!-- End Settings Component -->
+
+        <!-- Upload Component -->
+        <script type="text/javascript" src="components/upload/upload.controller.js"></script>
+        <script type="text/javascript" src="components/upload/upload.service.js"></script>
+        <script type="text/javascript" src="components/upload/upload.module.js"></script>
+        <!-- End Upload Component -->
+
+    </body>
+
+
+
+
+</html>
