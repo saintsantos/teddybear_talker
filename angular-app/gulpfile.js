@@ -167,11 +167,9 @@ gulp.task('default', ['browser-sync', 'minify-css'], function() {
  */
 gulp.task('build', function(callback) {
   runSequence(
-    'clean:build',
     'images',
     'templates',
     'usemin',
-    'fonts',
     'build:size',
     callback);
 });
