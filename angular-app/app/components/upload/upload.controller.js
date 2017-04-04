@@ -10,6 +10,6 @@
     }
 
   angular
-    .module('upload.controller', [])
+    .module('upload.controller', ['ui.materialize'])
     .controller('UploadController', UploadController);
 })();

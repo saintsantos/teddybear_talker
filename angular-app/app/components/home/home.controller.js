@@ -13,6 +13,6 @@
     }
 
   angular
-    .module('home.controller', [])
+    .module('home.controller', ['ui.materialize'])
     .controller('HomeController', HomeController);
 })();

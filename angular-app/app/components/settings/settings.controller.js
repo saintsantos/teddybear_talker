@@ -10,6 +10,6 @@
     }
 
   angular
-    .module('settings.controller', [])
+    .module('settings.controller', ['ui.materialize'])
     .controller('SettingsController', SettingsController);
 })();
