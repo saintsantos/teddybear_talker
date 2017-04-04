@@ -3,6 +3,7 @@ npm-debug.log
 server/app/util/config.env
 .tags
 *.env
+*.swp
 server/dist/
 react-app/node_modules/
 react-app/app/node_modules/

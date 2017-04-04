@@ -7,43 +7,55 @@
 		<meta charset="utf-8">
 	  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-
-
 	</head>
-
 	<body>
-		<nav class="navbar navbar-inverse">
-  		<div class="container-fluid">
-    		<div class="navbar-header">
-    	  	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-  	      	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-  	      	<span class="icon-bar"></span>
-    	  	</button>
-      		<a class="navbar-brand" ng-click="goToHome()">Tabil Bear</a>
-   	 		</div>
-
-				<div class="collapse navbar-collapse" id="myNavbar">
-      		<ul class="nav navbar-nav">
-        		<li class="active"><a href="#">Scheduler</a></li>
-        		<li><a ng-click="goToSettings()">Settings</a></li>
-      		</ul>
-					<ul class="nav navbar-nav navbar-right">
-    		   	<li><a ng-click="goToUpload()"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</a></li>
-		      </ul>
-    		</div>
-		  </div>
-		</nav>
+		<nav>
+			<div class="nav-wrapper">
+				<a href="#" class="brand-logo right">Tabil</a>
+				<ul id="nav-mobile" class="left">
+					<li><a href="#">Events</a></li>
+					<li><a href="Files.html">Files</a></li>
+	        <li><a href="settings.html">Settings</a></li>
+		    </ul>
+			</div>
+	  </nav>
 
 		<div class="container">
     	<div class="row">
 
-				<div class="col-sm-2">
-					<h4>New Datetime</h4>
+				<div input-field>
+					<select class="" ng-model="select.value1" material-select watch>
+						<option value="">---Please select---</option> <!-- not selected / blank option -->
+						<option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
+			      <option value="option-2">Option 2</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<label for="input_starttime">Time</label>
+				<input id="input_starttime" input-clock data-twelvehour="false" type="text">
+			</div>
+
+			<div class="row">
+				<!-- Modal Trigger -->
+				<div class="col s2">
+				  <a class='btn' data-target='demoModal' modal>Select Audio File</a>
 				</div>
 
-
+				<div class="col offset-m1 m9 s12">
+					<input id="selected_file_name" readonly type="text" placeholder="Filename">
+				</div>
+					<!-- Modal Structure -->
+				<div id="demoModal" class="modal">
+					<div class="modal-content">
+						<h4>File Select</h4>
+				    <p>A bunch of files</p>
+					</div>
+				<div class="modal-footer">
+					<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Select</a>
+				</div>
+			</div>
 				<div class='col-sm-6'>
         	<div class="form-group">
           	<div class='input-group date' id='datetimepicker1'>
@@ -103,12 +115,6 @@
             </div>
         </div>
 
-
-
-
-
-
-
-		</div>
+	  </div>
 	</body>
 </html>
