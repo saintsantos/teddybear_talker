@@ -1,0 +1,17 @@
+{
+  "name": "Teddybear Talker",
+  "version": "0.1.0",
+  "description": "Teddybear Talker",
+  "main": "app.js",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "angular-sanitize": "^1.6.4"
+  }
+}
