@@ -8,3 +8,6 @@ react-app/node_modules/
 react-app/app/node_modules/
 react-app/yarn-error.log
 .tags_swap
+react-app/test
+react-app/resources
+react-app/flow-typed
