@@ -3,6 +3,7 @@
     function HomeController($scope, $state) {
         $scope.goToHome = function() {
             $state.go('home');
+						$scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         }
         $scope.goToSettings = function() {
             $state.go('settings');
