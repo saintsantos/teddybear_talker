@@ -1,6 +1,9 @@
 ;(function() {
 
     function HomeController($scope, $state) {
+        $scope.goToHome = function() {
+            $state.go('home');
+        }
         $scope.goToSettings = function() {
             $state.go('settings');
         }
