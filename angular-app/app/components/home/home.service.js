@@ -1,21 +1,21 @@
 ;(function() {
 
   angular
-    .module('home.service', []),
+    .module('home.service', [])
     .factory('HomeService', function($http, $window, $q, $urlConstant) {
 
       function getDay(day) {
         var xhrParams = {
           method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/' + day + '/'
+          url: urlConstant.baseUrl + '/api/calendar/' + day + '/',
         }
         return $http(xhrParams);
       }
 
-      function getEvent(event) {
+      function getEvent(day, hour, min) {
         var xhrParams = {
           method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/' + event.day + '/' + event.hour '/' + event.min + '/'
+          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
         }
         return $http(xhrParams);
       }
@@ -23,32 +23,32 @@
       function getWeek() {
         var xhrParams = {
           method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/'
+          url: urlConstant.baseUrl + '/api/calendar/',
         }
         return $http(xhrParams);
       }
 
-      function updateEvent(event) {
+      function updateEvent(day, hour, min) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/api/calendar/' + event.day + '/' + event.hour '/' + event.min + '/'
+          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
         }
       }
 
-      function deleteEvent(event) {
+      function deleteEvent(day, hour, min) {
         var xhrParams = {
           method: 'DELETE',
-          url: urlConstant.baseUrl + '/api/calendar/' + event.day + '/' + event.hour '/' + event.min + '/'
+          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
         }
         return $http(xhrParams);
       }
 
-      function addEvent(event) {
+      function addEvent(day, hour, min, file_id) {
         var xhrParams = {
           method: 'POST',
-          url: urlConstant.baseUrl + '/api/calendar/' + event.day + '/' + event.hour '/' + event.min + '/'
+          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
           params: {
-            file_id: event.file_id
+            file_id: file_id
           }
 
         }
