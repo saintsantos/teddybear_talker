@@ -8,6 +8,10 @@
             'ui.router'
         ])
 
+        .constant('urlConstant', {
+          baseUrl: 'http://localhost:3000'
+        })
+
 
     .config(function($urlRouterProvider, $stateProvider, $locationProvider) {
         //$locationProvider.html5Mode(false);
