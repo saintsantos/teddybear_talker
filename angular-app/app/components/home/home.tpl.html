@@ -120,13 +120,25 @@
     <div id="uploadModal" class="modal">
       <div class="modal-content">
         <h4>File Select</h4>
-        <p>A bunch of files</p>
+        <p>Select a file that you want to upload to the bear!</p>
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" multiple>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload one or more files">
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Upload</a>
+        <div ng-controller = "myCtrl">
+
+          <a class="btn" ng-click="uploadFile()">Upload</a>
+        </div>
       </div>
     </div>
-
   </div>
 </body>
 </html>
