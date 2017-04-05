@@ -10,16 +10,16 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-inverse">
-  		<div class="container-fluid">
-    		<div class="navbar-header">
-    	  	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-  	      	<span class="icon-bar"></span>
-		        <span class="icon-bar"></span>
-  	      	<span class="icon-bar"></span>
-    	  	</button>
-      		<a class="navbar-brand" ng-click="goToHome()">Tabil Bear</a>
-   	 		</div>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo right"></a>
+        <ul id="nav-mobile" class="left">
+          <li><a ng-click="goToHome()">Events</a></li>
+          <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToSettings()">Settings</a></li>
+        </ul>
+      </div>
+    </nav>
 
 				<div class="collapse navbar-collapse" id="myNavbar">
       		<ul class="nav navbar-nav">
