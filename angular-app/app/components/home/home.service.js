@@ -2,7 +2,7 @@
 
   angular
     .module('home.service', [])
-    .factory('HomeService', function($http, $window, $q, $urlConstant) {
+    .factory('HomeService', function($http, $window, $q, urlConstant) {
 
       function getDay(day) {
         var xhrParams = {
