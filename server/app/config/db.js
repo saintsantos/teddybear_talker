@@ -1,8 +1,8 @@
-var config = require('app/util/config');
+import config from './config';
 
 var knex = require('knex')({
     client: 'mysql',
     connection: config.dbConnection
 });
 
-module.exports = knex;
+export default knex;

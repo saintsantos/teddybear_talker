@@ -1,44 +1,17 @@
-//This will be the central point of the server
-var express = require('express'),
-    http = require('http'),
-    https = require('https'),
-    fs = require('fs'),
-    bodyParser = require('body-parser'),
-    app = express();
+import config from './config/config';
+import app from './config/express';
+import dotenv from 'dotenv';
 
-var morgan = require('morgan');
-app.use(morgan('combined'));
+dotenv.config();
+console.log(process.env.DB_USER_NAME);
+// make bluebird default Promise
+Promise = require('bluebird');
 
-var config = require('app/util/config');
+const debug = require('debug');
 
-var db = require('app/util/db');
+const db = require('./config/db');
 
-app.set('superSecret', config.sercret);
-
-//API endpoints
-app.use('/api/test', require('./test/router'));
-app.use('/api/voice', require('./voice/router'));
-
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.statur = 404;
-    next(err);
+app.listen(config.express.port, () => {
+    debug(`server started on port ${config.express.port}`)
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.json({
-        errorState: 'error',
-        message: err.message,
-        error: err
-    });
-});
-
-//https.createServer(options, app).listen(3000);
-console.log("Ready on localhost: 3000");
-http.createServer(app).listen(config.express.port);
+export default app;
