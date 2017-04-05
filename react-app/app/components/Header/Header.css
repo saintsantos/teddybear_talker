@@ -1,0 +1,13 @@
+.header {
+    margin-left: 10px;
+}
+
+.connected {
+    background-image: none;
+    background-color: #178c2f;
+}
+
+.disconnected {
+    background-image: none;
+    background-color: #a50b0b;
+}

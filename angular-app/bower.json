@@ -1,0 +1,22 @@
+{
+  "name": "Teddybear Talker",
+  "version": "0.1.0",
+  "description": "Teddybear Talker",
+  "main": "app.js",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "^1.6.4",
+    "angular-route": "^1.6.4",
+    "angular-sanitize": "^1.6.4",
+    "angular-ui-router": "^0.4.2",
+    "angular-bootstrap": "^2.5.0",
+    "materialize": "^0.98.1",
+    "angular-materialize": "^0.2.2",
+    "materialize-clockpicker": "^0.1.1"
+  }
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Tabil</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right"></a>
+      <ul id="nav-mobile" class="left">
+        <li><a ng-click="goToHome()">Events</a></li>
+        <li><a ng-click="goToFile()">Files</a></li>
+        <li><a ng-click="goToSettings()">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+  <div>
+    <div class="row">
+      <div class="col s12 m12">
+        <div class="card">
+          <div class="row">
+            <div class="card-content">
+              <ul tabs reload="allTabContentLoaded">
+                <li class="tab col s3"><a class="active" href="#day">Day</a></li>
+                <li class="tab col s3"><a href="#test2">Week</a></li>
+              </ul>
+              <div class="row">
+                <div id="day" class="col s12">
+                  <div class="row">
+
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Hour</th>
+                        <th>Minute</th>
+                        <th>File</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="event in events">
+                        <td>{{event.hour}}</td>
+                        <td>{{event.min}}</td>
+                        <td>{{event.file}}</td>
+                        <td>
+                          <a class="waves-effect waves-light btn right red edit-controlls"> X </a>
+                          <a class="waves-effect waves-light btn right edit-controlls"> Edit </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="test2" class="col s12">Test 2</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="newEvent" class="ng-hide">
+    <div class="row">
+      <div input-field>
+        <select class="" ng-model="select.value1" material-select watch>
+          <option ng-repeat="day in weekdaysFull" value="day" placeholder="Select a day ...">{{day}}</option>
+        </select>
+        <label>Day of Event</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <label for="input_starttime">Time</label>
+        <input id="input_starttime" input-clock data-twelvehour="false" type="text">
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Modal Trigger -->
+      <div class="col s2">
+        <a class='btn' data-target='demoModal' modal>Select Audio File</a>
+      </div>
+
+      <div class="col offset-m1 m9 s12">
+        <input id="selected_file_name" readonly type="text" placeholder="Filename">
+      </div>
+      <!-- Modal Structure -->
+      <div id="demoModal" class="modal">
+        <div class="modal-content">
+          <h4>File Select</h4>
+          <div class="row">
+            <div id="day" class="col s12">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Sound Location</th>
+                    <th>Sound Name</th>
+                    <th>
+                  </th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="btn modal-action modal-close waves-effect">Select</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="fixed-action-btn horizontal click-to-toggle">
+      <a class="btn-floating btn-large red">
+        <i class="large material-icons">menu</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating green" ng-click="newEvent=!newEvent"><i class="material-icons">mode_edit</i></a></li>
+        <li><a class="btn-floating blue" data-target="uploadModal" modal><i class="material-icons">publish</i></a></li>
+      </ul>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <h4>File Select</h4>
+        <p>Select a file that you want to upload to the bear!</p>
+
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" multiple>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload one or more files">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class="btn" ng-click="uploadFile()">Upload</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
