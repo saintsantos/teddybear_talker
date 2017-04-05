@@ -2,3 +2,8 @@
 .edit-controlls {
   margin-right: 5px;
 }
+
+/* Block that holds the form for event creation */
+.event-creator {
+  margin-top: 3rem;
+}
