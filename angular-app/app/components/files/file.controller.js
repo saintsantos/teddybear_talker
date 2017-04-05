@@ -1,6 +1,6 @@
 ;(function() {
 
-    function UploadController($scope, $state) {
+    function FileController($scope, $state) {
         $scope.goToHome = function() {
             $state.go('home');
         }
@@ -10,6 +10,6 @@
     }
 
   angular
-    .module('upload.controller', ['ui.materialize'])
-    .controller('UploadController', UploadController);
+    .module('file.controller', ['ui.materialize'])
+    .controller('FileController', FileController);
 })();

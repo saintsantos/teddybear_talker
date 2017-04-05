@@ -22,10 +22,10 @@
             templateUrl: '/components/settings/settings.tpl.html',
             controller: 'SettingsController'
         })
-        .state('upload', {
-            url: '/upload',
-            templateUrl: '/components/upload/upload.tpl.html',
-            controller: 'UploadController'
+        .state('file', {
+            url: '/file',
+            templateUrl: '/components/files/file.tpl.html',
+            controller: 'FileController'
         })
         $urlRouterProvider.otherwise('/');
     });

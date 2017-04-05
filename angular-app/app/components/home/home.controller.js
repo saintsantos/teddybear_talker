@@ -22,8 +22,8 @@
         $scope.goToSettings = function() {
             $state.go('settings');
         }
-        $scope.goToUpload = function() {
-            $state.go('upload');
+        $scope.goToFile = function() {
+            $state.go('file');
         }
     }
 
@@ -33,7 +33,7 @@
         ];
         $scope.colorcode = [
 						{'hashCode': 'Su', 'description': 'Sunday'},
-						{'hashCode': 'Mo', 'description': 'Monday'},  
+						{'hashCode': 'Mo', 'description': 'Monday'},
             {'hashCode': 'Tu', 'description': 'Tuesday'},
             {'hashCode': 'We', 'description': 'Wednesday'},
             {'hashCode': 'Th', 'description': 'Thursday'},

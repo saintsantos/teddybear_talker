@@ -4,8 +4,8 @@
         $scope.goToHome = function() {
             $state.go('home');
         }
-        $scope.goToUpload = function() {
-            $state.go('upload');
+        $scope.goToFile = function() {
+            $state.go('file');
         }
     }
 
