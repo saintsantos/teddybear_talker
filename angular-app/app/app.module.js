@@ -4,7 +4,7 @@
             'teddybeartalker.config',
             'home.module',
             'settings.module',
-            'upload.module'
+            'file.module'
         ]).controller('mainCtrl', function($rootScope, $state) {
             console.log("Starting");
         })
