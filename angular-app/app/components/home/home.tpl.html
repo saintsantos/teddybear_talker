@@ -25,9 +25,7 @@
 
       <div input-field>
         <select class="" ng-model="select.value1" material-select watch>
-          <option value="">---Please select---</option> <!-- not selected / blank option -->
-          <option value="{{data.option1}}">Option 1</option> <!-- interpolation -->
-          <option value="option-2">Option 2</option>
+          <option ng-repeat="day in weekdaysFull" value="day">{{day}}</option>
         </select>
       </div>
     </div>
@@ -63,8 +61,8 @@
           <div class="row">
             <div class="card-content">
               <ul tabs reload="allTabContentLoaded">
-                <li class="tab col s3"><a href="#day">Day</a></li>
-                <li class="tab col s3"><a class="active" href="#test2">Week</a></li>
+                <li class="tab col s3"><a class="active" href="#day">Day</a></li>
+                <li class="tab col s3"><a href="#test2">Week</a></li>
               </ul>
               <div class="row">
                 <div id="day" class="col s12">

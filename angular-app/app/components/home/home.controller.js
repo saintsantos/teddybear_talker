@@ -15,9 +15,10 @@
         event2.file = "file2";
         $scope.events.push(event2);
 
+        $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
         $scope.goToHome = function() {
             $state.go('home');
-						$scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         }
         $scope.goToSettings = function() {
             $state.go('settings');
