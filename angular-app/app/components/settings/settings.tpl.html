@@ -1,70 +1,53 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<title>Tabil</title>
+<head>
+  <title>Tabil</title>
 
-		<meta charset="utf-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	</head>
+</head>
 
-	<body>
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo right"></a>
-        <ul id="nav-mobile" class="left">
-          <li><a ng-click="goToHome()">Events</a></li>
-          <li><a ng-click="goToFile()">Files</a></li>
-          <li><a ng-click="goToSettings()">Settings</a></li>
-        </ul>
+<body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo right"></a>
+      <ul id="nav-mobile" class="left">
+        <li><a ng-click="goToHome()">Events</a></li>
+        <li><a ng-click="goToFile()">Files</a></li>
+        <li><a ng-click="goToSettings()">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+
+  <div class="form-group row">
+    <label for="bear-name" class="col-2 col-form-label">Bear Name</label>
+    <div class="col-10">
+      <input class="form-control" type="text" value="{{Bear_Name}}" id="bear-name">
+    </div>
+  </div>
+
+  <form>
+    <div class="row">
+      <div input-field class="col m9">
+        <input type="text" ng-model="dummyInputs.inputFieldInput" length="150" readonly placeholder="{{Current_Bear_Time}}">
+        <label>Click sync to use your devices time as the bears current time.</label>
       </div>
-    </nav>
+      <div class="col offset-m1 m2">
+        <a class="btn">Sync</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <button type="button" class="btn orange lighten-2">Restart Bear</button>
+      </div>
+    </div>
+  </form>
 
-		<div class="container">
-
-		<!--
-			ok: Bear Name
-			ok: Current Bear Time
-
-			Delete All Files
-			Restart Bear
-
-		-->
-
-		<div class="form-group row">
-		  <label for="bear-name" class="col-2 col-form-label">Bear Name</label>
-		  <div class="col-10">
-				<input class="form-control" type="text" value="%Current Bear Name%" id="bear-name">
-		  </div>
-		</div>
-
-		<form>
-			<div class="form-group row">
-			  <label class="col-2 col-form-label" for="inlineFormInput">Current Bear Time</label>
-			  <div class="col-10">
-					<input readonly type="text" class="form-control" id="inlineFormInput" placeholder="%Current Bear Time%">
-				</div>
-			</div>
-			<div class="form-group row">
-	      <div class="offset-sm-2 col-sm-10">
-			    <button type="submit" class="btn btn-primary">Sync Bear Time</button>
-		    </div>
-	    </div>
-		</form>
-
-		<form>
-			<div class="row">
-				<div class="col-md-2">
-					<button type="button" class="btn btn-warning">Restart Bear</button>
-				</div>
-				<div class="offset-sm-2 col-sm-2">
-					<button type="button" class="btn btn-danger">Delete All Files</button>
-				</div>
-			</div>
-		</form>
-
-		<!-- Container DIV  -->
-		</div>
-	</body>
+  <!-- Container DIV  -->
+</div>
+</body>
 </html>
