@@ -17,6 +17,7 @@
         $scope.events.push(event2);
 
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $scope.day = "Day";
 
 
         $scope.goToHome = function() {
@@ -38,7 +39,11 @@
            var uploadUrl = "/fileUpload";
 
            FileService.uploadFile(file);
-        };
+        }
+
+        $scope.setDay = function(day) {
+          $scope.day = day;
+        }
 
     }
 
