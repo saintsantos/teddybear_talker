@@ -2,6 +2,7 @@
 
     function HomeController($scope, $state) {
 
+      $scope.newEvent = false;
         $scope.events = [];
         var event1 = {}
         event1.hour = 10;
@@ -16,6 +17,7 @@
         $scope.events.push(event2);
 
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 
         $scope.goToHome = function() {
             $state.go('home');
