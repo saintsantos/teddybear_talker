@@ -13,7 +13,7 @@ $app->group('/files', function () use ($app) {
       foreach( $files as $row) {
         //print_r($row["username"]);
         $file = array(
-          'id' => $row["id"],
+          'id' => (int)$row["id"],
           'name' => $row["audio_name"],
           'path' => $row["filepath"],
           'status' => $row["status"]

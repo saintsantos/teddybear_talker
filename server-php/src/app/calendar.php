@@ -14,10 +14,10 @@ $app->group('/calendar', function () use ($app) {
       foreach( $events as $row) {
         //print_r($row["username"]);
         $event = array(
-          'id' => $row["id"],
-          'hour' => $row["hour"],
-          'minute' => $row["min"],
-          'file_id' => $row["file_id"]
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"]
         );
         array_push($result, $event);
       }
