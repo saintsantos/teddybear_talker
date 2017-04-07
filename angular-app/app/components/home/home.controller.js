@@ -1,6 +1,6 @@
 ;(function() {
 
-    function HomeController($scope, $state, HomeService, FileService) {
+    function HomeController($scope, $state, HomeService, FileService, FileUploader) {
 
       $scope.newEvent = false;
         $scope.events = [];
@@ -29,17 +29,8 @@
         $scope.goToFile = function() {
             $state.go('file');
         }
-
-        $scope.uploadFile = function(){
-           var file = $scope.myFile;
-
-           console.log('file is ' );
-           console.dir(file);
-
-           var uploadUrl = "/fileUpload";
-
-           FileService.uploadFile(file);
-        }
+        
+        $scope.uploader = new FileUploader();
 
         $scope.setDay = function(day) {
           $scope.day = day;
@@ -48,6 +39,6 @@
     }
 
   angular
-    .module('home.controller', ['ui.materialize'])
+    .module('home.controller', ['ui.materialize', 'angularFileUpload'])
     .controller('HomeController', HomeController);
 })();

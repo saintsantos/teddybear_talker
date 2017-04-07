@@ -147,7 +147,7 @@
             <div class="file-field input-field">
               <div class="btn">
                 <span>File</span>
-                <input type="file">
+                <input type="file" nv-file-select uploader="uploader">
               </div>
               <div class="file-path-wrapper">
                 <input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -155,7 +155,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <a class="btn" ng-click="uploadFile()">Upload</a>
+            <a class="btn" ng-click="item.upload()">Upload</a>
           </div>
         </div>
       </div>
