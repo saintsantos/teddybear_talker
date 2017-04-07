@@ -14,6 +14,8 @@ var config = require('app/util/config');
 
 var db = require('app/util/db');
 
+app.use(require('app/util/cors'));
+
 app.use(formidable({
     encoding: 'utf-8',
     keepExtensions: true,
