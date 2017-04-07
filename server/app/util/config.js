@@ -22,7 +22,7 @@ config.s3 = {
 }
 
 config.uploadDir = {
-    dir: '/home/edwin/Pictures/uploads/'
+    dir: '/home/edwin/git/school/cse453/teddy_bear_talker/server/uploads/'
 }
 
 config.secret = {

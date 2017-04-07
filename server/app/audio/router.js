@@ -6,15 +6,14 @@ var express = require('express'),
     db = require('app/util/db');
 
 function upload(req, res, next) {
-    let path = '/home/pi/audio/' + req.params.name;
-    db.insert({audio_name: req.params.name, filepath: path, status: 'active'})
+    //var path = '/home/pi/audio/' + req.params.name;
+    /*db.insert({audio_name: req.params.name, filepath: path, status: 'active'})
     .from('audio')
     .then(function(result) {
       console.dir(req);
       res.status(200).send();
-    });
-    //console.log(req.files.audio);
-    res.status(200).send();
+    });*/
+    res.status(200).send("SUCCESS");
 }
 
 function updateId(req, res, next) {

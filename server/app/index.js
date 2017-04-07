@@ -17,7 +17,7 @@ var db = require('app/util/db');
 app.use(formidable({
     encoding: 'utf-8',
     keepExtensions: true,
-    uploadDir: '/home/edwin/',
+    uploadDir: config.uploadDir.dir,
     multiples: true,
 }));
 
