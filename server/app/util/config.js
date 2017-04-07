@@ -1,5 +1,5 @@
 // this will get the S3 credentials and other config from the .env file
-var config = {};
+var config = module.exports;
 
 config.express = {
     port: process.env.PORT || 3000,
@@ -9,12 +9,12 @@ config.express = {
 //mysql stuff
 config.dbConnection = {
     host: 'localhost',
-    user: '',
+    user: 'root',
     port: 3306,
-    password: '',
-    database: '',
+    password: 'new-password',
+    database: 'dev_teddybear_talker',
     charset: 'utf8',
-    debug: true
+    debug: false
 }
 
 //THis will hold the s3 instance configuration
@@ -22,11 +22,9 @@ config.s3 = {
 }
 
 config.uploadDir = {
-    dir: '/home/edwin/Pictures/uploads/'
+    dir: '/home/edwin/git/school/cse453/teddy_bear_talker/server/uploads/'
 }
 
 config.secret = {
-    secret: 'Driver-watchdog'
+    secret: 'teddybear_talker'
 }
-
-export default config;
