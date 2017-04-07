@@ -4,8 +4,8 @@
   "description": "Teddy Bear talker receiving server",
   "main": "index.js",
   "scripts": {
-    "start": "gulp serve",
-    "build": "gulp"
+    "start": "nodemon --debug app/index.js",
+    "postinstall": "node -e \"/*https://gist.github.com/branneman/8048520#gistcomment-1412502*/ var srcpath='../app'; var dstpath='node_modules/app';var fs=require('fs'); fs.exists(dstpath,function(exists){if(!exists){fs.symlinkSync(srcpath, dstpath,'dir');}});\""
   },
   "author": "",
   "license": "ISC",
@@ -28,30 +28,5 @@
     "nodemon": "^1.11.0",
     "sqlite3": "^3.1.8",
     "winston": "^2.3.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-core": "^6.24.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.24.0",
-    "babel-preset-stage-2": "^6.22.0",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-load-plugins": "^1.5.0",
-    "gulp-newer": "^1.3.0",
-    "gulp-nodemon": "^2.2.1",
-    "gulp-sourcemaps": "^2.4.1",
-    "gulp-util": "^3.0.8",
-    "run-sequence": "^1.2.2"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-2"
-    ],
-    "plugins": [
-      "add-module-exports"
-    ]
   }
 }
