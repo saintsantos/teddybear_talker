@@ -29,11 +29,17 @@
         $scope.goToFile = function() {
             $state.go('file');
         }
-        
-        $scope.uploader = new FileUploader();
+
+        $scope.uploader = new FileUploader({
+          url: 'http://localhost:3000/api/voice/upload'
+        });
 
         $scope.setDay = function(day) {
           $scope.day = day;
+        }
+
+        $scope.checkUpload = function() {
+          console.log($scope.uploader);
         }
 
     }
