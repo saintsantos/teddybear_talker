@@ -7,3 +7,5 @@ server/app/util/config.env
 server/dist/
 scripts/env/
 server-php/src/vendor/
+server/uploads/
+server-php/src/logs/
