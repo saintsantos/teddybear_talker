@@ -9,7 +9,7 @@ $app->group('/calendar', function () use ($app) {
   $app->get('/{day}', function(Request $request, Response $response) {
       $this->logger->addInfo("Grabbing all events from a singe day");
       $day = $request->getAttribute('route')->getArgument('day');
-      $events = $this->db->query("SELECT * from events where day='$day'");
+      $events = $this->db->query("SELECT * from events where day='$day' and status='active'");
       $result = array();
       foreach( $events as $row) {
         //print_r($row["username"]);
@@ -35,7 +35,18 @@ $app->group('/calendar', function () use ($app) {
     $minute = $body["minute"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    $this->db->query("INSERT into audio (id, hour, min, file_id, day, status) values (default, $hour, $minute, $file_id, '$day'", 'active'));
+    $check = $this->db->query("SELECT * from events where hour=$hour and min=$minute and day='$day' and status='inactive'");
+    if (empty($check)) {
+      $this->db->query("INSERT into events (id, hour, min, file_id, day, status) values (default, $hour, $minute, $file_id, '$day', 'active')");
+    } else {
+      $id = NULL;
+      foreach( $check as $row) {
+        $id = $row["id"];
+      }
+      //Still slightly busted
+      //print_r($id);
+      //$this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
+    }
 
   });
 
@@ -57,16 +68,7 @@ $app->group('/calendar', function () use ($app) {
     $minute = $body["minute"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    if (!empty($hour)) {
-
-    } (!empty($minute)) {
-
-    } (!empty($file_id)) {
-
-    } (!empty($day)) {
-
-    }
-    $events = $this->db->query("UPDATE events set status='inactive' where id='$id'");
+    $events = $this->db->query("UPDATE events set hour=$hour, min=$minute, file_id=$file_id, day='$day' where id=$id");
   });
 
   // Get the entire week

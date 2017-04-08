@@ -30,18 +30,30 @@ $app->group('/voice', function () use ($app) {
     //TODO - Check if the filename exists in the audio table
     //TODO - Reactivate the index at the proper location in
     //TODO - the file table and update.
+    $body = $request->getParsedBody();
+    $uploads_dir = '/home/edwin/Music/uploads';
+    $name = $body["name"];
+    $result = $this->db->query("SELECT * from audio where audio_name='$name' and status='active'");
+    if (!empty($result)) {
+      throw new Exception('Song already exists in database');
+    }
+    $result = $this->db->query("SELECT * from audio where audio_name='$name' and status='inactive'");
+    if (!empty($result)) {
+      $id = NULL;
+      foreach($result as $row) {
+        $id = $row["id"];
+      }
+      $this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where id=$id");
+    }
     $files = $request->getUploadedFiles();
     if (empty($files['audio'])) {
       throw new Exception('Expected an audio file');
     }
-
     $newfile = $files['audio'];
-
     if ($newfile->getError() === UPLOAD_ERR_OK) {
       $uploadFileName = $newfile->getClientFilename();
-      $newfile->moveTo("/home/edwin/Music/uploads/$uploadFileName");
+      $newfile->moveTo("$uploads_dir/$uploadFileName");
     }
-
   });
 
   // Update a file in our table
