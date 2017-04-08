@@ -27,27 +27,71 @@ $app->group('/calendar', function () use ($app) {
   });
 
   // Add an event
-  $app->post('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
-    $this->logger->addInfo("Grabbing all events from a singe day");
-    $day = $request->getAttribute('route')->getArgument('day');
-  });
-
-  // Get a single event
-  $app->get('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+  $app->post('/add', function(Request $request, Response $response) {
+    //We gonna get the fill shit from the JSON object
+    $this->logger->addInfo("Adding event");
+    $body = $request->getParsedBody();
+    $hour = $body["hour"];
+    $minute = $body["minute"];
+    $file_id = $body["file_id"];
+    $day = $body["day"];
+    $this->db->query("INSERT into audio (id, hour, min, file_id, day, status) values (default, $hour, $minute, $file_id, '$day'", 'active'));
 
   });
 
   // Remove an EVENT
-  $app->delete('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+  $app->delete('/{id}', function(Request $request, Response $response) {
+    $id = $request->getAttribute('route')->getArgument('id');
+    $this->logger->addInfo("Deleting event id=$id");
+    $events = $this->db->query("UPDATE events set status='inactive' where id='$id'");
 
   });
 
   // Update an event
-  $app->put('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+  $app->put('/{id}', function(Request $request, Response $response) {
+    // Get the shit to update the event from the JSON object
+    $id = $request->getAttribute('route')->getArgument('id');
+    $this->logger->addInfo("Updating event id=$id");
+    $body = $request->getParsedBody();
+    $hour = $body["hour"];
+    $minute = $body["minute"];
+    $file_id = $body["file_id"];
+    $day = $body["day"];
+    if (!empty($hour)) {
 
+    } (!empty($minute)) {
+
+    } (!empty($file_id)) {
+
+    } (!empty($day)) {
+
+    }
+    $events = $this->db->query("UPDATE events set status='inactive' where id='$id'");
   });
 
+  // Get the entire week
   $app->get('/', function(Request $request, Response $response) {
+    $this->logger->addInfo("Grabbing all events from a singe day");
+    $day = $request->getAttribute('route')->getArgument('day');
+    $events = $this->db->query("SELECT * from events");
+    $result = array();
+    $monday = array();
+    $tuesday = array();
+    $wednesday = array();
+    $thursday = array();
+    $friday = array();
+    $saturday = array();
+    $sunday = array();
+    foreach( $events as $row) {
+      //print_r($row["username"]);
+      $event = array(
+        'id' => (int)$row["id"],
+        'hour' => (int)$row["hour"],
+        'minute' => (int)$row["min"],
+        'file_id' => (int)$row["file_id"]
+      );
+      array_push($result, $event);
+    }
 
   });
 
