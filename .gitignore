@@ -6,4 +6,6 @@ server/app/util/config.env
 *.swp
 server/dist/
 scripts/env/
-server/uploads/*
+server-php/src/vendor/
+server/uploads/
+server-php/src/logs/
