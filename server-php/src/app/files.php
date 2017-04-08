@@ -25,6 +25,37 @@ $app->group('/files', function () use ($app) {
       return $json;
   });
 
+  // Receive file upload
+  $app->post('/upload', function(Request $request, Response $response) {
+    $files = $request->getUploadedFiles();
+    if (empty($files['audio'])) {
+      throw new Exception('Expected an audio file');
+    }
+
+    $newfile = $files['audio'];
+
+    if ($newfile->getError() === UPLOAD_ERR_OK) {
+      $uploadFileName = $newfile->getClientFilename();
+      $newfile->moveTo("/home/edwin/Music/uploads/$uploadFileName");
+    }
+
+  });
+
+  // Update a file in our table
+  $app->put('/{id}', function(Request $request, Response $response) {
+
+  });
+
+  // Delete a recording from the bear
+  $app->delete('/{id}', function(Request $request, Response $response) {
+
+  });
+
+  // Delete all recordings from the bear
+  $app->delete('/', function(Request $request, Response $response) {
+
+  });
+
 });
 
  ?>

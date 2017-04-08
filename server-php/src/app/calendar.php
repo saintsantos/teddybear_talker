@@ -26,6 +26,33 @@ $app->group('/calendar', function () use ($app) {
       return $json;
   });
 
+  // Add an event
+  $app->post('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+    $this->logger->addInfo("Grabbing all events from a singe day");
+    $day = $request->getAttribute('route')->getArgument('day');
+  });
+
+  // Get a single event
+  $app->get('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+
+  });
+
+  // Remove an EVENT
+  $app->delete('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+
+  });
+
+  // Update an event
+  $app->put('/{day}/{hour}/{minute}', function(Request $request, Response $response) {
+
+  });
+
+  $app->get('/', function(Request $request, Response $response) {
+
+  });
+
+
+
 });
 
  ?>
