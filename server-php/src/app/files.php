@@ -32,8 +32,8 @@ $app->group('/voice', function () use ($app) {
     //TODO - the file table and update.
     //$body = $request->getParsedBody();
     $uploads_dir = '/home/edwin/Music/uploads';
-    /*$name = $body["name"];
-    $result = $this->db->query("SELECT * from audio where audio_name='$name' and status='active'");
+    //$name = $body["filename"];
+    /*$result = $this->db->query("SELECT * from audio where audio_name='$name' and status='active'");
     if (!empty($result)) {
       throw new Exception('Song already exists in database');
     }
@@ -46,17 +46,19 @@ $app->group('/voice', function () use ($app) {
       $this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
     }*/
     $files = $request->getUploadedFiles();
-    /*if (empty($files['audio'])) {
+    //print_r($files['file']);
+
+    if (empty($files['file'])) {
       throw new Exception('Expected an audio file');
     }
-    $newfile = $files['audio'];
+    $newfile = $files['file'];
     if ($newfile->getError() === UPLOAD_ERR_OK) {
       $uploadFileName = $newfile->getClientFilename();
-      print_r($uploadFileName);
+      //print_r($uploadFileName);
       $newfile->moveTo("$uploads_dir/$uploadFileName");
       //Adding the uploaded file to the database
       //$this->db->query("INSERT into audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
-    }*/
+    }
   });
 
   // Update a file in our table
