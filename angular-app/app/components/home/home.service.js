@@ -7,57 +7,64 @@
       function getDay(day) {
         var xhrParams = {
           method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/' + day + '/',
+          url: urlConstant.baseUrl + '/calendar/' + day
         }
         return $http(xhrParams);
       }
 
-      function getEvent(day, hour, min) {
+      /*function getEvent(day, hour, min) {
         var xhrParams = {
           method: 'GET',
-          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
+          url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
         }
         return $http(xhrParams);
-      }
+      }*/
 
       function getWeek() {
         var xhrParams = {
           method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/',
+          url: urlConstant.baseUrl + '/calendar/',
         }
         return $http(xhrParams);
       }
 
-      function updateEvent(day, hour, min) {
+      function updateEvent(event) {
         var xhrParams = {
           method: 'PUT',
-          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
-        }
-      }
-
-      function deleteEvent(day, hour, min) {
-        var xhrParams = {
-          method: 'DELETE',
-          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
+          url: urlConstant.baseUrl + '/calendar/' + event.id,
+          params: {
+            day: event.day,
+            hour: event.hour,
+            minute: event.min
+          }
         }
         return $http(xhrParams);
       }
 
-      function addEvent(day, hour, min, file_id) {
+      function deleteEvent(id) {
+        var xhrParams = {
+          method: 'DELETE',
+          url: urlConstant.baseUrl + '/calendar/' + id
+        }
+        return $http(xhrParams);
+      }
+
+      function addEvent(event) {
         var xhrParams = {
           method: 'POST',
-          //url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
+          url: urlConstant.baseUrl + '/calendar/add',
           params: {
-            file_id: file_id
+            day: event.day,
+            hour: event.hour,
+            minute: event.min,
+            file_id: event.file_id
           }
-
         }
         return $http(xhrParams);
       }
 
       return {
         getDay: getDay,
-        getEvent: getEvent,
         getWeek: getWeek,
         updateEvent: updateEvent,
         deleteEvent: deleteEvent,

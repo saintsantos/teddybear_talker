@@ -2,22 +2,46 @@
 
     function HomeController($scope, $state, HomeService, FileService, FileUploader) {
 
-      $scope.newEvent = false;
-        $scope.events = [];
-        var event1 = {}
-        event1.hour = 10;
-        event1.min = 5;
-        event1.file = "file1";
-        $scope.events.push(event1);
+      $scope.weekEvents = [];
+      $scope.dayEvents = [];
+      //console.log($scope.dayEvents);
+      HomeService.getWeek().then(function(events) {
+        $scope.weekEvents = events.data;
+        $scope.dayEvents = events.data.monday;
+        console.log($scope.weekEvents);
+        console.log($scope.weekEvents);
+      });
 
-        var event2 = {}
-        event2.hour = 9;
-        event2.min = 30;
-        event2.file = "file2";
-        $scope.events.push(event2);
+      var updateDay = function(day) {
+        console.log(day);
+        switch(day) {
+          case 'Monday':
+            $scope.dayEvents = $scope.weekEvents.monday;
+            break;
+          case 'Tuesday':
+            $scope.dayEvents = $scope.weekEvents.tuesday;
+            break;
+          case 'Wednesday':
+            $scope.dayEvents = $scope.weekEvents.wednesday;
+            break;
+          case 'Thursday':
+            $scope.dayEvents = $scope.weekEvents.thursday;
+            break;
+          case 'Friday':
+            $scope.dayEvents = $scope.weekEvents.friday;
+            break;
+          case 'Saturday':
+            $scope.dayEvents = $scope.weekEvents.saturday;
+            break;
+          case 'Sunday':
+            $scope.dayEvents = $scope.weekEvents.sunday;
+            break;
+        }
+        $scope.day = day;
+      }
 
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $scope.day = "Day";
+        $scope.day = "Monday";
 
 
         $scope.goToHome = function() {
@@ -31,20 +55,35 @@
         }
 
         $scope.uploader = new FileUploader({
-          url: 'http://localhost:3000/api/voice/upload'
+          url: 'http://localhost:8080/voice/upload'
         });
 
         $scope.setDay = function(day) {
-          $scope.day = day;
+          updateDay(day);
         }
 
         $scope.checkUpload = function() {
           console.log($scope.uploader);
         }
 
+        $scope.deleteEvent = function(event) {
+          //console.log(event);
+          HomeService.deleteEvent(event.id).then(function(result) {
+            console.log(event);
+          })
+          HomeService.getWeek().then(function(events) {
+            $scope.weekEvents = events.data;
+
+          });
+        }
+
+        $scope.submit = function() {
+          console.log("Uploading!!");
+        }
+
     }
 
   angular
-    .module('home.controller', ['ui.materialize', 'angularFileUpload'])
+    .module('home.controller', ['ui.materialize', 'ngFileUpload'])
     .controller('HomeController', HomeController);
 })();
