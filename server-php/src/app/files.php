@@ -13,7 +13,7 @@ $app->group('/voice', function () use ($app) {
       foreach( $files as $row) {
         //print_r($row["username"]);
         $file = array(
-          'id' => (int)$row["id"],
+          'audio_id' => (int)$row["audio_id"],
           'name' => $row["audio_name"],
           'path' => $row["filepath"],
           'status' => $row["status"]
@@ -30,9 +30,9 @@ $app->group('/voice', function () use ($app) {
     //TODO - Check if the filename exists in the audio table
     //TODO - Reactivate the index at the proper location in
     //TODO - the file table and update.
-    $body = $request->getParsedBody();
+    //$body = $request->getParsedBody();
     $uploads_dir = '/home/edwin/Music/uploads';
-    $name = $body["name"];
+    /*$name = $body["name"];
     $result = $this->db->query("SELECT * from audio where audio_name='$name' and status='active'");
     if (!empty($result)) {
       throw new Exception('Song already exists in database');
@@ -43,17 +43,20 @@ $app->group('/voice', function () use ($app) {
       foreach($result as $row) {
         $id = $row["id"];
       }
-      $this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where id=$id");
-    }
+      $this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
+    }*/
     $files = $request->getUploadedFiles();
-    if (empty($files['audio'])) {
+    /*if (empty($files['audio'])) {
       throw new Exception('Expected an audio file');
     }
     $newfile = $files['audio'];
     if ($newfile->getError() === UPLOAD_ERR_OK) {
       $uploadFileName = $newfile->getClientFilename();
+      print_r($uploadFileName);
       $newfile->moveTo("$uploads_dir/$uploadFileName");
-    }
+      //Adding the uploaded file to the database
+      //$this->db->query("INSERT into audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
+    }*/
   });
 
   // Update a file in our table
@@ -64,7 +67,7 @@ $app->group('/voice', function () use ($app) {
     $body = $request->getParsedBody();
     $newname = $body["name"];
     $uploads_dir = '/home/edwin/Music/uploads';
-    $file = $this->db->query("SELECT * from audio where id=$id");
+    $file = $this->db->query("SELECT * from audio where audio_id=$id");
     print_r($newname);
     $name = NULL;
     $filepath = NULL;
@@ -73,7 +76,7 @@ $app->group('/voice', function () use ($app) {
     }
 
     rename("$uploads_dir/$name.mp3", "$uploads_dir/$newname.mp3");
-    $this->db->query("UPDATE audio set filepath='$uploads_dir/$newname.mp3', audio_name='$newname' where id=$id");
+    $this->db->query("UPDATE audio set filepath='$uploads_dir/$newname.mp3', audio_name='$newname' where audio_id=$id");
   });
 
   // Delete a recording from the bear
@@ -81,7 +84,7 @@ $app->group('/voice', function () use ($app) {
     $this->logger->addInfo("Updating deactivating an audio file");
     $id = $request->getAttribute('route')->getArgument('id');
     $uploads_dir = '/home/edwin/Music/uploads';
-    $file = $this->db->query("SELECT * from audio where id=$id");
+    $file = $this->db->query("SELECT * from audio where audio_id=$id");
     //print_r($newname);
     $name = NULL;
     $filepath = NULL;
@@ -89,7 +92,7 @@ $app->group('/voice', function () use ($app) {
       $name = $row["audio_name"];
     }
     unlink("$uploads_dir/$name.mp3");
-    $this->db->query("UPDATE audio set status='inactive' where id=$id");
+    $this->db->query("UPDATE audio set status='inactive' where audio_id=$id");
   });
 
   // Delete all recordings from the bear

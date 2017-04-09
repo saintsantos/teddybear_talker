@@ -9,7 +9,7 @@ $app->group('/calendar', function () use ($app) {
   $app->get('/{day}', function(Request $request, Response $response) {
       $this->logger->addInfo("Grabbing all events from a singe day");
       $day = $request->getAttribute('route')->getArgument('day');
-      $events = $this->db->query("SELECT * from events where day='$day' and status='active'");
+      $events = $this->db->query("SELECT * from events inner join audio on audio.audio_id=events.file_id where events.day='$day' and events.status='active'");
       $result = array();
       foreach( $events as $row) {
         //print_r($row["username"]);
@@ -17,10 +17,11 @@ $app->group('/calendar', function () use ($app) {
           'id' => (int)$row["id"],
           'hour' => (int)$row["hour"],
           'minute' => (int)$row["min"],
-          'file_id' => (int)$row["file_id"]
+          'file_name' => $row["audio_name"]
         );
         array_push($result, $event);
       }
+      //print_r($result);
       $json = json_encode($result, JSON_PRETTY_PRINT);
       $this->logger->addInfo("Events grabbed!");
       return $json;
@@ -75,7 +76,7 @@ $app->group('/calendar', function () use ($app) {
   $app->get('/', function(Request $request, Response $response) {
     $this->logger->addInfo("Grabbing all events from a singe day");
     $day = $request->getAttribute('route')->getArgument('day');
-    $events = $this->db->query("SELECT * from events");
+    $events = $this->db->query("SELECT * from events inner join audio on audio.audio_id=events.file_id where events.status='active'");
     $result = array();
     $monday = array();
     $tuesday = array();
@@ -86,14 +87,91 @@ $app->group('/calendar', function () use ($app) {
     $sunday = array();
     foreach( $events as $row) {
       //print_r($row["username"]);
-      $event = array(
-        'id' => (int)$row["id"],
-        'hour' => (int)$row["hour"],
-        'minute' => (int)$row["min"],
-        'file_id' => (int)$row["file_id"]
-      );
-      array_push($result, $event);
+      if($row["day"] == 'monday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($monday, $event);
+      } else if($row["day"] == 'tuesday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+
+        );
+        array_push($tuesday, $event);
+
+      } else if($row["day"] == 'wednesday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($wednesday, $event);
+
+      } else if($row["day"] == 'thursday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($thursday, $event);
+
+      } else if($row["day"] == 'friday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($friday, $event);
+
+      } else if($row["day"] == 'saturday') {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($saturday, $event);
+
+      } else {
+        $event = array(
+          'id' => (int)$row["id"],
+          'hour' => (int)$row["hour"],
+          'minute' => (int)$row["min"],
+          'file_id' => (int)$row["file_id"],
+          'file_name' => $row["audio_name"]
+        );
+        array_push($sunday, $event);
+
+      }
     }
+    $week = array(
+      'monday' => $monday,
+      'tuesday' => $tuesday,
+      'wednesday' => $wednesday,
+      'thursday' => $thursday,
+      'friday' => $friday,
+      'saturday' => $saturday,
+      'sunday' => $sunday,
+    );
+
+    $json = json_encode($week, JSON_PRETTY_PRINT);
+    $this->logger->addInfo("Events grabbed!");
+    return $json;
 
   });
 
