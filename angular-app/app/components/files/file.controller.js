@@ -1,9 +1,12 @@
 ;(function() {
 
-    function FileController($scope, $state) {
+    function FileController($scope, $state, FileService) {
 
       $scope.sounds = [];
-      var sound1 = {}
+      FileService.getAllSongs().then(function(result) {
+        $scope.sounds = result.data;
+      });
+      /*var sound1 = {}
       sound1.path = "~/Music/test1";
       sound1.name = "Yay!";
       $scope.sounds.push(sound1);
@@ -11,7 +14,8 @@
       var sound2 = {}
       sound2.path = "~/Music/test2";
       sound2.name = "Hello!";
-      $scope.sounds.push(sound2);
+      $scope.sounds.push(sound2);*/
+
 
       $scope.goToHome = function() {
           $state.go('home');
