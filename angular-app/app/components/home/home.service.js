@@ -28,15 +28,11 @@
         return $http(xhrParams);
       }
 
-      function updateEvent(event) {
+      function updateEvent(event, changes) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/calendar/' + event.id,
-          params: {
-            day: event.day,
-            hour: event.hour,
-            minute: event.min
-          }
+          url: urlConstant.baseUrl + '/calendar/test',
+          data: changes
         }
         return $http(xhrParams);
       }

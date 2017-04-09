@@ -41,8 +41,8 @@
                           <td>{{sound.path}}</td>
                           <td>{{sound.name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"> X </a>
-                            <a class="waves-effect waves-light btn right edit-controlls"> Edit </a>
+                            <a class="waves-effect waves-light btn right red edit-controlls">X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectFile(sound)">Edit</a>
                           </td>
                         </tr>
                       </tbody>
@@ -52,6 +52,57 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="card">
+              <div class="card-content">
+                <div ng-show="editing">
+                  <form name="editEvent" ng-submit="editing = false"> <!-- TODO - Make the shows/hides work properly -->
+                    <div class="row">
+                    <label>Filename</label>
+                    <input type="text" ng-model="chosen_event.file_name" placeholder="{{chosen_file.name}}" ng-required />
+                    <label>Filepath: {{chosen_file.path}}</label>
+                    <div class="row">
+                      <button class="btn waves-effect" type="submit">Save Event</button>
+                    </div>
+                  </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="fixed-action-btn horizontal click-to-toggle">
+        <a class="btn-floating btn-large red">
+          <i class="large material-icons">menu</i>
+        </a>
+        <ul>
+          <li><a class="btn-floating green" ng-click="newEvent=!newEvent"><i class="material-icons">mode_edit</i></a></li>
+          <li><a class="btn-floating blue" data-target="uploadModal" moda><i class="material-icons">library_add</i></a></li>
+        </ul>
+      </div>
+
+      <!-- Modal Structure -->
+      <div id="uploadModal" class="modal">
+        <div class="modal-content">
+          <h4>File Select</h4>
+          <p>Select a file that you want to upload to the bear!</p>
+
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>File</span>
+              <input type="file" nv-file-select uploader="uploader">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload one or more files">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn modal-action modal-close waves-effect" ng-click="uploader.queue[0].upload()">Upload</a>
         </div>
       </div>
     </div>

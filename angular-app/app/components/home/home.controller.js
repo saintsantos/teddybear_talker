@@ -4,6 +4,7 @@
 
       $scope.weekEvents = [];
       $scope.dayEvents = [];
+      $scope.editing = false;
       //console.log($scope.dayEvents);
       HomeService.getWeek().then(function(events) {
         $scope.weekEvents = events.data;
@@ -54,10 +55,6 @@
             $state.go('file');
         }
 
-        $scope.uploader = new FileUploader({
-          url: 'http://localhost:8080/voice/upload'
-        });
-
         $scope.setDay = function(day) {
           updateDay(day);
         }
@@ -77,13 +74,31 @@
           });
         }
 
-        $scope.submit = function() {
+        $scope.submit = function(time) {
+          console.log(time);
           console.log("Uploading!!");
+        }
+
+        $scope.selectEvent = function(event) {
+            //call function to get array and assign here.
+            $scope.chosen_id = event.id;
+            $scope.chosen_event = event;
+            console.log(event);
+          }
+        $scope.update = function(event) {
+          console.log(event.id);
+          var changes = {};
+          changes.timeDay = event.timeDay;
+          changes.day = $scope.day;
+          changes.file_id = 4;
+          HomeService.updateEvent(event, changes).then(function(result) {
+            console.log(result.data);
+          })
         }
 
     }
 
   angular
-    .module('home.controller', ['ui.materialize', 'ngFileUpload'])
+    .module('home.controller', ['ui.materialize', 'angularFileUpload'])
     .controller('HomeController', HomeController);
 })();
