@@ -61,6 +61,13 @@ $app->group('/voice', function () use ($app) {
     }
   });
 
+  // Delete all recordings from the bear
+  $app->delete('/', function(Request $request, Response $response) {
+    $uploads_dir = '/home/edwin/Music/uploads';
+    unlink("$uploads_dir/*.mp3");
+    $this->db->query("UPDATE audio set status='inactive'");
+  });
+
   // Update a file in our table
   $app->put('/{id}', function(Request $request, Response $response) {
     $this->logger->addInfo("Updating audio file");
@@ -95,13 +102,6 @@ $app->group('/voice', function () use ($app) {
     }
     unlink("$uploads_dir/$name.mp3");
     $this->db->query("UPDATE audio set status='inactive' where audio_id=$id");
-  });
-
-  // Delete all recordings from the bear
-  $app->delete('/', function(Request $request, Response $response) {
-    $uploads_dir = '/home/edwin/Music/uploads';
-    unlink("$uploads_dir/*.mp3");
-    $this->db->query("UPDATE audio set status='inactive'");
   });
 
 });
