@@ -15,8 +15,7 @@ $app->group('/calendar', function () use ($app) {
         //print_r($row["username"]);
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_name' => $row["audio_name"]
         );
         array_push($result, $event);
@@ -32,14 +31,17 @@ $app->group('/calendar', function () use ($app) {
     //We gonna get the fill shit from the JSON object
     $this->logger->addInfo("Adding event");
     $body = $request->getParsedBody();
-    $hour = $body["hour"];
-    $minute = $body["minute"];
+    $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    $check = $this->db->query("SELECT * from events where hour=$hour and min=$minute and day='$day' and status='inactive'");
+    //print_r($timeDay);
+    $check = $this->db->query("SELECT * from events where timeDay='$timeDay' and day='$day' and status='inactive'");
     if (empty($check)) {
-      $this->db->query("INSERT into events (id, hour, min, file_id, day, status) values (default, $hour, $minute, $file_id, '$day', 'active')");
+      //print_r("Does not Exist");
+      //insertion does not work at the current moment
+      $this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
     } else {
+      //print_r("Does exist");
       $id = NULL;
       foreach( $check as $row) {
         $id = $row["id"];
@@ -65,11 +67,26 @@ $app->group('/calendar', function () use ($app) {
     $id = $request->getAttribute('route')->getArgument('id');
     $this->logger->addInfo("Updating event id=$id");
     $body = $request->getParsedBody();
-    $hour = $body["hour"];
-    $minute = $body["minute"];
+    $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    $events = $this->db->query("UPDATE events set hour=$hour, min=$minute, file_id=$file_id, day='$day' where id=$id");
+    //$events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
+  });
+
+  // Update an event
+  $app->put('/test', function(Request $request, Response $response) {
+    // Get the shit to update the event from the JSON object
+    $this->logger->addInfo("Updating event id=$id");
+    $body = $request->getParsedBody();
+    $event = array(
+      'timeDay' => $body["timeDay"],
+      'file_id' => $body["file_id"],
+      'day' => $body["day"]
+    );
+
+    $json = json_encode($event, JSON_PRETTY_PRINT);
+    return $json;
+
   });
 
   // Get the entire week
@@ -90,8 +107,7 @@ $app->group('/calendar', function () use ($app) {
       if($row["day"] == 'monday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );
@@ -99,8 +115,7 @@ $app->group('/calendar', function () use ($app) {
       } else if($row["day"] == 'tuesday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
 
@@ -110,8 +125,7 @@ $app->group('/calendar', function () use ($app) {
       } else if($row["day"] == 'wednesday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );
@@ -120,8 +134,7 @@ $app->group('/calendar', function () use ($app) {
       } else if($row["day"] == 'thursday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );
@@ -130,8 +143,7 @@ $app->group('/calendar', function () use ($app) {
       } else if($row["day"] == 'friday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );
@@ -140,8 +152,7 @@ $app->group('/calendar', function () use ($app) {
       } else if($row["day"] == 'saturday') {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );
@@ -150,8 +161,7 @@ $app->group('/calendar', function () use ($app) {
       } else {
         $event = array(
           'id' => (int)$row["id"],
-          'hour' => (int)$row["hour"],
-          'minute' => (int)$row["min"],
+          'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
         );

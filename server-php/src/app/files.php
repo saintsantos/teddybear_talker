@@ -70,7 +70,7 @@ $app->group('/voice', function () use ($app) {
     $newname = $body["name"];
     $uploads_dir = '/home/edwin/Music/uploads';
     $file = $this->db->query("SELECT * from audio where audio_id=$id");
-    print_r($newname);
+    //print_r($newname);
     $name = NULL;
     $filepath = NULL;
     foreach( $file as $row) {
