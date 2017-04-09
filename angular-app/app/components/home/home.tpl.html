@@ -29,7 +29,7 @@
                 <div class="row">
                   <ul tabs reload="allTabContentLoaded">
                     <li class="tab col s3"><a class="active" href="#day">Day</a></li>
-                    <li class="tab col s3"><a href="#test2">Week</a></li>
+                    <li class="tab col s3"><a href="#week">Week</a></li>
                   </ul>
                 </div>
                 <div class="row">
@@ -56,18 +56,37 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="event in events">
-                          <td>{{event.hour}}:{{event.min}}</td>
-                          <td>{{event.file}}</td>
+                        <tr ng-repeat="event in dayEvents">
+                          <td>{{event.hour}}:{{event.minute}}</td>
+                          <td>{{event.file_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"> X </a>
+                            <a class="waves-effect waves-light btn right red edit-controlls" ng-click="deleteEvent(event)"> X </a>
                             <a class="waves-effect waves-light btn right edit-controlls"> Edit </a>
                           </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  <div id="test2" class="col s12">Test 2</div>
+                  <div id="week" class="col s12">
+                    <div class="row">
+
+                    </div>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Hello</th>
+                          <th>File</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="event in dayEvents">
+                          <td>:</td>
+                          <td>{{event.file_name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -155,7 +174,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <a class="btn" ng-click="uploader.queue[0].upload()">Upload</a>
+            <a class="btn modal-action modal-close waves-effect" ng-click="uploader.queue[0].upload()">Upload</a>
           </div>
         </div>
       </div>
