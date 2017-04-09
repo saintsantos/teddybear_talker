@@ -5,7 +5,8 @@
             'home.module',
             'settings.module',
             'file.module',
-            'ngFileUpload' 
+            'ngFileUpload',
+            'angularFileUpload' 
         ]).controller('mainCtrl', function($rootScope, $state) {
             console.log("Starting");
         })
