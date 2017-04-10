@@ -31,7 +31,7 @@
       function updateEvent(event, changes) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/calendar/test',
+          url: urlConstant.baseUrl + '/calendar/' + event.id,
           data: changes
         }
         return $http(xhrParams);

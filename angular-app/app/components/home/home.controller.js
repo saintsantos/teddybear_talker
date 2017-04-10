@@ -5,12 +5,16 @@
       $scope.weekEvents = [];
       $scope.dayEvents = [];
       $scope.editing = false;
+      $scope.day = "Monday";
       //console.log($scope.dayEvents);
       HomeService.getWeek().then(function(events) {
         $scope.weekEvents = events.data;
         $scope.dayEvents = events.data.monday;
-        console.log($scope.weekEvents);
-        console.log($scope.weekEvents);
+      });
+
+      FileService.getAllSongs().then(function(result) {
+        $scope.sounds = result.data;
+        console.log($scope.sounds);
       });
 
       var updateDay = function(day) {
@@ -42,7 +46,6 @@
       }
 
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $scope.day = "Monday";
 
 
         $scope.goToHome = function() {
@@ -57,6 +60,7 @@
 
         $scope.setDay = function(day) {
           updateDay(day);
+          //console.log(day);
         }
 
         $scope.checkUpload = function() {
@@ -85,15 +89,16 @@
             $scope.chosen_event = event;
             console.log(event);
           }
-        $scope.update = function(event) {
-          console.log(event.id);
+        $scope.update = function(event, id) {
+          //console.log(event.id);
           var changes = {};
           changes.timeDay = event.timeDay;
           changes.day = $scope.day;
-          changes.file_id = 4;
-          HomeService.updateEvent(event, changes).then(function(result) {
+          //changes.file_id = id;
+          console.log(id);
+          /*HomeService.updateEvent(event, changes).then(function(result) {
             console.log(result.data);
-          })
+          })*/
         }
 
     }
