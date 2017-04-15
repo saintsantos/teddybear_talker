@@ -34,10 +34,8 @@ $app->group('/calendar', function () use ($app) {
           'timeDay' => $row["timeDay"],
           'file_id' => (int)$row["file_id"],
           'file_name' => $row["audio_name"]
-
         );
         array_push($tuesday, $event);
-
       } else if($row["day"] == 'wednesday') {
         $event = array(
           'id' => (int)$row["id"],
@@ -46,7 +44,6 @@ $app->group('/calendar', function () use ($app) {
           'file_name' => $row["audio_name"]
         );
         array_push($wednesday, $event);
-
       } else if($row["day"] == 'thursday') {
         $event = array(
           'id' => (int)$row["id"],
@@ -55,7 +52,6 @@ $app->group('/calendar', function () use ($app) {
           'file_name' => $row["audio_name"]
         );
         array_push($thursday, $event);
-
       } else if($row["day"] == 'friday') {
         $event = array(
           'id' => (int)$row["id"],
@@ -64,7 +60,6 @@ $app->group('/calendar', function () use ($app) {
           'file_name' => $row["audio_name"]
         );
         array_push($friday, $event);
-
       } else if($row["day"] == 'saturday') {
         $event = array(
           'id' => (int)$row["id"],
@@ -73,7 +68,6 @@ $app->group('/calendar', function () use ($app) {
           'file_name' => $row["audio_name"]
         );
         array_push($saturday, $event);
-
       } else {
         $event = array(
           'id' => (int)$row["id"],
@@ -82,7 +76,6 @@ $app->group('/calendar', function () use ($app) {
           'file_name' => $row["audio_name"]
         );
         array_push($sunday, $event);
-
       }
     }
     $week = array(
@@ -94,11 +87,9 @@ $app->group('/calendar', function () use ($app) {
       'saturday' => $saturday,
       'sunday' => $sunday,
     );
-
     $json = json_encode($week, JSON_PRETTY_PRINT);
     $this->logger->addInfo("Events grabbed!");
     return $json;
-
   });
 
   // Add an event
@@ -109,26 +100,20 @@ $app->group('/calendar', function () use ($app) {
     $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    //print_r($timeDay);
-    $check = $this->db->query("SELECT * from events where timeDay='$timeDay' and day='$day' and status='inactive'");
-    if (empty($check)) {
-      //print_r("Does not Exist");
-      //insertion does not work at the current moment
-      $this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
-    } else {
-      //print_r("Does exist");
+    $check = $this->db->query("SELECT * from events where timeDay='$timeDay' and day='$day'");
+    if ($check->rowCount() > 0) {
       $id = NULL;
-      foreach( $check as $row) {
-        $id = $row["id"];
+      foreach($check as $row) {
+        $id = (int)$row["id"];
       }
-      //Still slightly busted
-      //print_r($id);
-      //$this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
+      $this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
+    } else {
+      print_r("Does not Exist");
+      $this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
     }
-
   });
 
-  // Update an event
+  // Testing endpoint
   $app->post('/test', function(Request $request, Response $response) {
     $body = $request->getParsedBody();
     $event = array(
@@ -137,7 +122,6 @@ $app->group('/calendar', function () use ($app) {
       'day' => $body["day"]
     );
     print_r($body["timeDay"]);
-
   });
 
   //Grab all events for an entire day
@@ -147,7 +131,6 @@ $app->group('/calendar', function () use ($app) {
       $events = $this->db->query("SELECT * from events inner join audio on audio.audio_id=events.file_id where events.day='$day' and events.status='active'");
       $result = array();
       foreach( $events as $row) {
-        //print_r($row["username"]);
         $event = array(
           'id' => (int)$row["id"],
           'timeDay' => $row["timeDay"],
@@ -155,7 +138,6 @@ $app->group('/calendar', function () use ($app) {
         );
         array_push($result, $event);
       }
-      //print_r($result);
       $json = json_encode($result, JSON_PRETTY_PRINT);
       $this->logger->addInfo("Events grabbed!");
       return $json;
@@ -166,7 +148,6 @@ $app->group('/calendar', function () use ($app) {
     $id = $request->getAttribute('route')->getArgument('id');
     $this->logger->addInfo("Deleting event id=$id");
     $events = $this->db->query("UPDATE events set status='inactive' where id='$id'");
-
   });
 
   // Update an event
@@ -180,10 +161,6 @@ $app->group('/calendar', function () use ($app) {
     $day = $body["day"];
     $events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
   });
-
-
-
-
 
 });
 

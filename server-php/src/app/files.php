@@ -32,32 +32,52 @@ $app->group('/voice', function () use ($app) {
     //TODO - the file table and update.
     //$body = $request->getParsedBody();
     $uploads_dir = '/home/edwin/Music/uploads';
-    //$name = $body["filename"];
-    /*$result = $this->db->query("SELECT * from audio where audio_name='$name' and status='active'");
-    if (!empty($result)) {
-      throw new Exception('Song already exists in database');
-    }
-    $result = $this->db->query("SELECT * from audio where audio_name='$name' and status='inactive'");
-    if (!empty($result)) {
-      $id = NULL;
+    $name = $body["filename"];
+    $result = $this->db->query("SELECT * from audio where audio_name='$name'");
+    if ($result->rowCount() > 0) {
+      $status = NULL;
       foreach($result as $row) {
-        $id = $row["id"];
+        $status = $row["status"];
       }
-      $this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
-    }*/
-    $files = $request->getUploadedFiles();
-    //print_r($files['file']);
+      if ($status == 'active') {
+        throw new Exception('Song name already exists in database.');
+      } else {
+        $id = NULL;
+        foreach($result as $row) {
+          $id = $row["id"];
+        }
+        $files = $request->getUploadedFiles();
+        //print_r($files);
+        if (empty($files['file'])) {
+          throw new Exception('Expected an audio file');
+        }
+        $newfile = $files['file'];
+        print_r($files);
+        if ($newfile->getError() === UPLOAD_ERR_OK) {
+          //$uploadFileName = $newfile->getClientFilename();
+          $uploadFileName = $name;
+          print_r($uploadFileName);
+          //$newfile->moveTo("$uploads_dir/$uploadFileName.mp3");
 
-    if (empty($files['file'])) {
-      throw new Exception('Expected an audio file');
-    }
-    $newfile = $files['file'];
-    if ($newfile->getError() === UPLOAD_ERR_OK) {
-      $uploadFileName = $newfile->getClientFilename();
-      //print_r($uploadFileName);
-      $newfile->moveTo("$uploads_dir/$uploadFileName");
-      //Adding the uploaded file to the database
-      //$this->db->query("INSERT into audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
+        //$this->db->query("UPDATE audio set audio_name='$name', filepath='$uploads_dir/$name.mp3' where audio_id=$id");
+      }
+      }
+    } else {
+      $files = $request->getUploadedFiles();
+      //print_r($files);
+      if (empty($files['file'])) {
+        throw new Exception('Expected an audio file');
+      }
+      $newfile = $files['file'];
+      print_r($files['file']);
+      if ($newfile->getError() === UPLOAD_ERR_OK) {
+        //$uploadFileName = $newfile->getClientFilename();
+        $uploadFileName = $name;
+        print_r($uploadFileName);
+        //$newfile->moveTo("$uploads_dir/$uploadFileName.mp3");
+        //Adding the uploaded file to the database
+        //$this->db->query("INSERT into audio set audio_name='$name', filepath='$uploads_dir/$name.mp3'");
+      }
     }
   });
 
