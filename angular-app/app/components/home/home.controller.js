@@ -100,7 +100,18 @@
             console.log(result.data);
           })*/
         }
-
+   
+        $scope.editVisable = false;
+        $scope.createVisable = false;
+       
+      
+        $scope.edit_showHide = function() {
+          $scope.editVisable = $scope.editVisable ? false : true;
+        }
+      
+        $scope.create_showHide = function() {
+          $scope.createVisable = $scope.createVisable ? false : true;
+        }
     }
 
   angular
