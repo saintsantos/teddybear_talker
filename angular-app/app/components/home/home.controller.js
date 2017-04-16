@@ -2,52 +2,15 @@
 
     function HomeController($scope, $state, HomeService, FileService, FileUploader) {
 
-      $scope.weekEvents = [];
       $scope.dayEvents = [];
       $scope.editing = false;
       $scope.day = "Monday";
-      //console.log($scope.dayEvents);
-      HomeService.getWeek().then(function(events) {
-        $scope.weekEvents = events.data;
-        $scope.dayEvents = events.data.monday;
-      });
 
       FileService.getAllSongs().then(function(result) {
         $scope.sounds = result.data;
         console.log($scope.sounds);
       });
-
-      var updateDay = function(day) {
-        console.log(day);
-        switch(day) {
-          case 'Monday':
-            $scope.dayEvents = $scope.weekEvents.monday;
-            break;
-          case 'Tuesday':
-            $scope.dayEvents = $scope.weekEvents.tuesday;
-            break;
-          case 'Wednesday':
-            $scope.dayEvents = $scope.weekEvents.wednesday;
-            break;
-          case 'Thursday':
-            $scope.dayEvents = $scope.weekEvents.thursday;
-            break;
-          case 'Friday':
-            $scope.dayEvents = $scope.weekEvents.friday;
-            break;
-          case 'Saturday':
-            $scope.dayEvents = $scope.weekEvents.saturday;
-            break;
-          case 'Sunday':
-            $scope.dayEvents = $scope.weekEvents.sunday;
-            break;
-        }
-        $scope.day = day;
-      }
-
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-
         $scope.goToHome = function() {
             $state.go('home');
         }
@@ -59,56 +22,79 @@
         }
 
         $scope.setDay = function(day) {
-          updateDay(day);
-          //console.log(day);
+          $scope.day = day;
+          HomeService.getDay(day).then(function(result) {
+            $scope.dayEvents = result.data;
+            console.log($scope.dayEvents);
+          });
         }
 
         $scope.checkUpload = function() {
           console.log($scope.uploader);
         }
 
-        $scope.deleteEvent = function(event) {
-          //console.log(event);
-          HomeService.deleteEvent(event.id).then(function(result) {
+        $scope.deleteEvent = function(id) {
+          /*HomeService.deleteEvent(event.id).then(function(result) {
             console.log(event);
           })
-          HomeService.getWeek().then(function(events) {
-            $scope.weekEvents = events.data;
-
-          });
-        }
-
-        $scope.submit = function(time) {
-          console.log(time);
-          console.log("Uploading!!");
+          HomeService.getDay($scope.day).then(function(result) {
+            $scope.dayEvents = result.data;
+            //console.log($scope.dayEvents);
+          });*/
+          console.log(id);
         }
 
         $scope.selectEvent = function(event) {
             //call function to get array and assign here.
             $scope.chosen_id = event.id;
             $scope.chosen_event = event;
+            $scope.chosen_event.day = $scope.day;
             console.log(event);
           }
-        $scope.update = function(event, id) {
+
+        $scope.updateEvent = function(updatedEvent, day) {
           //console.log(event.id);
-          var changes = {};
-          changes.timeDay = event.timeDay;
-          changes.day = $scope.day;
-          //changes.file_id = id;
-          console.log(id);
-          /*HomeService.updateEvent(event, changes).then(function(result) {
+          var choice = $scope.sounds.filter(function(sound) {
+            return sound.name == updatedEvent.file_name;
+          });
+          updatedEvent.file_id = choice[0].audio_id;
+          updatedEvent.id = $scope.chosen_event.id;
+          console.log(updatedEvent);
+          //Disabled service calls
+          /*HomeService.updateEvent(event).then(function(result) {
             console.log(result.data);
+          })
+          HomeService.getDay($scope.day).then(function(result) {
+            $scope.dayEvents = result.data;
+            //console.log($scope.dayEvents);
+          })*/
+
+        }
+
+        $scope.addEvent = function(event) {
+          var choice = $scope.sounds.filter(function(sound) {
+            return sound.name == event.file_name;
+          });
+          event.file_id = choice[0].audio_id;
+          console.log(event);
+          //Disabled service calls
+          /*HomeService.addEvent(event).then(function(result) {
+            console.log(result.data);
+          })
+          HomeService.getDay($scope.day).then(function(result) {
+            $scope.dayEvents = result.data;
+            //console.log($scope.dayEvents);
           })*/
         }
-   
+
         $scope.editVisable = false;
         $scope.createVisable = false;
-       
-      
+
+
         $scope.edit_showHide = function() {
           $scope.editVisable = $scope.editVisable ? false : true;
         }
-      
+
         $scope.create_showHide = function() {
           $scope.createVisable = $scope.createVisable ? false : true;
         }

@@ -48,7 +48,7 @@
                 <td>{{event.timeDay}}</td>
                 <td>{{event.file_name}}</td>
                 <td class="card-action">
-                  <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event)">X</a>
+                  <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.id)">X</a>
                   <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>
                 </td>
               </tr>
@@ -60,58 +60,61 @@
       <div ng-show="editVisable">
         <div class="card">
           <div class="card-content">
-            <form name="editEvent" ng-submit="editing = false; update(chosen_event, sound)">
-              <div class="row">
-                <div input-field>
-                  <select class="" ng-model="select.day2" material-select watch>
-                    <option ng-repeat="day in weekdaysFull" ng-model="days" value="day" placeholder="{{day}}">{{day}}</option>
-                  </select>
-                </div>
-              </div>
-              <div class="row">
-                <label>Sound</label>
-                <div input-field>
-                  <select ng-model="select.file_name" material-select watch>
-                    <option ng-repeat="sound in sounds" ng-model="sound" placeholder="chosen_event.file_name">{{sound.name}}</option>
-                  </select>
-                  <label>Day of Event</label>
-                </div>
-                <label for="input_starttime">Time</label>
-                <input id="input_starttime" input-clock data-twelvehour="false" type="text" ng-model="chosen_event.timeDay" placeholder="{{chosen_event.timeDay}}">
-                <button class="btn waves-effect" type="submit">Save Event</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div ng-show="createVisable">
-        <div class="card">
-          <div class="card-content">
-            <form name="createEvent" ng-submit="newEvent = false">
-              <div classs="row">
-                <div input-field>
-                  <select class="" ng-model="select.day1" material-select watch>
-                    <option ng-repeat="day in weekdaysFull" value="day" placeholder="Select a day ...">{{day}}</option>
-                  </select>
-                  <label>Day of Event</label>
-                </div>
-              </div>
-              <div class="row">
-                <label>Sound</label>
-                <div input-field>
-                  <select class="" ng-model="select.file_name" material-select watch>
-                    <option ng-repeat="sound in sounds" ng-model="sound" placeholder="chosen_event.file_name">{{sound.name}}</option>
-                  </select>
-                </div>
-              </div>
+            <form name="editEvent" ng-submit="updateEvent(chosen_event)">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>
-                  <input id="input_starttime" input-clock data-twelvehour="false" type="text">
+                  <input id="input_starttime" input-clock data-twelvehour="false" type="text" ng-model="chosen_event.timeDay">
                 </div>
               </div>
-              <button class="btn waves-effect" type="submit" ng-click="">Create Event</button>
+              <div class="row">
+                <label>Day of Event</label>
+                <div input-field>
+                  <select class="" ng-model="chosen_event.day" material-select watch>
+                    <option ng-repeat="day in weekdaysFull" value="{{day}}">{{day}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label>Sound</label>
+                <div input-field>
+                  <select class="" ng-model="chosen_event.file_name" material-select watch>
+                    <option ng-repeat="sound in sounds" value="{{sound.name}}">{{sound.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn waves-effect" type="submit">Save Event</button>
+            </form>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-content">
+            <form name="createEvent">
+              <div class="row">
+                <div class="input-field col s12">
+                  <label for="input_starttime">Time</label>
+                  <input id="input_starttime" input-clock data-twelvehour="false" type="text" ng-model="event.timeDay">
+                </div>
+              </div>
+              <div class="row">
+                <label>Day of Event</label>
+                <div input-field>
+                  <select class="" ng-model="event.day" material-select watch>
+                    <option ng-repeat="day in weekdaysFull" value="{{day}}">{{day}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label>Sound</label>
+                <div input-field>
+                  <select class="" ng-model="event.file_name" material-select watch>
+                    <option ng-repeat="sound in sounds" value="{{sound.name}}">{{sound.name}}</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn waves-effect" type="submit" ng-click="addEvent(event)">Create Event</button>
             </form>
           </div>
         </div>

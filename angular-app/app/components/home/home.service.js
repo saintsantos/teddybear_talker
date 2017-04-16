@@ -49,12 +49,7 @@
         var xhrParams = {
           method: 'POST',
           url: urlConstant.baseUrl + '/calendar/add',
-          params: {
-            day: event.day,
-            hour: event.hour,
-            minute: event.min,
-            file_id: event.file_id
-          }
+          data: event
         }
         return $http(xhrParams);
       }

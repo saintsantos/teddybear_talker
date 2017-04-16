@@ -56,11 +56,11 @@
           <div class="row">
             <div class="card">
               <div class="card-content">
-                <div ng-show="editing">
-                  <form name="editEvent" ng-submit="editing = false"> <!-- TODO - Make the shows/hides work properly -->
+                <div>
+                  <form name="editFile" ng-submit="updateFile(chosen_file)"> <!-- TODO - Make the shows/hides work properly -->
                     <div class="row">
                     <label>Filename</label>
-                    <input type="text" ng-model="chosen_event.file_name" placeholder="{{chosen_file.name}}" ng-required />
+                    <input type="text" ng-model="chosen_file.name" placeholder="{{chosen_file.name}}" ng-required />
                     <label>Filepath: {{chosen_file.path}}</label>
                     <div class="row">
                       <button class="btn waves-effect" type="submit">Save Event</button>

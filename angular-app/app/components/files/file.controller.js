@@ -6,15 +6,6 @@
       FileService.getAllSongs().then(function(result) {
         $scope.sounds = result.data;
       });
-      /*var sound1 = {}
-      sound1.path = "~/Music/test1";
-      sound1.name = "Yay!";
-      $scope.sounds.push(sound1);
-
-      var sound2 = {}
-      sound2.path = "~/Music/test2";
-      sound2.name = "Hello!";
-      $scope.sounds.push(sound2);*/
 
 
       $scope.goToHome = function() {
@@ -32,9 +23,18 @@
           console.log(file);
         }
 
+      $scope.updateFile = function(file) {
+          console.log(file);
+          /*FileService.updateFile(file).then(function(result) {
+            console.log(result);
+          });*/
+      }
+
+        //This handles file uploads
         $scope.uploader = new FileUploader({
           url: 'http://localhost:8080/voice/upload'
         });
+
     }
 
   angular
