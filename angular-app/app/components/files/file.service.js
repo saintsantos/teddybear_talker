@@ -15,7 +15,7 @@
       function updateFile(file) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/voice/' + file.id,
+          url: urlConstant.baseUrl + '/voice/' + file.audio_id,
           data: file
         }
         return $http(xhrParams);
@@ -24,7 +24,7 @@
       function deleteFile(id) {
         var xhrParams = {
           method: 'DELETE',
-          url: urlConstant.baseUrl + '/voice/' + file.id
+          url: urlConstant.baseUrl + '/voice/' + id
         }
         return $http(xhrParams);
       }

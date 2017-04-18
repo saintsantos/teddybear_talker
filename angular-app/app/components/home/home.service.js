@@ -28,11 +28,12 @@
         return $http(xhrParams);
       }
 
-      function updateEvent(event, changes) {
+      function updateEvent(updatedEvent) {
+        console.log(updatedEvent);
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/calendar/' + event.id,
-          data: changes
+          url: urlConstant.baseUrl + '/calendar/' + updatedEvent.id,
+          data: updatedEvent
         }
         return $http(xhrParams);
       }
@@ -45,11 +46,11 @@
         return $http(xhrParams);
       }
 
-      function addEvent(event) {
+      function addEvent(newEvent) {
         var xhrParams = {
           method: 'POST',
           url: urlConstant.baseUrl + '/calendar/add',
-          data: event
+          data: newEvent
         }
         return $http(xhrParams);
       }

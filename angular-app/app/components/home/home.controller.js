@@ -10,6 +10,10 @@
         $scope.sounds = result.data;
         console.log($scope.sounds);
       });
+      HomeService.getDay($scope.day).then(function(result) {
+        $scope.dayEvents = result.data;
+        console.log($scope.dayEvents);
+      });
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $scope.goToHome = function() {
             $state.go('home');
@@ -36,11 +40,11 @@
         $scope.deleteEvent = function(id) {
           /*HomeService.deleteEvent(event.id).then(function(result) {
             console.log(event);
-          })
+          })*/
           HomeService.getDay($scope.day).then(function(result) {
             $scope.dayEvents = result.data;
-            //console.log($scope.dayEvents);
-          });*/
+            console.log($scope.dayEvents);
+          });
           console.log(id);
         }
 
@@ -61,30 +65,30 @@
           updatedEvent.id = $scope.chosen_event.id;
           console.log(updatedEvent);
           //Disabled service calls
-          /*HomeService.updateEvent(event).then(function(result) {
+          HomeService.updateEvent(updatedEvent).then(function(result) {
             console.log(result.data);
-          })
-          HomeService.getDay($scope.day).then(function(result) {
-            $scope.dayEvents = result.data;
-            //console.log($scope.dayEvents);
-          })*/
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              console.log($scope.dayEvents);
+            })
+          });
 
         }
 
-        $scope.addEvent = function(event) {
+        $scope.addEvent = function(newEvent) {
           var choice = $scope.sounds.filter(function(sound) {
-            return sound.name == event.file_name;
+            return sound.name == newEvent.file_name;
           });
-          event.file_id = choice[0].audio_id;
-          console.log(event);
+          newEvent.file_id = choice[0].audio_id;
+          console.log(newEvent);
           //Disabled service calls
-          /*HomeService.addEvent(event).then(function(result) {
+          HomeService.addEvent(newEvent).then(function(result) {
             console.log(result.data);
           })
           HomeService.getDay($scope.day).then(function(result) {
             $scope.dayEvents = result.data;
-            //console.log($scope.dayEvents);
-          })*/
+            console.log($scope.dayEvents);
+          })
         }
 
         $scope.editVisable = false;
