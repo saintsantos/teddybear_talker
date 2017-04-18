@@ -101,15 +101,17 @@ $app->group('/calendar', function () use ($app) {
     $file_id = $body["file_id"];
     $day = $body["day"];
     $check = $this->db->query("SELECT * from events where timeDay='$timeDay' and day='$day'");
+    //print_r("SELECT * from events where timeDay='$timeDay' and day='$day'");
     if ($check->rowCount() > 0) {
       $id = NULL;
       foreach($check as $row) {
         $id = (int)$row["id"];
       }
-      $this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
+      print_r("UPDATE events set status='active', file_id=$file_id where id=$id");
+      //$this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
     } else {
-      print_r("Does not Exist");
-      $this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
+      print_r("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
+      //$this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
     }
   });
 
@@ -159,7 +161,8 @@ $app->group('/calendar', function () use ($app) {
     $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    $events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
+    print_r("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
+    //$events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
   });
 
 });
