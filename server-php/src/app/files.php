@@ -61,7 +61,7 @@ $app->group('/voice', function () use ($app) {
     } else {
       $newfile->moveTo("$uploads_dir/$uploadFileName");
       //$this->db->query("INSERT into audio set audio_name='$uploadFileName', filepath='$uploads_dir/$uploadFileName'");
-      $this->db->query("INSERT into audio (audio_id, audio_name, filepath, status) values (default, '$uploadFileName', '$uploads_dir/$uploadFileName', 'active')");
+      $this->db->query("INSERT into audio (audio_name, filepath, status) values ('$uploadFileName', '$uploads_dir/$uploadFileName', 'active')");
     }
   });
 

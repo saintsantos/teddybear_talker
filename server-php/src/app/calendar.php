@@ -9,6 +9,7 @@ $app->group('/calendar', function () use ($app) {
   $app->get('/', function(Request $request, Response $response) {
     $this->logger->addInfo("Grabbing all events from a singe day");
     $day = $request->getAttribute('route')->getArgument('day');
+    $day = strtolower($day);
     $events = $this->db->query("SELECT * from events inner join audio on audio.audio_id=events.file_id where events.status='active'");
     $result = array();
     $monday = array();
@@ -100,6 +101,7 @@ $app->group('/calendar', function () use ($app) {
     $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
+    $day = strtolower($day);
     $check = $this->db->query("SELECT * from events where timeDay='$timeDay' and day='$day'");
     //print_r("SELECT * from events where timeDay='$timeDay' and day='$day'");
     if ($check->rowCount() > 0) {
@@ -107,11 +109,11 @@ $app->group('/calendar', function () use ($app) {
       foreach($check as $row) {
         $id = (int)$row["id"];
       }
-      print_r("UPDATE events set status='active', file_id=$file_id where id=$id");
-      //$this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
+      //print_r("UPDATE events set status='active', file_id=$file_id where id=$id");
+      $this->db->query("UPDATE events set status='active', file_id=$file_id where id=$id");
     } else {
-      print_r("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
-      //$this->db->query("INSERT INTO events (id, timeDay, file_id, day, status) VALUES (default, '$timeDay', $file_id, '$day', 'active')");
+      //print_r("INSERT INTO events (timeDay, file_id, day, status) VALUES ('$timeDay', $file_id, '$day', 'active')");
+      $this->db->query("INSERT INTO events (timeDay, file_id, day, status) VALUES ('$timeDay', $file_id, '$day', 'active')");
     }
   });
 
@@ -130,6 +132,7 @@ $app->group('/calendar', function () use ($app) {
   $app->get('/{day}', function(Request $request, Response $response) {
       $this->logger->addInfo("Grabbing all events from a singe day");
       $day = $request->getAttribute('route')->getArgument('day');
+      $day = strtolower($day);
       $events = $this->db->query("SELECT * from events inner join audio on audio.audio_id=events.file_id where events.day='$day' and events.status='active'");
       $result = array();
       foreach( $events as $row) {
@@ -161,8 +164,8 @@ $app->group('/calendar', function () use ($app) {
     $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
     $day = $body["day"];
-    print_r("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
-    //$events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
+    //print_r("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
+    $events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
   });
 
 });
