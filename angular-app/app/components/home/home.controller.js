@@ -8,11 +8,11 @@
 
       FileService.getAllSongs().then(function(result) {
         $scope.sounds = result.data;
-        console.log($scope.sounds);
+        //console.log($scope.sounds);
       });
       HomeService.getDay($scope.day).then(function(result) {
         $scope.dayEvents = result.data;
-        console.log($scope.dayEvents);
+        //console.log($scope.dayEvents);
       });
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $scope.goToHome = function() {
@@ -29,12 +29,12 @@
           $scope.day = day;
           HomeService.getDay(day).then(function(result) {
             $scope.dayEvents = result.data;
-            console.log($scope.dayEvents);
+            //console.log($scope.dayEvents);
           });
         }
 
         $scope.checkUpload = function() {
-          console.log($scope.uploader);
+          //console.log($scope.uploader);
         }
 
         $scope.deleteEvent = function(id) {
@@ -43,9 +43,9 @@
           })*/
           HomeService.getDay($scope.day).then(function(result) {
             $scope.dayEvents = result.data;
-            console.log($scope.dayEvents);
+            //console.log($scope.dayEvents);
           });
-          console.log(id);
+          //console.log(id);
         }
 
         $scope.selectEvent = function(event) {
@@ -53,7 +53,7 @@
             $scope.chosen_id = event.id;
             $scope.chosen_event = event;
             $scope.chosen_event.day = $scope.day;
-            console.log(event);
+            //console.log(event);
           }
 
         $scope.updateEvent = function(updatedEvent, day) {
@@ -63,13 +63,13 @@
           });
           updatedEvent.file_id = choice[0].audio_id;
           updatedEvent.id = $scope.chosen_event.id;
-          console.log(updatedEvent);
+          //console.log(updatedEvent);
           //Disabled service calls
           HomeService.updateEvent(updatedEvent).then(function(result) {
-            console.log(result.data);
+            //console.log(result.data);
             HomeService.getDay($scope.day).then(function(result) {
               $scope.dayEvents = result.data;
-              console.log($scope.dayEvents);
+              //console.log($scope.dayEvents);
             })
           });
 
@@ -80,14 +80,14 @@
             return sound.name == newEvent.file_name;
           });
           newEvent.file_id = choice[0].audio_id;
-          console.log(newEvent);
+          //console.log(newEvent);
           //Disabled service calls
           HomeService.addEvent(newEvent).then(function(result) {
             console.log(result.data);
           })
           HomeService.getDay($scope.day).then(function(result) {
             $scope.dayEvents = result.data;
-            console.log($scope.dayEvents);
+            //console.log($scope.dayEvents);
           })
         }
 

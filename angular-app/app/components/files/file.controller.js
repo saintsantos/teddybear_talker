@@ -5,7 +5,7 @@
       $scope.sounds = [];
       FileService.getAllSongs().then(function(result) {
         $scope.sounds = result.data;
-        console.log($scope.sounds);
+        //console.log($scope.sounds);
       });
 
 
@@ -21,7 +21,7 @@
           //call function to get array and assign here.
           $scope.chosen_id = file.audio_id;
           $scope.chosen_file = file;
-          console.log(file);
+          //console.log(file);
         }
 
       $scope.updateFile = function(file) {
@@ -29,7 +29,7 @@
           FileService.updateFile(file).then(function(result) {
             FileService.getAllSongs().then(function(result) {
               $scope.sounds = result.data;
-              console.log(result.data);
+              //console.log(result.data);
             });
           });
       }
