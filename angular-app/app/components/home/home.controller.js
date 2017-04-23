@@ -53,6 +53,7 @@
             $scope.chosen_id = event.id;
             $scope.chosen_event = event;
             $scope.chosen_event.day = $scope.day;
+            $scope.editing = !$scope.editing;
             //console.log(event);
           }
 
@@ -69,6 +70,7 @@
             //console.log(result.data);
             HomeService.getDay($scope.day).then(function(result) {
               $scope.dayEvents = result.data;
+              $scop.editing = false;
               //console.log($scope.dayEvents);
             })
           });

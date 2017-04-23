@@ -53,12 +53,13 @@
             </div>
           </div>
 
-          <div ng-show="false">
+          <div ng-show="editing">
           <div class="row">
             <div class="card">
               <div class="card-content">
                 <div>
-                  <form name="editFile" ng-submit="updateFile(chosen_file)"> <!-- TODO - Make the shows/hides work properly -->
+                  <!--<form name="editFile" ng-submit="updateFile(chosen_file)">-->
+                  <form name="editFile" ng-submit="editing = false">
                     <div class="row">
                     <label>Filename</label>
                     <input type="text" ng-model="chosen_file.name" placeholder="{{chosen_file.name}}" ng-required />

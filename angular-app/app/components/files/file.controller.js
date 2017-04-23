@@ -2,6 +2,8 @@
 
     function FileController($scope, $state, FileService, FileUploader) {
 
+      $scope.editing = false;
+
       $scope.sounds = [];
       FileService.getAllSongs().then(function(result) {
         $scope.sounds = result.data;
@@ -21,6 +23,8 @@
           //call function to get array and assign here.
           $scope.chosen_id = file.audio_id;
           $scope.chosen_file = file;
+          $scope.editing = !$scope.editing;
+
           //console.log(file);
         }
 
@@ -29,6 +33,7 @@
           FileService.updateFile(file).then(function(result) {
             FileService.getAllSongs().then(function(result) {
               $scope.sounds = result.data;
+              $scope.editing = false;
               //console.log(result.data);
             });
           });
