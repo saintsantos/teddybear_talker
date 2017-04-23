@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div ng-show="editVisable">
+      <div ng-show="false">
         <div class="card">
           <div class="card-content">
             <form name="editEvent" ng-submit="updateEvent(chosen_event)">
@@ -87,8 +87,9 @@
             </form>
         </div>
       </div>
+    </div>
 
-      <div>
+      <div ng-show="false">
         <div class="card">
           <div class="card-content">
             <form name="createEvent">
@@ -119,7 +120,6 @@
           </div>
         </div>
       </div>
-
       <div class="fixed-action-btn">
         <a class="btn-floating btn-large blue" ng-click="create_showHide()">
           <i class="large material-icons">library_add</i>

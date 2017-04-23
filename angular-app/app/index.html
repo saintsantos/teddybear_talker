@@ -1,9 +1,10 @@
 <!Doctype html>
 
-<html land="en" ng-csp="" ng-app="teddybeartalker">
+<html land="en" class="no-js" ng-app="teddybeartalker">
     <head>
         <base href="/">
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Teddybear Talker</title>
         <meta name="description" content="Your cuddly friend that talks!">
 
@@ -14,16 +15,14 @@
         <link rel="stylesheet" href="assets/lib/materialize/dist/css/materialize.min.css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <link rel="stylesheet" href="assets/lib/materialize-clockpicker/dist/css/materialize.clockpicker.css"/>
+        <!-- Bootstrap -->
+        <!--<link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.css"/>-->
 
     </head>
-    <body class="main-wrapper">
+    <body class="main-wrapper" ng-controller="mainCtrl">
         <!-- Throw navigation stuff here -->
-        <ui-view></ui-view>
+        <div ui-view></div>
         <!-- Dependencies go here -->
-
-        <!-- Materialize dependency -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <!-- Materialize Dependency -->
 
         <!-- Angular dependency -->
         <script type="text/javascript" src="assets/lib/angular/angular.js"></script>
@@ -36,6 +35,16 @@
         <script src="assets/lib/angular-materialize/src/angular-materialize.js"></script>
         <script src="assets/lib/materialize/dist/js/materialize.min.js"></script>
         <!-- End Materialize -->
+
+        <!-- Bootstrap -->
+        <script src="assets/lib/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="assets/lib/angular-animate/angular-animate.js"></script>
+        <script src="assets/lib/angular-touch/angular-touch.js"></script>
+        <!-- End Bootstrap -->
+
+        <!-- Materialize dependency -->
+        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+        <!-- Materialize Dependency -->
 
         <!-- Clock Picker -->
         <script src="assets/lib/materialize-clockpicker/dist/js/materialize.clockpicker.js"></script>
