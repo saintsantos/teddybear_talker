@@ -49,7 +49,7 @@
                 <td>{{event.file_name}}</td>
                 <td class="card-action">
                   <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.id)">X</a>
-                  <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>
+                  <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event); editing = true">Edit</a>
                 </td>
               </tr>
             </tbody>
@@ -57,10 +57,11 @@
         </div>
       </div>
 
-      <div ng-show="false">
+      <div ng-show="editing">
         <div class="card">
           <div class="card-content">
-            <form name="editEvent" ng-submit="updateEvent(chosen_event)">
+            <!--<form name="editEvent" ng-submit="updateEvent(chosen_event)">-->
+            <form name="editEvent" ng-submit="editing = false">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>
@@ -89,10 +90,10 @@
       </div>
     </div>
 
-      <div ng-show="false">
+      <div ng-show="createNew">
         <div class="card">
           <div class="card-content">
-            <form name="createEvent">
+            <form name="createEvent" ng-submit "createNew = false">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>
@@ -115,13 +116,14 @@
                   </select>
                 </div>
               </div>
-              <button class="btn waves-effect" type="submit" ng-click="addEvent(event)">Create Event</button>
+              <!--<button class="btn waves-effect" type="submit" ng-click="addEvent(event)">Create Event</button>-->
+              <button class="btn waves-effect" type="submit">Create Event</button>
             </form>
           </div>
         </div>
       </div>
       <div class="fixed-action-btn">
-        <a class="btn-floating btn-large blue" ng-click="create_showHide()">
+        <a class="btn-floating btn-large blue" ng-click="createNew = !createNew">
           <i class="large material-icons">library_add</i>
         </a>
 
