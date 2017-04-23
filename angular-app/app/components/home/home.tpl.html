@@ -86,6 +86,7 @@
                 </div>
               </div>
               <button class="btn waves-effect" type="submit">Save Event</button>
+              <button class="btn" ng-click="editing = false">Cancel</button>
             </form>
         </div>
       </div>
@@ -94,7 +95,7 @@
       <div ng-show="createNew">
         <div class="card">
           <div class="card-content">
-            <form name="createEvent" ng-submit "createNew = false">
+            <form name="createEvent" ng-submit "addEvent(event)">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>
@@ -119,6 +120,7 @@
               </div>
               <!--<button class="btn waves-effect" type="submit" ng-click="addEvent(event)">Create Event</button>-->
               <button class="btn waves-effect" type="submit">Create Event</button>
+              <button class="btn" ng-click="createNew = false">Cancel</button>
             </form>
           </div>
         </div>

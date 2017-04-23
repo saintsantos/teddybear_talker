@@ -4,6 +4,7 @@
 
       $scope.dayEvents = [];
       $scope.editing = false;
+      $scope.createNew = false;
       $scope.day = "Monday";
 
       FileService.getAllSongs().then(function(result) {
@@ -91,18 +92,7 @@
             $scope.dayEvents = result.data;
             //console.log($scope.dayEvents);
           })
-        }
-
-        $scope.editVisable = false;
-        $scope.createVisable = false;
-
-
-        $scope.edit_showHide = function() {
-          $scope.editVisable = $scope.editVisable ? false : true;
-        }
-
-        $scope.create_showHide = function() {
-          $scope.createVisable = $scope.createVisable ? false : true;
+          $scope.createNew = false;
         }
     }
 
