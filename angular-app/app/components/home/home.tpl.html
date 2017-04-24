@@ -62,7 +62,7 @@
         <div class="card">
           <div class="card-content">
             <!--<form name="editEvent" ng-submit="updateEvent(chosen_event)">-->
-            <form name="editEvent" ng-submit="editing = false">
+            <form name="editEvent" ng-submit="updateEvent(chosen_event)">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>
@@ -95,7 +95,7 @@
       <div ng-show="createNew">
         <div class="card">
           <div class="card-content">
-            <form name="createEvent" ng-submit "addEvent(event)">
+            <form name="createEvent" ng-submit="addEvent(event)">
               <div class="row">
                 <div class="input-field col s12">
                   <label for="input_starttime">Time</label>

@@ -71,7 +71,7 @@
             //console.log(result.data);
             HomeService.getDay($scope.day).then(function(result) {
               $scope.dayEvents = result.data;
-              $scop.editing = false;
+              $scope.editing = false;
               //console.log($scope.dayEvents);
             })
           });
@@ -91,8 +91,8 @@
           HomeService.getDay($scope.day).then(function(result) {
             $scope.dayEvents = result.data;
             //console.log($scope.dayEvents);
+            $scope.createNew = false;
           })
-          $scope.createNew = false;
         }
     }
 
