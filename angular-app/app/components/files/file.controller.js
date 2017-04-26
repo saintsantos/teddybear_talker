@@ -29,7 +29,7 @@
         }
 
       $scope.updateFile = function(file) {
-          console.log(file);
+          //console.log(file);
           FileService.updateFile(file).then(function(result) {
             FileService.getAllSongs().then(function(result) {
               $scope.sounds = result.data;

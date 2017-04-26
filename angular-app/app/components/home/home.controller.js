@@ -39,13 +39,13 @@
         }
 
         $scope.deleteEvent = function(id) {
-          /*HomeService.deleteEvent(event.id).then(function(result) {
-            console.log(event);
-          })*/
-          HomeService.getDay($scope.day).then(function(result) {
-            $scope.dayEvents = result.data;
-            //console.log($scope.dayEvents);
-          });
+          HomeService.deleteEvent(id).then(function(result) {
+            //console.log(event);
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              //console.log($scope.dayEvents);
+            });
+          })
           //console.log(id);
         }
 
@@ -87,11 +87,11 @@
           //Disabled service calls
           HomeService.addEvent(newEvent).then(function(result) {
             console.log(result.data);
-          })
-          HomeService.getDay($scope.day).then(function(result) {
-            $scope.dayEvents = result.data;
-            //console.log($scope.dayEvents);
-            $scope.createNew = false;
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              //console.log($scope.dayEvents);
+              $scope.createNew = false;
+            })
           })
         }
     }
