@@ -163,7 +163,7 @@ $app->group('/calendar', function () use ($app) {
     $body = $request->getParsedBody();
     $timeDay = $body["timeDay"];
     $file_id = $body["file_id"];
-    $day = $body["day"];
+    $day = strtolower($body["day"]);
     //print_r("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
     $events = $this->db->query("UPDATE events set timeDay='$timeDay', file_id=$file_id, day='$day' where id=$id");
   });
