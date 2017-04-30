@@ -1,12 +1,12 @@
-;(function() {
+(function() {
 
-    function FileController($scope, $state, FileService, FileUploader) {
+    function VoiceController($scope, $state, VoiceService, FileUploader) {
 
       $scope.editing = false;
 
-      $scope.sounds = [];
-      FileService.getAllSongs().then(function(result) {
-        $scope.sounds = result.data;
+      $scope.voices = [];
+      VoiceService.getAllVoices().then(function(result) {
+        $scope.voices = result.data;
         //console.log($scope.sounds);
       });
 
@@ -17,9 +17,12 @@
       $scope.goToSettings = function() {
           $state.go('settings');
       }
+      $scope.goToJingle = function() {
+          $state.go('jingle');
+      }
 
 
-      $scope.selectFile = function(file) {
+      $scope.selectVoice = function(file) {
           //call function to get array and assign here.
           $scope.chosen_id = file.audio_id;
           $scope.chosen_file = file;
@@ -44,11 +47,11 @@
           url: 'http://localhost:8080/voice/upload'
         });
 
-      $scope.deleteFile = function(id) {
+      $scope.deleteVoice = function(id) {
         //console.log(id);
-        FileService.deleteFile(id).then(function() {
-          FileService.getAllSongs().then(function(result) {
-            $scope.sounds = result.data;
+        VoiceService.deleteVoice(id).then(function() {
+          VoiceService.getAllVoices().then(function(result) {
+            $scope.voices = result.data;
           });
         })
       }
@@ -56,6 +59,6 @@
     }
 
   angular
-    .module('file.controller', ['ui.materialize', 'angularFileUpload'])
-    .controller('FileController', FileController);
+    .module('voice.controller', ['ui.materialize', 'angularFileUpload'])
+    .controller('VoiceController', VoiceController);
 })();

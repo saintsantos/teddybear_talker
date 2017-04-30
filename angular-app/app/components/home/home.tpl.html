@@ -14,7 +14,8 @@
         <a href="#" class="brand-logo right"></a>
         <ul id="nav-mobile" class="left">
           <li><a ng-click="goToHome()">Events</a></li>
-          <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToFile()">Voices</a></li>
+          <li><a ng-click="goToJingle()">Jingles</a></li>
           <li><a ng-click="goToSettings()">Settings</a></li>
         </ul>
       </div>
@@ -39,16 +40,18 @@
             <thead>
               <tr>
                 <th>Time</th>
-                <th>File</th>
+                <th>Voice</th>
+                <th>Jingle</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="event in dayEvents">
                 <td>{{event.timeDay}}</td>
-                <td>{{event.file_name}}</td>
+                <td>{{event.voice_name}}</td>
+                <td>{{event.jingle_name}}</td>
                 <td class="card-action">
-                  <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.id)">X</a>
+                  <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.event_id)">X</a>
                   <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>
                   <!--<a class="waves-effect waves-light btn right edit-controls" ng-click="editing = true">Edit</a>-->
                 </td>
@@ -78,10 +81,18 @@
                 </div>
               </div>
               <div class="row">
-                <label>Sound</label>
+                <label>Voice</label>
                 <div input-field>
-                  <select class="" ng-model="chosen_event.file_name" material-select watch>
-                    <option ng-repeat="sound in sounds" value="{{sound.name}}">{{sound.name}}</option>
+                  <select class="" ng-model="chosen_event.voice_name" material-select watch>
+                    <option ng-repeat="voice in voices" value="{{voice.voice_name}}">{{voice.voice_name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label>Jingle</label>
+                <div input-field>
+                  <select class="" ng-model="chosen_event.jingle_name" material-select watch>
+                    <option ng-repeat="jingle in jingles" value="{{jingle.jingle_name}}">{{jingle.jingle_name}}</option>
                   </select>
                 </div>
               </div>
@@ -113,8 +124,16 @@
               <div class="row">
                 <label>Sound</label>
                 <div input-field>
-                  <select class="" ng-model="event.file_name" material-select watch>
-                    <option ng-repeat="sound in sounds" value="{{sound.name}}">{{sound.name}}</option>
+                  <select class="" ng-model="event.voice_name" material-select watch>
+                    <option ng-repeat="voice in voices" value="{{voice.voice_name}}">{{voice.voice_name}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label>Jingle</label>
+                <div input-field>
+                  <select class="" ng-model="event.jingle_name" material-select watch>
+                    <option ng-repeat="jingle in jingles" value="{{jingle.jingle_name}}">{{jingle.jingle_name}}</option>
                   </select>
                 </div>
               </div>

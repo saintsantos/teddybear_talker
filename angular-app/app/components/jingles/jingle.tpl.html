@@ -16,6 +16,7 @@
         <ul id="nav-mobile" class="left">
           <li><a ng-click="goToHome()">Events</a></li>
           <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToJingle()">Jingles</a></li>
           <li><a ng-click="goToSettings()">Settings</a></li>
         </ul>
       </div>
@@ -31,15 +32,15 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>Sound Location</th>
-                          <th>Sound Name</th>
+                          <th>Jingle Location</th>
+                          <th>Jingle Name</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sound in sounds">
-                          <td>{{sound.path}}</td>
-                          <td>{{sound.name}}</td>
+                        <tr ng-repeat="jingle in jingles">
+                          <td>{{jingle.jinglepath}}</td>
+                          <td>{{jingle.jingle_name}}</td>
                           <td>
                             <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteFile(sound.audio_id)>X</a>
                             <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectFile(sound)">Edit</a>

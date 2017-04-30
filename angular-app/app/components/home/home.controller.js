@@ -1,19 +1,23 @@
 ;(function() {
 
-    function HomeController($scope, $state, HomeService, FileService, FileUploader) {
+    function HomeController($scope, $state, HomeService, VoiceService, JingleService, FileUploader) {
 
       $scope.dayEvents = [];
       $scope.editing = false;
       $scope.createNew = false;
       $scope.day = "Monday";
 
-      FileService.getAllSongs().then(function(result) {
-        $scope.sounds = result.data;
-        //console.log($scope.sounds);
+      VoiceService.getAllVoices().then(function(result) {
+        $scope.voices = result.data;
+        console.log($scope.voices);
       });
       HomeService.getDay($scope.day).then(function(result) {
         $scope.dayEvents = result.data;
-        //console.log($scope.dayEvents);
+        console.log($scope.dayEvents);
+      });
+      JingleService.getAllJingles().then(function(result) {
+        $scope.jingles = result.data;
+        console.log($scope.jingles);
       });
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         $scope.goToHome = function() {
@@ -24,6 +28,9 @@
         }
         $scope.goToFile = function() {
             $state.go('file');
+        }
+        $scope.goToJingle = function() {
+            $state.go('jingle');
         }
 
         $scope.setDay = function(day) {
@@ -60,10 +67,14 @@
 
         $scope.updateEvent = function(updatedEvent, day) {
           //console.log(event.id);
-          var choice = $scope.sounds.filter(function(sound) {
-            return sound.name == updatedEvent.file_name;
+          var event_voice = $scope.voices.filter(function(voice) {
+            return voice.voice_name == updatedEvent.voice_name;
           });
-          updatedEvent.file_id = choice[0].audio_id;
+          updatedEvent.voice_id = event_voice[0].voice_id;
+          var event_jingle = $scope.jingles.filter(function(jingle) {
+            return jingle.jingle_name == updatedEvent.jingle_name;
+          });
+          updatedEvent.jingle_id = event_jingle[0].jingle_id;
           updatedEvent.id = $scope.chosen_event.id;
           //console.log(updatedEvent);
           //Disabled service calls
@@ -79,10 +90,14 @@
         }
 
         $scope.addEvent = function(newEvent) {
-          var choice = $scope.sounds.filter(function(sound) {
-            return sound.name == newEvent.file_name;
+          var event_voice = $scope.voices.filter(function(voice) {
+            return voice.voice_name == newEvent.voice_name;
           });
-          newEvent.file_id = choice[0].audio_id;
+          newEvent.voice_id = event_voice[0].voice_id;
+          var event_jingle = $scope.jingles.filter(function(jingle) {
+            return jingle.jingle_name == newEvent.jingle_name;
+          });
+          newEvent.jingle_id = event_jingle[0].jingle_id;
           //console.log(newEvent);
           //Disabled service calls
           HomeService.addEvent(newEvent).then(function(result) {

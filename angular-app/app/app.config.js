@@ -31,6 +31,11 @@
             templateUrl: '/components/files/file.tpl.html',
             controller: 'FileController'
         })
+        .state('jingle', {
+            url: '/jingle',
+            templateUrl: '/components/jingles/jingle.tpl.html',
+            controller: 'JingleController'
+        })
         $urlRouterProvider.otherwise('/');
     });
 

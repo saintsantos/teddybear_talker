@@ -4,9 +4,10 @@
             'teddybeartalker.config',
             'home.module',
             'settings.module',
-            'file.module',
+            'voice.module',
+            'jingle.module',
             'ngFileUpload',
-            'angularFileUpload' 
+            'angularFileUpload'
         ]).controller('mainCtrl', function($rootScope, $state) {
             console.log("Starting");
         })

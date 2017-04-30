@@ -12,14 +12,6 @@
         return $http(xhrParams);
       }
 
-      /*function getEvent(day, hour, min) {
-        var xhrParams = {
-          method: 'GET',
-          url: urlConstant.baseUrl + '/api/calendar/' + day + '/' + hour '/' + min + '/',
-        }
-        return $http(xhrParams);
-      }*/
-
       function getWeek() {
         var xhrParams = {
           method: 'GET',
@@ -32,7 +24,7 @@
         console.log(updatedEvent);
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/calendar/' + updatedEvent.id,
+          url: urlConstant.baseUrl + '/calendar/' + updatedEvent.event_id,
           data: updatedEvent
         }
         return $http(xhrParams);

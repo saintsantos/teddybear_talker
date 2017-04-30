@@ -1,10 +1,10 @@
-;(function() {
+(function() {
 
   angular
-    .module('file.service', [])
-    .factory('FileService', function($http, $q, urlConstant) {
+    .module('voice.service', [])
+    .factory('VoiceService', function($http, $q, urlConstant) {
 
-      function getAllSongs() {
+      function getAllVoices() {
         var xhrParams = {
           method: 'GET',
           url: urlConstant.baseUrl + '/voice/'
@@ -12,16 +12,16 @@
         return $http(xhrParams);
       }
 
-      function updateFile(file) {
+      function updateVoice(file) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/voice/' + file.audio_id,
+          url: urlConstant.baseUrl + '/voice/' + file.voice_id,
           data: file
         }
         return $http(xhrParams);
       }
 
-      function deleteFile(id) {
+      function deleteVoice(id) {
         var xhrParams = {
           method: 'DELETE',
           url: urlConstant.baseUrl + '/voice/' + id
@@ -30,9 +30,9 @@
       }
 
       return {
-        getAllSongs:getAllSongs,
-        updateFile: updateFile,
-        deleteFile: deleteFile
+        getAllVoices:getAllVoices,
+        updateVoice: updateVoice,
+        deleteVoice: deleteVoice
       }
 
     })

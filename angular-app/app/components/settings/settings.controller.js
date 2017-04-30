@@ -7,6 +7,9 @@
         $scope.goToFile = function() {
             $state.go('file');
         }
+        $scope.goToJingle = function() {
+            $state.go('jingle');
+        }
     }
 
   angular
