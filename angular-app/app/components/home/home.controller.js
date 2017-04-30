@@ -1,53 +1,25 @@
 ;(function() {
 
-    function HomeController($scope, $state, HomeService, FileService, FileUploader) {
+    function HomeController($scope, $state, HomeService, VoiceService, JingleService, FileUploader) {
 
-      $scope.weekEvents = [];
       $scope.dayEvents = [];
       $scope.editing = false;
+      $scope.createNew = false;
       $scope.day = "Monday";
-      //console.log($scope.dayEvents);
-      HomeService.getWeek().then(function(events) {
-        $scope.weekEvents = events.data;
-        $scope.dayEvents = events.data.monday;
+
+      VoiceService.getAllVoices().then(function(result) {
+        $scope.voices = result.data;
+        console.log($scope.voices);
       });
-
-      FileService.getAllSongs().then(function(result) {
-        $scope.sounds = result.data;
-        console.log($scope.sounds);
+      HomeService.getDay($scope.day).then(function(result) {
+        $scope.dayEvents = result.data;
+        console.log($scope.dayEvents);
       });
-
-      var updateDay = function(day) {
-        console.log(day);
-        switch(day) {
-          case 'Monday':
-            $scope.dayEvents = $scope.weekEvents.monday;
-            break;
-          case 'Tuesday':
-            $scope.dayEvents = $scope.weekEvents.tuesday;
-            break;
-          case 'Wednesday':
-            $scope.dayEvents = $scope.weekEvents.wednesday;
-            break;
-          case 'Thursday':
-            $scope.dayEvents = $scope.weekEvents.thursday;
-            break;
-          case 'Friday':
-            $scope.dayEvents = $scope.weekEvents.friday;
-            break;
-          case 'Saturday':
-            $scope.dayEvents = $scope.weekEvents.saturday;
-            break;
-          case 'Sunday':
-            $scope.dayEvents = $scope.weekEvents.sunday;
-            break;
-        }
-        $scope.day = day;
-      }
-
+      JingleService.getAllJingles().then(function(result) {
+        $scope.jingles = result.data;
+        console.log($scope.jingles);
+      });
         $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-
         $scope.goToHome = function() {
             $state.go('home');
         }
@@ -55,52 +27,88 @@
             $state.go('settings');
         }
         $scope.goToFile = function() {
-            $state.go('file');
+            $state.go('voice');
+        }
+        $scope.goToJingle = function() {
+            $state.go('jingle');
         }
 
         $scope.setDay = function(day) {
-          updateDay(day);
-          //console.log(day);
-        }
-
-        $scope.checkUpload = function() {
-          console.log($scope.uploader);
-        }
-
-        $scope.deleteEvent = function(event) {
-          //console.log(event);
-          HomeService.deleteEvent(event.id).then(function(result) {
-            console.log(event);
-          })
-          HomeService.getWeek().then(function(events) {
-            $scope.weekEvents = events.data;
-
+          $scope.day = day;
+          HomeService.getDay(day).then(function(result) {
+            $scope.dayEvents = result.data;
+            //console.log($scope.dayEvents);
           });
         }
 
-        $scope.submit = function(time) {
-          console.log(time);
-          console.log("Uploading!!");
+        $scope.checkUpload = function() {
+          //console.log($scope.uploader);
+        }
+
+        $scope.deleteEvent = function(id) {
+          HomeService.deleteEvent(id).then(function(result) {
+            //console.log(event);
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              //console.log($scope.dayEvents);
+            });
+          })
+          //console.log(id);
         }
 
         $scope.selectEvent = function(event) {
             //call function to get array and assign here.
             $scope.chosen_id = event.id;
             $scope.chosen_event = event;
-            console.log(event);
+            $scope.chosen_event.day = $scope.day;
+            $scope.editing = !$scope.editing;
+            //console.log(event);
           }
-        $scope.update = function(event, id) {
+
+        $scope.updateEvent = function(updatedEvent, day) {
           //console.log(event.id);
-          var changes = {};
-          changes.timeDay = event.timeDay;
-          changes.day = $scope.day;
-          //changes.file_id = id;
-          console.log(id);
-          /*HomeService.updateEvent(event, changes).then(function(result) {
-            console.log(result.data);
-          })*/
+          var event_voice = $scope.voices.filter(function(voice) {
+            return voice.voice_name == updatedEvent.voice_name;
+          });
+          updatedEvent.voice_id = event_voice[0].voice_id;
+          var event_jingle = $scope.jingles.filter(function(jingle) {
+            return jingle.jingle_name == updatedEvent.jingle_name;
+          });
+          updatedEvent.jingle_id = event_jingle[0].jingle_id;
+          updatedEvent.id = $scope.chosen_event.id;
+          //console.log(updatedEvent);
+          //Disabled service calls
+          HomeService.updateEvent(updatedEvent).then(function(result) {
+            //console.log(result.data);
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              $scope.editing = false;
+              //console.log($scope.dayEvents);
+            })
+          });
+
         }
 
+        $scope.addEvent = function(newEvent) {
+          var event_voice = $scope.voices.filter(function(voice) {
+            return voice.voice_name == newEvent.voice_name;
+          });
+          newEvent.voice_id = event_voice[0].voice_id;
+          var event_jingle = $scope.jingles.filter(function(jingle) {
+            return jingle.jingle_name == newEvent.jingle_name;
+          });
+          newEvent.jingle_id = event_jingle[0].jingle_id;
+          //console.log(newEvent);
+          //Disabled service calls
+          HomeService.addEvent(newEvent).then(function(result) {
+            console.log(result.data);
+            HomeService.getDay($scope.day).then(function(result) {
+              $scope.dayEvents = result.data;
+              //console.log($scope.dayEvents);
+              $scope.createNew = false;
+            })
+          })
+        }
     }
 
   angular

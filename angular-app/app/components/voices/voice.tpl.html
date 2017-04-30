@@ -15,7 +15,8 @@
         <a href="#" class="brand-logo right"></a>
         <ul id="nav-mobile" class="left">
           <li><a ng-click="goToHome()">Events</a></li>
-          <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToFile()">Voices</a></li>
+          <li><a ng-click="goToJingle()">Jingles</a></li>
           <li><a ng-click="goToSettings()">Settings</a></li>
         </ul>
       </div>
@@ -31,18 +32,18 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>Sound Location</th>
-                          <th>Sound Name</th>
+                          <th>Voice Location</th>
+                          <th>Voice Name</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr ng-repeat="sound in sounds">
-                          <td>{{sound.path}}</td>
-                          <td>{{sound.name}}</td>
+                        <tr ng-repeat="voice in voices">
+                          <td>{{voice.voicepath}}</td>
+                          <td>{{voice.voice_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls">X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectFile(sound)">Edit</a>
+                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteVoice(voice.voice_id)>X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectVoice(voice)">Edit</a>
                           </td>
                         </tr>
                       </tbody>
@@ -53,15 +54,16 @@
             </div>
           </div>
 
+          <div ng-show="editing">
           <div class="row">
             <div class="card">
               <div class="card-content">
-                <div ng-show="editing">
-                  <form name="editEvent" ng-submit="editing = false"> <!-- TODO - Make the shows/hides work properly -->
+                <div>
+                  <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
                     <div class="row">
-                    <label>Filename</label>
-                    <input type="text" ng-model="chosen_event.file_name" placeholder="{{chosen_file.name}}" ng-required />
-                    <label>Filepath: {{chosen_file.path}}</label>
+                    <label>Voice name</label>
+                    <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
+                    <label>Filepath: {{chosen_voice.voicepath}}</label>
                     <div class="row">
                       <button class="btn waves-effect" type="submit">Save Event</button>
                     </div>
@@ -71,6 +73,7 @@
             </div>
           </div>
           </div>
+        </div>
 
 
         </div>

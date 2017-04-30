@@ -1,9 +1,10 @@
-<!Doctype html>
+<!DOCTYPE html>
 
-<html land="en" ng-csp="" ng-app="teddybeartalker">
+<html land="en" class="no-js" ng-app="teddybeartalker">
     <head>
         <base href="/">
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Teddybear Talker</title>
         <meta name="description" content="Your cuddly friend that talks!">
 
@@ -14,42 +15,44 @@
         <link rel="stylesheet" href="assets/lib/materialize/dist/css/materialize.min.css"/>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
         <link rel="stylesheet" href="assets/lib/materialize-clockpicker/dist/css/materialize.clockpicker.css"/>
+        <!-- Bootstrap -->
+        <!--<link rel="stylesheet" href="assets/lib/bootstrap/dist/css/bootstrap.css"/>-->
 
     </head>
-    <body class="main-wrapper">
+    <body class="main-wrapper" ng-controller="mainCtrl">
         <!-- Throw navigation stuff here -->
-        <ui-view></ui-view>
+        <div ui-view></div>
         <!-- Dependencies go here -->
 
         <!-- Materialize dependency -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="assets/lib/jquery/dist/jquery.min.js"></script>
         <!-- Materialize Dependency -->
 
         <!-- Angular dependency -->
         <script type="text/javascript" src="assets/lib/angular/angular.js"></script>
         <script type="text/javascript" src="assets/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script type="text/javascript" src="assets/lib/angular-sanitize/angular-sanitize.js"></script>
-        <script type="text/javascript" src="assets/lib/angular-route/angular-route.js"></script>
         <!-- end Angular Dependencies -->
+        <!-- Main App entrypoint -->
+        <script type="text/javascript" src="app.module.js"></script>
+        <script type="text/javascript" src="app.config.js"></script>
+        <!-- End Main App entrypoint -->
 
-        <!-- Materialize -->
-        <script src="assets/lib/angular-materialize/src/angular-materialize.js"></script>
         <script src="assets/lib/materialize/dist/js/materialize.min.js"></script>
-        <!-- End Materialize -->
-
-        <!-- Clock Picker -->
+        <script src="assets/lib/angular-materialize/src/angular-materialize.js"></script>
         <script src="assets/lib/materialize-clockpicker/dist/js/materialize.clockpicker.js"></script>
-        <!-- End Clock Picker -->
+
+        <!-- Bootstrap -->
+        <script src="assets/lib/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="assets/lib/angular-animate/angular-animate.js"></script>
+        <script src="assets/lib/angular-touch/angular-touch.js"></script>
+        <!-- End Bootstrap -->
+
 
         <!-- File Uploader -->
         <script src="assets/lib/ng-file-upload/ng-file-upload.js"></script>
         <script src="assets/lib/angular-file-upload/dist/angular-file-upload.js"></script>
         <!-- End File Uploader -->
-
-        <!-- Main App entrypoint -->
-        <script type="text/javascript" src="app.module.js"></script>
-        <script type="text/javascript" src="app.config.js"></script>
-        <!-- End Main App entrypoint -->
 
         <!-- Home Component -->
         <script type="text/javascript" src="components/home/home.controller.js"></script>
@@ -63,11 +66,18 @@
         <script type="text/javascript" src="components/settings/settings.module.js"></script>
         <!-- End Settings Component -->
 
-        <!-- Upload Component -->
-        <script type="text/javascript" src="components/files/file.controller.js"></script>
-        <script type="text/javascript" src="components/files/file.service.js"></script>
-        <script type="text/javascript" src="components/files/file.module.js"></script>
-        <!-- End Upload Component -->
+        <!-- Voice Component -->
+        <script type="text/javascript" src="components/voices/voice.controller.js"></script>
+        <script type="text/javascript" src="components/voices/voice.service.js"></script>
+        <script type="text/javascript" src="components/voices/voice.module.js"></script>
+        <!-- End Voice Component -->
+
+        <!-- Jingle Component -->
+        <script type="text/javascript" src="components/jingles/jingle.controller.js"></script>
+        <script type="text/javascript" src="components/jingles/jingle.service.js"></script>
+        <script type="text/javascript" src="components/jingles/jingle.module.js"></script>
+        <!-- End Jingle Component -->
+
 
     </body>
 
