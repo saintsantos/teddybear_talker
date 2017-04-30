@@ -12,11 +12,11 @@
         return $http(xhrParams);
       }
 
-      function updateVoice(file) {
+      function updateVoice(voice) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/voice/' + file.voice_id,
-          data: file
+          url: urlConstant.baseUrl + '/voice/' + voice.voice_id,
+          data: voice
         }
         return $http(xhrParams);
       }

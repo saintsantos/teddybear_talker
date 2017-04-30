@@ -15,7 +15,7 @@
         <a href="#" class="brand-logo right"></a>
         <ul id="nav-mobile" class="left">
           <li><a ng-click="goToHome()">Events</a></li>
-          <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToFile()">Voices</a></li>
           <li><a ng-click="goToJingle()">Jingles</a></li>
           <li><a ng-click="goToSettings()">Settings</a></li>
         </ul>
@@ -42,8 +42,8 @@
                           <td>{{jingle.jinglepath}}</td>
                           <td>{{jingle.jingle_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteFile(sound.audio_id)>X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectFile(sound)">Edit</a>
+                            <a class="waves-effect waves-light btn right red edit-controlls" ng-click="deleteJingle(jingle.jingle_id)">X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectJingle(jingle)">Edit</a>
                           </td>
                         </tr>
                       </tbody>
@@ -59,11 +59,11 @@
             <div class="card">
               <div class="card-content">
                 <div>
-                  <form name="editFile" ng-submit="updateFile(chosen_file)">
+                  <form name="editFile" ng-submit="updateJingle(chosen_jingle)">
                     <div class="row">
-                    <label>Filename</label>
-                    <input type="text" ng-model="chosen_file.name" placeholder="{{chosen_file.name}}" ng-required />
-                    <label>Filepath: {{chosen_file.path}}</label>
+                    <label>Jingle Name</label>
+                    <input type="text" ng-model="chosen_jingle.jingle_name" placeholder="{{chosen_jingle.jingle_name}}" ng-required />
+                    <label>Filepath: {{chosen_jingle.jinglepath}}</label>
                     <div class="row">
                       <button class="btn waves-effect" type="submit">Save Event</button>
                     </div>

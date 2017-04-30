@@ -1,4 +1,4 @@
-;(function() {
+(function() {
     /**
      * Definition of the main app module and its dependencies
      */
@@ -26,10 +26,10 @@
             templateUrl: '/components/settings/settings.tpl.html',
             controller: 'SettingsController'
         })
-        .state('file', {
-            url: '/file',
-            templateUrl: '/components/files/file.tpl.html',
-            controller: 'FileController'
+        .state('voice', {
+            url: '/voice',
+            templateUrl: '/components/voices/voice.tpl.html',
+            controller: 'VoiceController'
         })
         .state('jingle', {
             url: '/jingle',

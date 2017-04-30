@@ -22,20 +22,20 @@
       }
 
 
-      $scope.selectVoice = function(file) {
+      $scope.selectVoice = function(voice) {
           //call function to get array and assign here.
-          $scope.chosen_id = file.audio_id;
-          $scope.chosen_file = file;
+          $scope.chosen_id = voice.voice_id;
+          $scope.chosen_voice = voice;
           $scope.editing = !$scope.editing;
 
           //console.log(file);
         }
 
-      $scope.updateFile = function(file) {
-          //console.log(file);
-          FileService.updateFile(file).then(function(result) {
-            FileService.getAllSongs().then(function(result) {
-              $scope.sounds = result.data;
+      $scope.updateVoice = function(voice) {
+          //console.log(voice);
+          VoiceService.updateVoice(voice).then(function(result) {
+            VoiceService.getAllVoices().then(function(result) {
+              $scope.voices = result.data;
               $scope.editing = false;
               //console.log(result.data);
             });

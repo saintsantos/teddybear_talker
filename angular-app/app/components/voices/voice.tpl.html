@@ -15,7 +15,7 @@
         <a href="#" class="brand-logo right"></a>
         <ul id="nav-mobile" class="left">
           <li><a ng-click="goToHome()">Events</a></li>
-          <li><a ng-click="goToFile()">Files</a></li>
+          <li><a ng-click="goToFile()">Voices</a></li>
           <li><a ng-click="goToJingle()">Jingles</a></li>
           <li><a ng-click="goToSettings()">Settings</a></li>
         </ul>
@@ -32,8 +32,8 @@
                     <table>
                       <thead>
                         <tr>
-                          <th>Sound Location</th>
-                          <th>Sound Name</th>
+                          <th>Voice Location</th>
+                          <th>Voice Name</th>
                           <th></th>
                         </tr>
                       </thead>
@@ -42,8 +42,8 @@
                           <td>{{voice.voicepath}}</td>
                           <td>{{voice.voice_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteFile(sound.audio_id)>X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectFile(sound)">Edit</a>
+                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteVoice(voice.voice_id)>X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectVoice(voice)">Edit</a>
                           </td>
                         </tr>
                       </tbody>
@@ -59,11 +59,11 @@
             <div class="card">
               <div class="card-content">
                 <div>
-                  <form name="editFile" ng-submit="updateFile(chosen_file)">
+                  <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
                     <div class="row">
-                    <label>Filename</label>
-                    <input type="text" ng-model="chosen_file.name" placeholder="{{chosen_file.name}}" ng-required />
-                    <label>Filepath: {{chosen_file.path}}</label>
+                    <label>Voice name</label>
+                    <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
+                    <label>Filepath: {{chosen_voice.voicepath}}</label>
                     <div class="row">
                       <button class="btn waves-effect" type="submit">Save Event</button>
                     </div>

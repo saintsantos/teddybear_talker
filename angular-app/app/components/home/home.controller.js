@@ -27,7 +27,7 @@
             $state.go('settings');
         }
         $scope.goToFile = function() {
-            $state.go('file');
+            $state.go('voice');
         }
         $scope.goToJingle = function() {
             $state.go('jingle');

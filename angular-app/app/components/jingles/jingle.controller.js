@@ -14,23 +14,25 @@
       $scope.goToHome = function() {
           $state.go('home');
       }
+      $scope.goToFile = function() {
+          $state.go('voice');
+      }
       $scope.goToSettings = function() {
           $state.go('settings');
       }
 
 
-      $scope.selectFile = function(file) {
+      $scope.selectJingle = function(jingle) {
           //call function to get array and assign here.
-          $scope.chosen_id = file.audio_id;
-          $scope.chosen_file = file;
+          $scope.chosen_id = jingle.jingle_id;
+          $scope.chosen_jingle = jingle;
           $scope.editing = !$scope.editing;
 
           //console.log(file);
         }
 
-      $scope.updateFile = function(file) {
-          //console.log(file);
-          JingleService.updateJingle(file).then(function(result) {
+      $scope.updateJingle = function(jingle) {
+          JingleService.updateJingle(jingle).then(function(result) {
             JingleService.getAllJingles().then(function(result) {
               $scope.jingles = result.data;
               $scope.editing = false;
@@ -41,7 +43,7 @@
 
         //This handles file uploads
         $scope.uploader = new FileUploader({
-          url: 'http://localhost:8080/voice/upload'
+          url: 'http://localhost:8080/jingle/upload'
         });
 
       $scope.deleteJingle = function(id) {

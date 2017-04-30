@@ -12,11 +12,11 @@
         return $http(xhrParams);
       }
 
-      function updateJingle(file) {
+      function updateJingle(jingle) {
         var xhrParams = {
           method: 'PUT',
-          url: urlConstant.baseUrl + '/jingle/' + file.audio_id,
-          data: file
+          url: urlConstant.baseUrl + '/jingle/' + jingle.jingle_id,
+          data: jingle
         }
         return $http(xhrParams);
       }
