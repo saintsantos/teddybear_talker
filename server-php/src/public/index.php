@@ -21,7 +21,7 @@ require '../app/voice.php';
 require '../app/jingle.php';
 require '../app/system.php';
 
-//sheader("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: *");
 //header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 
 
