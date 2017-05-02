@@ -31,5 +31,36 @@ $app->group('/system', function () use ($app) {
     print_r("echo sneeze");
     //Testing sneeze functionality
   });
+  $app->post('/drop', function(Request $request, Response $response) {
+    $this->db->exec('DROP TABLE IF EXISTS events');
+    $this->db->exec('DROP TABLE IF EXISTS voice');
+    $this->db->exec('DROP TABLE IF EXISTS jingle');
+    $this->db->exec('CREATE TABLE IF NOT EXISTS events (
+      event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      timeDay TEXT,
+      voice_id INTEGER,
+      jingle_id INTEGER,
+      day TEXT,
+      status TEXT,
+      foreign key (voice_id) references voice(voice_id),
+      foreign key (jingle_id) references jingle(jingle_id)
+    )');
+    $this->db->exec('CREATE TABLE IF NOT EXISTS voice (
+      voice_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      voice_name TEXT,
+      voicepath TEXT,
+      status TEXT
+    )');
+    $this->db->exec('CREATE TABLE IF NOT EXISTS jingle (
+      jingle_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      jingle_name TEXT,
+      jinglepath TEXT,
+      status TEXT
+    )');
+    exec('rm -rf /home/pi/voice/');
+    exec('mkdir /home/pi/voice/');
+    exec('rm -rf /home/pi/jingle/');
+    exec('mkdir /home/pi/jingle');
+  });
 });
 ?>
