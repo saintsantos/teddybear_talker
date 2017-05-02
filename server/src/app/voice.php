@@ -25,11 +25,14 @@ $app->group('/voice', function () use ($app) {
   $app->post('/upload', function(Request $request, Response $response) {
     $voicedir = '/home/edwin/Music/voice';
     $files = $request->getUploadedFiles();
+    $this->logger->addInfo("Received file");
     if (empty($files['file'])) {
+      $this->logger->addInfo("Error expected an mp3 file");
       throw new Exception('Expected a .mp3 file');
     }
     $newfile = $files['file'];
     if ($newfile->getError() === UPLOAD_ERR_OK) {
+      $this->logger->addInfo("Grabbed filename");
       $uploadFileName = $newfile->getClientFilename();
     }
     $name = chop($uploadFileName, ".mp3");
@@ -40,16 +43,19 @@ $app->group('/voice', function () use ($app) {
         $status = $row["status"];
       }
       if ($status == 'active') {
+        $this->logger->addInfo("Song exists in database");
         throw new Exception('Song name already exists in database.');
       } else {
         $id = NULL;
         foreach($result as $row) {
           $id = $row["voice_id"];
         }
+        $this->logger->addInfo("File in database under same name, but inactive");
         $newfile->moveTo("$voicedir/$uploadFileName");
         $this->db->query("UPDATE voice set voice_name='$name', voicepath='$voicedir/$uploadFileName' where voice_id=$id");
       }
     } else {
+      $this->logger->addInfo("Song is a new file");
       $newfile->moveTo("$voicedir/$uploadFileName");
       $this->db->query("INSERT into voice (voice_name, voicepath, status) values ('$name', '$voicedir/$uploadFileName', 'active')");
     }

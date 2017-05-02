@@ -20,9 +20,11 @@ require '../app/calendar.php';
 require '../app/voice.php';
 require '../app/jingle.php';
 require '../app/system.php';
+require '../app/test.php';
 
 header("Access-Control-Allow-Origin: *");
-//header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept');
 
 
 $app->get('/hi', function (Request $request, Response $response) {
