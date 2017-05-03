@@ -113,7 +113,7 @@
         <div class="modal-content">
           <h4>Audio Recording</h4>
           <p>Click record to have a custum audio clip added to the bear!</p>
-          <ng-audio-recorder id='audioInput' audio-model='recordedInput'>
+          <ng-audio-recorder id='audioInput' audio-model='recordedInput' class="row">
             <!-- Start controls, exposed via recorder-->
             <div ng-if="recorder.isAvailable">
               <a ng-click="recorder.startRecord()" class="btn waves-effect" ng-disabled="recorder.status.isRecording">
@@ -126,6 +126,10 @@
                 Play Back
               </a>
             </div>
+            
+            <div class="row top_spacing"> 
+              <input type="text" placeholder="Soundbite Name" id="audio_name">
+            </div>
 
             <div ng-if="!recorder.isAvailable">
               Message for users when recording is not possible.
@@ -133,7 +137,8 @@
             <!-- End controls-->
           </ng-audio-recorder>
           <div class="modal-footer">
-            <a class="btn modal-action modal-close waves-effect" ng-click="uploader.queue[0].upload()">Upload</a>
+            <!-- Need to pass value of id="audio_name" in as the filename -->
+            <a class="btn waves-effect" ng-click="recorder.save(filename : string)">Save</a>
           </div>
         </div>
 
