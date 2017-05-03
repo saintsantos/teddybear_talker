@@ -59,6 +59,6 @@
     }
 
   angular
-    .module('voice.controller', ['ui.materialize', 'angularFileUpload'])
+    .module('voice.controller', ['ui.materialize', 'angularFileUpload', 'angularAudioRecorder'])
     .controller('VoiceController', VoiceController);
 })();

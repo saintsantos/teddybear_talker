@@ -23,36 +23,17 @@
 
     <div class="container">
 
-      <div class="col s2 m2">
-        <a class='dropdown-button btn' href='javascript:void(0);' data-activates='dayDropdown' dropdown >
-          {{day}}
-        </a>
-
-          <!-- Dropdown Structure -->
-          <ul id='dayDropdown' class='dropdown-content'>
-            <li><a ng-repeat="days in weekdaysFull" ng-click="setDay(days)">{{days}}</a></li>
-          </ul>
+      <div class="row top_spacing">
+        <div class="col s2 m2">
+          <a class='dropdown-button btn' href='javascript:void(0);' data-activates='dayDropdown' dropdown >
+            {{day}}
+          </a>
+        </div>
+        <!-- Dropdown Structure -->
+        <ul id='dayDropdown' class='dropdown-content'>
+          <li><a ng-repeat="days in weekdaysFull" ng-click="setDay(days)">{{days}}</a></li>
+        </ul>
       </div>
-      <ng-audio-recorder id='audioInput' audio-model='recordedInput'>
-        <!-- Start controls, exposed via recorder-->
-        <div ng-if="recorder.isAvailable">
-          <button ng-click="recorder.startRecord()" type="button" ng-disabled="recorder.status.isRecording">
-              Start Record
-          </button>
-          <button ng-click="recorder.stopRecord()" type="button" ng-disabled="recorder.status.isRecording === false">
-              Stop Record
-          </button>
-          <button ng-click="recorder.playbackRecording()" type="button"
-                  ng-disabled="recorder.status.isRecording || !recorder.audioModel">
-              Play Back
-          </button>
-        </div>
-
-        <div ng-if="!recorder.isAvailable">
-          Message for users when recording is not possible.
-        </div>
-        <!-- End controls-->
-      </ng-audio-recorder>
 
       <div class="card">
         <div class="card-content">
@@ -119,9 +100,9 @@
               <button class="btn waves-effect" type="submit">Save Event</button>
               <button class="btn" ng-click="editing = false">Cancel</button>
             </form>
+          </div>
         </div>
       </div>
-    </div>
 
       <div ng-show="createNew">
         <div class="card">

@@ -1,3 +1,9 @@
+
+/* Top row spacing */
+.top_spacing {
+  margin-top: 10px;
+}
+
 /* X and Edit controlls in tables */
 .edit-controlls {
   margin-right: 5px;
