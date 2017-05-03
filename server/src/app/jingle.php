@@ -25,7 +25,7 @@ $app->group('/jingle', function () use ($app) {
 
   // Receive file upload
   $app->post('/upload', function(Request $request, Response $response) {
-    $jinglesdir = '/home/edwin/Music/jingle';
+    //$jinglesdir = '/home/edwin/Music/jingle';
     $files = $request->getUploadedFiles();
     if (empty($files['file'])) {
       throw new Exception('Expected a jingle file');
@@ -48,39 +48,39 @@ $app->group('/jingle', function () use ($app) {
         foreach($result as $row) {
           $id = $row["jingle_id"];
         }
-        $newfile->moveTo("$jinglesdir/$uploadFileName");
-        $this->db->query("UPDATE jingle set jingle_name='$name', jinglepath='$jinglesdir/$uploadFileName', status='active' where jingle_id=$id");
+        $newfile->moveTo("$this->jingledir/$uploadFileName");
+        $this->db->query("UPDATE jingle set jingle_name='$name', jinglepath='$this->jingledir/$uploadFileName', status='active' where jingle_id=$id");
       }
     } else {
-      $newfile->moveTo("$jinglesdir/$uploadFileName");
-      $this->db->query("INSERT into jingle (jingle_name, jinglepath, status) values ('$name', '$jinglesdir/$uploadFileName', 'active')");
+      $newfile->moveTo("$this->jingledir/$uploadFileName");
+      $this->db->query("INSERT into jingle (jingle_name, jinglepath, status) values ('$name', '$this->jingledir/$uploadFileName', 'active')");
     }
   });
 
   // Delete all recordings from the bear
   $app->delete('/', function(Request $request, Response $response) {
-    $jinglesdir = '/home/edwin/Music/jingle';
-    unlink("$jinglesdir/*.mp3");
+    //$jinglesdir = '/home/edwin/Music/jingle';
+    unlink("$this->jingledir/*.mp3");
     $this->db->query("UPDATE jingle set status='inactive'");
   });
 
   // Update a file in our table
   $app->put('/{id}', function(Request $request, Response $response) {
     $this->logger->addInfo("Updating jingle file");
-    $jinglesdir = '/home/edwin/Music/jingle';
+    //$jinglesdir = '/home/edwin/Music/jingle';
     $id = $request->getAttribute('route')->getArgument('id');
     $body = $request->getParsedBody();
     $newname = $body["jingle_name"];
     $jinglename = str_replace(' ', '_', $newname);
     $jinglepath = $body["jinglepath"];
     $jingle = $this->db->query("SELECT * from jingle where jingle_id=$id");
-    rename("$jinglepath", "$jinglesdir/$jinglename.mp3");
-    $this->db->query("UPDATE jingle set jinglepath='$jinglesdir/$jinglename.mp3', jingle_name='$newname' where jingle_id=$id");
+    rename("$jinglepath", "$this->jingledir/$jinglename.mp3");
+    $this->db->query("UPDATE jingle set jinglepath='$this->jingledir/$jinglename.mp3', jingle_name='$newname' where jingle_id=$id");
   });
 
   // Delete a recording from the bear
   $app->delete('/{id}', function(Request $request, Response $response) {
-    $jinglesdir = '/home/edwin/Music/jingle';
+    //$jinglesdir = '/home/edwin/Music/jingle';
     $this->logger->addInfo("Updating deactivating an jingle file");
     $id = $request->getAttribute('route')->getArgument('id');
     $jingle = $this->db->query("SELECT * from jingle where jingle_id=$id");

@@ -7,10 +7,7 @@ require '../vendor/autoload.php';
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
 
-$config['db']['host'] = 'localhost';
-$config['db']['user'] = 'root';
-$config['db']['pass'] = 'new-password';
-$config['db']['dbname'] = 'dev_teddybear_talker';
+$config['db']['file'] = '/home/edwin/git/school/cse453/teddy_bear_talker/';
 
 
 $app = new \Slim\App(["settings" => $config]);

@@ -23,7 +23,7 @@ $app->group('/voice', function () use ($app) {
 
   // Receive file upload
   $app->post('/upload', function(Request $request, Response $response) {
-    $voicedir = '/home/edwin/Music/voice';
+    //$voicedir = '/home/edwin/Music/voice';
     $files = $request->getUploadedFiles();
     $this->logger->addInfo("Received file");
     if (empty($files['file'])) {
@@ -51,27 +51,27 @@ $app->group('/voice', function () use ($app) {
           $id = $row["voice_id"];
         }
         $this->logger->addInfo("File in database under same name, but inactive");
-        $newfile->moveTo("$voicedir/$uploadFileName");
-        $this->db->query("UPDATE voice set voice_name='$name', voicepath='$voicedir/$uploadFileName' where voice_id=$id");
+        $newfile->moveTo("$this->voicedir/$uploadFileName");
+        $this->db->query("UPDATE voice set voice_name='$name', voicepath='$this->voicedir/$uploadFileName' where voice_id=$id");
       }
     } else {
       $this->logger->addInfo("Song is a new file");
-      $newfile->moveTo("$voicedir/$uploadFileName");
-      $this->db->query("INSERT into voice (voice_name, voicepath, status) values ('$name', '$voicedir/$uploadFileName', 'active')");
+      $newfile->moveTo("$this->voicedir/$uploadFileName");
+      $this->db->query("INSERT into voice (voice_name, voicepath, status) values ('$name', '$this->voicedir/$uploadFileName', 'active')");
     }
   });
 
   // Delete all recordings from the bear
   $app->delete('/', function(Request $request, Response $response) {
-    $voicedir = '/home/edwin/Music/voice';
-    unlink("$voicedir/*.mp3");
+    //$voicedir = '/home/edwin/Music/voice';
+    unlink("$this->voicedir/*.mp3");
     $this->db->query("UPDATE voice set status='inactive'");
   });
 
   // Update a file in our table
   $app->put('/{id}', function(Request $request, Response $response) {
     $this->logger->addInfo("Updating voice file");
-    $voicedir = '/home/edwin/Music/voice';
+    //$voicedir = '/home/edwin/Music/voice';
     $id = $request->getAttribute('route')->getArgument('id');
     $body = $request->getParsedBody();
     $newname = $body["voice_name"];
@@ -83,13 +83,13 @@ $app->group('/voice', function () use ($app) {
       $name = $row["voice_name"];
     }
 
-    rename("$voicepath", "$voicedir/$voicename.mp3");
-    $this->db->query("UPDATE voice set voicepath='$voicedir/$voicename.mp3', voice_name='$newname' where voice_id=$id");
+    rename("$voicepath", "$this->voicedir/$voicename.mp3");
+    $this->db->query("UPDATE voice set voicepath='$this->voicedir/$voicename.mp3', voice_name='$newname' where voice_id=$id");
   });
 
   // Delete a recording from the bear
   $app->delete('/{id}', function(Request $request, Response $response) {
-    $voicedir = '/home/edwin/Music/voice';
+    //$voicedir = '/home/edwin/Music/voice';
     $this->logger->addInfo("Updating deactivating an voice file");
     $id = $request->getAttribute('route')->getArgument('id');
     $file = $this->db->query("SELECT * from voice where voice_id=$id");

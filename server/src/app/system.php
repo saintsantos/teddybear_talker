@@ -3,12 +3,13 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->group('/system', function () use ($app) {
-  $app->get('/', function(Request $request, Response $response) {
+  $app->post('/', function(Request $request, Response $response) {
     //print_r("Got it!");
-    exec('/home/edwin/git/school/cse453/teddy_bear_talker/scripts/launch.sh');
+    exec("screen -d -m -S angular /home/edwin/git/school/cse453/teddy_bear_talker/scripts/frontend.sh");
   });
   $app->post('/down', function(Request $request, Response $response) {
-    exec('/home/edwin/git/school/cse453/teddy_bear_talker/scripts/teardown.sh');
+    exec('screen -X -S angular quit');
+    exec('screen -X -S php quit');
     //This will bring down the server when it's called
   });
 
