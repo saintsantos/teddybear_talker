@@ -31,6 +31,18 @@ $app->group('/system', function () use ($app) {
     print_r("echo sneeze");
     //Testing sneeze functionality
   });
+
+  $app->post('/date', function(Request $request, Response $response) {
+    $body = $request->getParsedBody();
+    $day = $body["day"];
+    $month = $body["month"];
+    $year = $body["year"];
+    $hour = $body["hour"];
+    $minute = $body["minute"];
+    $string = $day . " " . $month . " " . $year . " " . $hour . ":" . $minute . ":00";
+    //print_r($string);
+    exec("sudo date --set='$string'");
+  });
   $app->post('/drop', function(Request $request, Response $response) {
     $this->db->exec('DROP TABLE IF EXISTS events');
     $this->db->exec('DROP TABLE IF EXISTS voice');
