@@ -1,6 +1,6 @@
 (function() {
 
-    function VoiceController($scope, $state, VoiceService, FileUploader) {
+    function VoiceController($scope, $state, VoiceService, FileUploader, urlConstant) {
 
       $scope.editing = false;
 
@@ -44,7 +44,7 @@
 
         //This handles file uploads
         $scope.uploader = new FileUploader({
-          url: 'http://localhost:8080/voice/upload'
+          url: urlConstant.baseUrl + '/voice/upload'
         });
 
       $scope.deleteVoice = function(id) {
