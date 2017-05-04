@@ -1,3 +1,4 @@
+#! /usr/bin/env python2.7
 import sqlite3
 import time
 conn = sqlite3.connect('/home/edwin/git/school/cse453/teddy_bear_talker/database/bearfinal.db')
