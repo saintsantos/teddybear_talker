@@ -127,20 +127,18 @@
                 Play Back
               </a>
             </div>
-            
-            <div class="row top_spacing"> 
+
+            <div class="row top_spacing">
               <input type="text" placeholder="Soundbite Name" id="audio_name">
             </div>
 
             <div ng-if="!recorder.isAvailable">
               Message for users when recording is not possible.
             </div>
+            <!-- Need to pass value of id="audio_name" in as the filename -->
+            <a class="btn waves-effect" ng-click="recorder.save()">Save</a>
             <!-- End controls-->
           </ng-audio-recorder>
-          <div class="modal-footer">
-            <!-- Need to pass value of id="audio_name" in as the filename -->
-            <a class="btn waves-effect" ng-click="recorder.save(filename : string)">Save</a>
-          </div>
         </div>
 
       </div>
