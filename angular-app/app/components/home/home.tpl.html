@@ -23,19 +23,21 @@
 
     <div class="container">
 
-      <div class="col s2 m2">
-        <a class='dropdown-button btn' href='javascript:void(0);' data-activates='dayDropdown' dropdown >
-          {{day}}
-        </a>
-
-          <!-- Dropdown Structure -->
-          <ul id='dayDropdown' class='dropdown-content'>
-            <li><a ng-repeat="days in weekdaysFull" ng-click="setDay(days)">{{days}}</a></li>
-          </ul>
-      </div>
-
       <div class="card">
         <div class="card-content">
+          <div class="card-title"> Events for {{day}}
+            <div class="col s2 m2">
+              <a class='dropdown-button btn right' href='javascript:void(0);' data-activates='dayDropdown' dropdown >
+                {{day}}
+              </a>
+
+                <!-- Dropdown Structure -->
+                <ul id='dayDropdown' class='dropdown-content'>
+                  <li><a ng-repeat="days in weekdaysFull" ng-click="setDay(days)">{{days}}</a></li>
+                </ul>
+            </div>
+
+          </div>
           <table>
             <thead>
               <tr>

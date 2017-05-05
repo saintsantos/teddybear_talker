@@ -23,32 +23,19 @@
   </nav>
 
   <div class="container">
-
-  <div class="form-group row">
-    <label for="bear-name" class="col-2 col-form-label">Bear Name</label>
-    <div class="col-10">
-      <input class="form-control" type="text" value="{{Bear_Name}}" id="bear-name">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">Settings</div>
+        <div class="row">
+          <a class="btn">Sync Computer Time</a>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <button type="button" class="btn orange lighten-2">Restart Bear</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <form>
-    <div class="row">
-      <div input-field class="col m9">
-        <input type="text" ng-model="dummyInputs.inputFieldInput" length="150" readonly placeholder="{{Current_Bear_Time}}">
-        <label>Click sync to use your devices time as the bears current time.</label>
-      </div>
-      <div class="col offset-m1 m2">
-        <a class="btn">Sync</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-        <button type="button" class="btn orange lighten-2">Restart Bear</button>
-      </div>
-    </div>
-  </form>
-
-  <!-- Container DIV  -->
-</div>
 </body>
 </html>
