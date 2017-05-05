@@ -56,32 +56,35 @@
           </div>
 
           <div ng-show="editing">
-          <div class="row">
-            <div class="card">
-              <div class="card-content">
-                <div>
-                  <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
-                    <div class="row">
-                    <label>Voice name</label>
-                    <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
-                    <label>Filepath: {{chosen_voice.voicepath}}</label>
-                    <div class="row">
-                      <button class="btn waves-effect" type="submit">Save Event</button>
-                    </div>
+            <div class="row">
+              <div class="card">
+                <div class="card-content">
+                  <div>
+                    <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
+                      <div class="row">
+                        <label>Voice name</label>
+                        <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
+                        <label>Filepath: {{chosen_voice.voicepath}}</label>
+                        <div class="row">
+                          <button class="btn waves-effect" type="submit">Save Event</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                  </form>
+                </div>
               </div>
             </div>
           </div>
-          </div>
-        </div>
 
 
         </div>
       </div>
-      <div class="fixed-action-btn">
+      <div class="fixed-action-btn horizontal">
         <a class="btn-floating btn-large blue" data-target="uploadModal" modal>
           <i class="large material-icons">publish</i>
+        </a>
+        <a class="btn-floating btn-large red" data-target="recordModal" modal>
+          <i class="large material-icons">mic_none</i>
         </a>
       </div>
 
@@ -105,6 +108,41 @@
           <a class="btn modal-action modal-close waves-effect" ng-click="uploader.queue[0].upload()">Upload</a>
         </div>
       </div>
-    </div>
+
+      <!-- Modal Structure -->
+      <div id="recordModal" class="modal">
+        <div class="modal-content">
+          <h4>Audio Recording</h4>
+          <p>Click record to have a custum audio clip added to the bear!</p>
+          <ng-audio-recorder id='audioInput' audio-model='recordedInput' class="row">
+            <!-- Start controls, exposed via recorder-->
+            <div ng-if="recorder.isAvailable">
+              <a ng-click="recorder.startRecord()" class="btn waves-effect" ng-disabled="recorder.status.isRecording">
+                Start Record
+              </a>
+              <a ng-click="recorder.stopRecord()" class="btn" ng-disabled="recorder.status.isRecording === false">
+                Stop Record
+              </a>
+              <a ng-click="recorder.playbackRecording()" class="btn" ng-disabled="recorder.status.isRecording || !recorder.audioModel">
+                Play Back
+              </a>
+            </div>
+            
+            <div class="row top_spacing"> 
+              <input type="text" placeholder="Soundbite Name" id="audio_name">
+            </div>
+
+            <div ng-if="!recorder.isAvailable">
+              Message for users when recording is not possible.
+            </div>
+            <!-- End controls-->
+          </ng-audio-recorder>
+          <div class="modal-footer">
+            <!-- Need to pass value of id="audio_name" in as the filename -->
+            <a class="btn waves-effect" ng-click="recorder.save(filename : string)">Save</a>
+          </div>
+        </div>
+
+      </div>
   </body>
 </html>

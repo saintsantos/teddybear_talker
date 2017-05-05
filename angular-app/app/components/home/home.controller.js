@@ -112,6 +112,6 @@
     }
 
   angular
-    .module('home.controller', ['ui.materialize', 'angularFileUpload'])
+    .module('home.controller', ['ui.materialize', 'angularFileUpload', 'angularAudioRecorder'])
     .controller('HomeController', HomeController);
 })();
