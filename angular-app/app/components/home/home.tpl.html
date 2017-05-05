@@ -37,7 +37,10 @@
             </div>
 
           </div>
-          <table>
+          <div ng-if="dayEvents.length == 0">
+            <h5 style="color: #A9A9A9"> No events, why don't you add one?</h5>
+          </div>
+          <table ng-if="dayEvents.length > 0">
             <thead>
               <tr>
                 <th>Time</th>

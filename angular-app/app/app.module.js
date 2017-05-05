@@ -7,8 +7,7 @@
             'voice.module',
             'jingle.module',
             'ngFileUpload',
-            'angularFileUpload',
-            'angularAudioRecorder'
+            'angularFileUpload'
         ]).controller('mainCtrl', function($rootScope, $state) {
             console.log("Starting");
         })

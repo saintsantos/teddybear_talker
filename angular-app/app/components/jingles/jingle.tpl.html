@@ -30,7 +30,10 @@
                 <div class="card-title"> Currently active jingles</div>
                 <div class="row">
                   <div id="day" class="col s12">
-                    <table>
+                    <div ng-if="jingles.length == 0">
+                      <h5 style="color: #A9A9A9"> No events, why don't you add one?</h5>
+                    </div>
+                    <table ng-if="jingles.length > 0">
                       <thead>
                         <tr>
                           <th>Jingle Location</th>
