@@ -48,12 +48,13 @@
         });
 
       $scope.deleteVoice = function(id) {
-        //console.log(id);
-        VoiceService.deleteVoice(id).then(function() {
+        console.log(id);
+        /*VoiceService.deleteVoice(id).then(function() {
           VoiceService.getAllVoices().then(function(result) {
             $scope.voices = result.data;
           });
-        })
+        })*/
+        $scope.editing = false;
       }
 
     }

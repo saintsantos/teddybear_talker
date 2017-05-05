@@ -58,17 +58,8 @@
                   <!--<a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.event_id)">X</a>
                   <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>-->
                   <!--<a class="waves-effect waves-light btn right edit-controls" ng-click="editing = true">Edit</a>-->
-                  <div class="col s1 m1">
-                    <a class='dropdown-button btn cyan pull-right' href='#' data-activates='eventDropdown' dropdown >
-                      <i class="material-icons">more_horiz</i>
-                    </a>
-
-                      <!-- Dropdown Structure -->
-                      <ul id='eventDropdown' class='dropdown-content'>
-                        <li><a ng-click="selectEvent(event)">Edit</a></li>
-                        <li><a ng-click="deleteEvent(event.event_id)">Delete</a></li>
-                      </ul>
-                  </div>
+                  <a class="waves-effect waves-light btn-flat right edit-controlls" ng-click="selectEvent(event)"><i class="material-icons">edit</i></a>
+                  <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="selectEvent(event)"><i class="material-icons">play_arrow</i></a>
                 </td>
               </tr>
             </tbody>
@@ -80,6 +71,10 @@
         <div class="card">
           <div class="card-content">
             <!--<form name="editEvent" ng-submit="updateEvent(chosen_event)">-->
+            <div class="card-title"> Editing Event
+              <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="selectEvent(event)"><i class="material-icons">play_arrow</i></a>
+              <a class="btn-flat right" ng-click="deleteEvent(chosen_event.event_id)"><i class="material-icons">delete</i></a>
+            </div>
             <form name="editEvent" ng-submit="updateEvent(chosen_event)">
               <div class="row">
                 <div class="input-field col s12">
@@ -112,7 +107,7 @@
                 </div>
               </div>
               <button class="btn waves-effect" type="submit">Save Event</button>
-              <button class="btn" ng-click="editing = false">Cancel</button>
+              <button class="btn cyan" ng-click="editing = false">Cancel</button>
             </form>
           </div>
         </div>
@@ -154,7 +149,7 @@
               </div>
               <!--<button class="btn waves-effect" type="submit" ng-click="addEvent(event)">Create Event</button>-->
               <button class="btn waves-effect" type="submit">Create Event</button>
-              <button class="btn" ng-click="createNew = false">Cancel</button>
+              <button class="btn cyan" ng-click="createNew = false">Cancel</button>
             </form>
           </div>
         </div>
