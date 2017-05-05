@@ -36,18 +36,29 @@
                     <table ng-if="voices.length > 0">
                       <thead>
                         <tr>
-                          <th>Voice Location</th>
+                          <th class="hide-on-small-only">Voice Location</th>
                           <th>Voice Name</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr ng-repeat="voice in voices">
-                          <td>{{voice.voicepath}}</td>
+                          <td class="hide-on-small-only">{{voice.voicepath}}</td>
                           <td>{{voice.voice_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteVoice(voice.voice_id)>X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectVoice(voice)">Edit</a>
+                            <!--<a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteVoice(voice.voice_id)>X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectVoice(voice)">Edit</a>-->
+                            <div class="col s1 m1">
+                              <a class='dropdown-button btn cyan pull-right' href='javascript:void(0);' data-activates='eventDropdown' dropdown >
+                                <i class="material-icons">more_horiz</i>
+                              </a>
+
+                                <!-- Dropdown Structure -->
+                                <ul id='eventDropdown' class='dropdown-content'>
+                                  <li><a ng-click="selectVoice(voice)">Edit</a></li>
+                                  <li><a ng-click="deleteVoice(voice.voice_id)">Delete</a></li>
+                                </ul>
+                            </div>
                           </td>
                         </tr>
                       </tbody>

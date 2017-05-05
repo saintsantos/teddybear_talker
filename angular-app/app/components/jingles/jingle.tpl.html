@@ -36,18 +36,29 @@
                     <table ng-if="jingles.length > 0">
                       <thead>
                         <tr>
-                          <th>Jingle Location</th>
+                          <th class="hide-on-small-only">Jingle Location</th>
                           <th>Jingle Name</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr ng-repeat="jingle in jingles">
-                          <td>{{jingle.jinglepath}}</td>
+                          <td class="hide-on-small-only">{{jingle.jinglepath}}</td>
                           <td>{{jingle.jingle_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls" ng-click="deleteJingle(jingle.jingle_id)">X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectJingle(jingle)">Edit</a>
+                            <!--<a class="waves-effect waves-light btn right red edit-controlls" ng-click="deleteJingle(jingle.jingle_id)">X</a>
+                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectJingle(jingle)">Edit</a>-->
+                            <div class="col s1 m1">
+                              <a class='dropdown-button btn cyan pull-right' href='javascript:void(0);' data-activates='eventDropdown' dropdown >
+                                <i class="material-icons">more_horiz</i>
+                              </a>
+
+                                <!-- Dropdown Structure -->
+                                <ul id='eventDropdown' class='dropdown-content'>
+                                  <li><a ng-click="selectJingle(jingle)">Edit</a></li>
+                                  <li><a ng-click="deleteJingle(jingle.jingle_id)">Delete</a></li>
+                                </ul>
+                            </div>
                           </td>
                         </tr>
                       </tbody>

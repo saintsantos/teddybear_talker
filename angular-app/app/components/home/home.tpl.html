@@ -55,9 +55,20 @@
                 <td>{{event.voice_name}}</td>
                 <td>{{event.jingle_name}}</td>
                 <td class="card-action">
-                  <a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.event_id)">X</a>
-                  <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>
+                  <!--<a class="waves-effect waves-light btn right red edit-controls" ng-click="deleteEvent(event.event_id)">X</a>
+                  <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>-->
                   <!--<a class="waves-effect waves-light btn right edit-controls" ng-click="editing = true">Edit</a>-->
+                  <div class="col s1 m1">
+                    <a class='dropdown-button btn cyan pull-right' href='#' data-activates='eventDropdown' dropdown >
+                      <i class="material-icons">more_horiz</i>
+                    </a>
+
+                      <!-- Dropdown Structure -->
+                      <ul id='eventDropdown' class='dropdown-content'>
+                        <li><a ng-click="selectEvent(event)">Edit</a></li>
+                        <li><a ng-click="deleteEvent(event.event_id)">Delete</a></li>
+                      </ul>
+                  </div>
                 </td>
               </tr>
             </tbody>
