@@ -59,7 +59,7 @@
                   <a class="waves-effect waves-light btn right edit-controls" ng-click="selectEvent(event)">Edit</a>-->
                   <!--<a class="waves-effect waves-light btn right edit-controls" ng-click="editing = true">Edit</a>-->
                   <a class="waves-effect waves-light btn-flat right edit-controlls" ng-click="selectEvent(event)"><i class="material-icons">edit</i></a>
-                  <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="selectEvent(event)"><i class="material-icons">play_arrow</i></a>
+                  <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="testEvent(event.event_id)"><i class="material-icons">play_arrow</i></a>
                 </td>
               </tr>
             </tbody>
@@ -72,7 +72,7 @@
           <div class="card-content">
             <!--<form name="editEvent" ng-submit="updateEvent(chosen_event)">-->
             <div class="card-title"> Editing Event
-              <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="selectEvent(event)"><i class="material-icons">play_arrow</i></a>
+              <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="testEvent(event.event_id)"><i class="material-icons">play_arrow</i></a>
               <a class="btn-flat right" ng-click="deleteEvent(chosen_event.event_id)"><i class="material-icons">delete</i></a>
             </div>
             <form name="editEvent" ng-submit="updateEvent(chosen_event)">

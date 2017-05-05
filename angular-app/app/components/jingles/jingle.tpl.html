@@ -49,7 +49,7 @@
                             <!--<a class="waves-effect waves-light btn right red edit-controlls" ng-click="deleteJingle(jingle.jingle_id)">X</a>
                             <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectJingle(jingle)">Edit</a>-->
                             <a class="waves-effect waves-light btn-flat right edit-controlls" ng-click="selectJingle(jingle)"><i class="material-icons">edit</i></a>
-                            <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="selectJingle(jingle)"><i class="material-icons">play_arrow</i></a>
+                            <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="testJingle(jingle.jingle_id)"><i class="material-icons">play_arrow</i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -65,7 +65,7 @@
             <div class="card">
               <div class="card-content">
                 <div class="card-title"> Editing Jingle
-                  <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="selectJingle(jingle)"><i class="material-icons">play_arrow</i></a>
+                  <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="testJingle(jingle.jingle_id)"><i class="material-icons">play_arrow</i></a>
                   <a class="btn-flat right" ng-click="deleteVoice(chosen_jingle.jingle_id)"><i class="material-icons">delete</i></a>
                 </div>
                 <div>

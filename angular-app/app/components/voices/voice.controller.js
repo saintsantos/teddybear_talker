@@ -57,6 +57,9 @@
         $scope.editing = false;
       }
 
+      $scope.testVoice = function(id) {
+        VoiceService.testVoice(id);
+      }
     }
 
   angular

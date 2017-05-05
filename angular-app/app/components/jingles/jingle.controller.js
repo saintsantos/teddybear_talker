@@ -55,6 +55,10 @@
         })
       }
 
+      $scope.testJingle = function(id) {
+        JingleService.testJingle(id);
+      }
+
     }
 
   angular

@@ -29,10 +29,19 @@
         return $http(xhrParams);
       }
 
+      function testVoice(id) {
+        var xhrParams = {
+          method: 'POST',
+          url: urlConstant.baseUrl + '/test/voice/' + id
+        }
+        return $http(xhrParams);
+      }
+
       return {
         getAllVoices:getAllVoices,
         updateVoice: updateVoice,
-        deleteVoice: deleteVoice
+        deleteVoice: deleteVoice,
+        testVoice: testVoice
       }
 
     })
