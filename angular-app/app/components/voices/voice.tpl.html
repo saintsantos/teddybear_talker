@@ -65,6 +65,7 @@
                 <div class="card-content">
                   <div class="card-title"> Editing Voice
                     <a class="btn-flat right" ng-click="deleteVoice(chosen_voice.voice_id)"><i class="material-icons">delete</i></a>
+                    <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="testVoice(chosen_voice.voice_id)"><i class="material-icons">play_arrow</i></a>
                   </div>
                   <div>
                     <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
