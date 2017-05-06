@@ -22,9 +22,12 @@
           dateTime.day = date.getDate();
           dateTime.hour = date.getHours();
           dateTime.minute = date.getMinutes();
-          console.log(dateTime);
+          //console.log(dateTime);
           SystemService.sendDate(dateTime);
+        }
 
+        $scope.reboot = function() {
+          SystemService.reboot();
         }
     }
 
