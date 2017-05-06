@@ -13,18 +13,13 @@ $app->group('/system', function () use ($app) {
     //This will bring down the server when it's called
   });
 
-  $app->post('/audio', function(Request $request, Response $response) {
-    print_r("echo test audio");
-    //This will test the audio
-  });
-
   $app->post('/time', function(Request $request, Response $response) {
     print_r("echo update time");
     //This will update the time for the raspberry pi zero
   });
 
   $app->post('/reboot', function(Request $request, Response $response) {
-    print_r("echo reboot bear");
+    exec("sudo reboot");
     //This will reboot the raspberry pi
   });
 
