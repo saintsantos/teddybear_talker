@@ -107,13 +107,10 @@ while True:
                 print result
                 voice_path = result[8]
                 jingle_path = result[12]
-                subprocess.Popen(['mpg123', '-q', jingle_path]).wait()
-                subprocess.Popen(['mpg123', '-q', voice_path]).wait()
-                #play_cmd = 'mpg123 {sound}' .format(sound = sound_path)
-                #os.system(play_cmd)  # play sound clip
-                # pygame.mixer.music.play()
-                # while pygame.mixer.music.get_busy() == True:
-                #         continue
+                if jingle_path != "None":
+                    subprocess.Popen(['mpg123', '-q', jingle_path]).wait()
+                if voice_path != "None":
+                    subprocess.Popen(['mpg123', '-q', voice_path]).wait()
 
         # save the potentiometer reading for the next loop
         last_read = flex
