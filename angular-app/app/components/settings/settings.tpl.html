@@ -12,12 +12,12 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo right"></a>
-      <ul id="nav-mobile" class="left">
+      <a href="#" ng-click="goToHome()" class="brand-logo">Tabil</a>
+      <ul id="nav-mobile" class="right">
         <li><a ng-click="goToHome()">Events</a></li>
         <li><a ng-click="goToFile()">Voices</a></li>
         <li><a ng-click="goToJingle()">Jingles</a></li>
-        <li><a ng-click="goToSettings()">Settings</a></li>
+        <li class="active"><a ng-click="goToSettings()">Settings</a></li>
       </ul>
     </div>
   </nav>
