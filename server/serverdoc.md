@@ -32,7 +32,7 @@ sudo apt-get install -t stretch php7.0 php7.0-curl php7.0-cli php7.0-fpm php7.0-
 This will install all basic PHP packages and the PHP driver for SQlite onto our system. Next, we need to get composer, which is the dependency manager for this application. There are several steps required to install composer onto our system. The steps for downloading php's composer dependency manager are outlined [here](https://getcomposer.org/download/) and installing the application globally using the steps outlined [here](https://getcomposer.org/doc/00-intro.md#globally)  
 Once we have the application installed locally, cd into  
 ```
-&lt;path to root of teddybear_talker repo&gt;/server/src/
+<path to root of teddybear_talker repo>/server/src/
 ```
 and run  
 ```
@@ -237,7 +237,7 @@ This example endpoint would be called by calling `http://localhost:8080/blah/end
 	* params: `{"id": Integer}
 	* data: none
 	* Returns: none
-* `/jingle/{id`
+* `/jingle/{id}`
 	* Tests a jingle sound
 	* `POST`
 	* params: `{"id": Integer}
