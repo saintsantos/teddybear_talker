@@ -1,10 +1,9 @@
 # Tabil PHP Server Design Documentation
 
-## This server is meant to run on a raspberry pi zero W running raspbian Jessie.
-### Wifi setup
-Insert steps to setting up the wifi here
+## These steps are meant for the raspberry pi zero W running raspbian, but many of the packages are similar across different operating systems.
+## Note: Server development for this project is best done on linux.
 ### PHP server setup:
-In order to run the server there are several things to do first in order to properly setup the server for your developent environment.  
+This server requires several things to run properly. PHP7.0, PHP7.0-mysql, and [Slim Framework](https://www.slimframework.com/). Be sure to read the slim framework documentation because it will get you up and running quickly. We will be installing all of these tools in the next few steps.
 First, we have to add the debian stretch repository since at the time of writing this doc debian is the Jessie build, which does not have PHP7.0 in its package list.  
 We first have to edit `/etc/apt/sources.list` and add the line  
 ```
@@ -38,7 +37,7 @@ and run
 ```
 composer install
 ```
-to install all required dependencies for the backend server for teddybear talker. Once the isntaller finishes cd into `public` and run start the server:
+to install all required dependencies, such as Slim Framework, for the backend server for teddybear talker. Once the isntaller finishes cd into `/public` and run start the server:
 ```
 php -S localhost:8080
 ```
@@ -47,7 +46,27 @@ for the local server
 php -S 0.0.0.0:8080
 ```
 when running on the bear. This will start the server and have it listen to the specified port on the specified ip. `0.0.0.0` means listen to the device ip, which is `192.168.8.1`.  
-Now we can call any of the endpoints on the server and test if functionality works. We can do this using [postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) or [httpie](https://httpie.org/) if you're a terminal junkie.
+Now we can call any of the endpoints on the server and test if functionality works. We can do this using [postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) or [httpie](https://httpie.org/) if you're a terminal junkie.  
+
+The first time you run the application it might say that you will have an error about being unable to find a database file. Simply edit this line in `/server/src/public/index.php`
+```php
+$config['db']['file'] = '/home/edwin/git/school/cse453/teddy_bear_talker/database/';
+```
+and replace with the path to your database. Make sure it is named `bear.db` or you will have to change the name of the database in `/server/src/app/dependencies.php`
+
+There are two more things you can change as well. In `/server/src/app/dependencies.php` there are two sets of code:
+```php
+$container['jingledir'] = function($c) {
+  $jinglepath = '/home/edwin/Music/jingle';
+  return $jinglepath;
+};
+
+$container['voicedir'] = function($c) {
+  $voicepath = '/home/edwin/Music/voice';
+  return $voicepath;
+}
+```
+you can change voicepath and jinglepath to where you would like the files you send to teddybear_talker to be copied to when they're uploaded.
 
 ### Endpoint Documentation:
 All callable enpoints for Teddybear Talker are listed here. Each endpoint will be listed similar to how they are represented in the source code. Namely:
