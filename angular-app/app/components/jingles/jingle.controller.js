@@ -1,6 +1,6 @@
 ;(function() {
 
-    function JingleController($scope, $state, JingleService, FileUploader) {
+    function JingleController($scope, $state, JingleService, FileUploader, urlConstant) {
 
       $scope.editing = false;
 
@@ -43,7 +43,7 @@
 
         //This handles file uploads
         $scope.uploader = new FileUploader({
-          url: 'http://localhost:8080/jingle/upload'
+          url: urlConstant.baseUrl + '/jingle/upload'
         });
 
       $scope.deleteJingle = function(id) {
@@ -53,6 +53,10 @@
             $scope.jingles = result.data;
           });
         })
+      }
+
+      $scope.testJingle = function(id) {
+        JingleService.testJingle(id);
       }
 
     }

@@ -47,12 +47,21 @@
         return $http(xhrParams);
       }
 
+      function testEvent(id) {
+        var xhrParams = {
+          method: 'POST',
+          url: urlConstant.baseUrl + '/test/event/' + id
+        }
+        return $http(xhrParams);
+      }
+
       return {
         getDay: getDay,
         getWeek: getWeek,
         updateEvent: updateEvent,
         deleteEvent: deleteEvent,
-        addEvent: addEvent
+        addEvent: addEvent,
+        testEvent: testEvent
       }
     })
 })();

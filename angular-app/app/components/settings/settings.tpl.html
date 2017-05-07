@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Tabil</title>
+  <title>Tabil - Settings</title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +12,17 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo right"></a>
-      <ul id="nav-mobile" class="left">
+      <a href="#!" ng-click="goToHome()" class="brand-logo">Tabil</a>
+      <a href="#" class="button-collapse" data-activates="mobile-nav" data-sidenav="left" data-menuwidth="150" data-closeonclick="true">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li><a ng-click="goToHome()">Events</a></li>
+        <li><a ng-click="goToFile()">Voices</a></li>
+        <li><a ng-click="goToJingle()">Jingles</a></li>
+        <li class="active"><a ng-click="goToSettings()">Settings</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-nav">
         <li><a ng-click="goToHome()">Events</a></li>
         <li><a ng-click="goToFile()">Voices</a></li>
         <li><a ng-click="goToJingle()">Jingles</a></li>
@@ -23,32 +32,19 @@
   </nav>
 
   <div class="container">
-
-  <div class="form-group row">
-    <label for="bear-name" class="col-2 col-form-label">Bear Name</label>
-    <div class="col-10">
-      <input class="form-control" type="text" value="{{Bear_Name}}" id="bear-name">
+    <div class="card">
+      <div class="card-content">
+        <div class="card-title">Settings</div>
+        <div class="row">
+          <a class="btn" ng-click="sendDate()">Sync Computer Time</a>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <button type="button" class="btn orange lighten-2" ng-click="reboot()">Restart Bear</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <form>
-    <div class="row">
-      <div input-field class="col m9">
-        <input type="text" ng-model="dummyInputs.inputFieldInput" length="150" readonly placeholder="{{Current_Bear_Time}}">
-        <label>Click sync to use your devices time as the bears current time.</label>
-      </div>
-      <div class="col offset-m1 m2">
-        <a class="btn">Sync</a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-2">
-        <button type="button" class="btn orange lighten-2">Restart Bear</button>
-      </div>
-    </div>
-  </form>
-
-  <!-- Container DIV  -->
-</div>
 </body>
 </html>

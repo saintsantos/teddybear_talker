@@ -2,7 +2,7 @@
 <html>
 
   <head>
-    <title>Tabil</title>
+    <title>Tabil - Voices</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +12,17 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <a href="#" class="brand-logo right"></a>
-        <ul id="nav-mobile" class="left">
+        <a href="#!" ng-click="goToHome()" class="brand-logo">Tabil</a>
+        <a href="#" data-activates="mobile-nav" class="button-collapse" data-sidenav="left" data-menuwidth="150" data-closeonclick="true">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li><a ng-click="goToHome()">Events</a></li>
+          <li class="active"><a ng-click="goToFile()">Voices</a></li>
+          <li><a ng-click="goToJingle()">Jingles</a></li>
+          <li><a ng-click="goToSettings()">Settings</a></li>
+        </ul>
+        <ul class="side-nav" id="mobile-nav">
           <li><a ng-click="goToHome()">Events</a></li>
           <li><a ng-click="goToFile()">Voices</a></li>
           <li><a ng-click="goToJingle()">Jingles</a></li>
@@ -27,23 +36,28 @@
           <div class="card">
             <div class="row">
               <div class="card-content">
+                <div class="card-title"> Currently active voices</div>
                 <div class="row">
                   <div id="day" class="col s12">
-                    <table>
+                    <div ng-if="voices.length == 0">
+                      <h5 style="color: #A9A9A9"> No events, why don't you add one?</h5>
+                    </div>
+                    <table ng-if="voices.length > 0">
                       <thead>
                         <tr>
-                          <th>Voice Location</th>
+                          <th class="hide-on-small-only">Voice Location</th>
                           <th>Voice Name</th>
                           <th></th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr ng-repeat="voice in voices">
-                          <td>{{voice.voicepath}}</td>
+                          <td class="hide-on-small-only">{{voice.voicepath}}</td>
                           <td>{{voice.voice_name}}</td>
                           <td>
-                            <a class="waves-effect waves-light btn right red edit-controlls"ng-click=deleteVoice(voice.voice_id)>X</a>
-                            <a class="waves-effect waves-light btn right edit-controlls" ng-click="selectVoice(voice)">Edit</a>
+                            <!--<a class="waves-effect waves-light btn right red edit-controlls"ng-click="deleteVoice(voice.voice_id)">X</a>-->
+                            <a class="waves-effect waves-light btn-flat right edit-controlls" ng-click="selectVoice(voice)"><i class="material-icons">edit</i></a>
+                            <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-small-only" ng-click="testVoice(voice.voice_id)"><i class="material-icons">play_arrow</i></a>
                           </td>
                         </tr>
                       </tbody>
@@ -55,30 +69,35 @@
           </div>
 
           <div ng-show="editing">
-          <div class="row">
-            <div class="card">
-              <div class="card-content">
-                <div>
-                  <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
-                    <div class="row">
-                    <label>Voice name</label>
-                    <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
-                    <label>Filepath: {{chosen_voice.voicepath}}</label>
-                    <div class="row">
-                      <button class="btn waves-effect" type="submit">Save Event</button>
-                    </div>
+            <div class="row">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-title"> Editing Voice
+                    <a class="btn-flat right" ng-click="deleteVoice(chosen_voice.voice_id)"><i class="material-icons">delete</i></a>
+                    <a class="waves-effect waves-light btn-flat right edit-controlls hide-on-med-and-up" ng-click="testVoice(chosen_voice.voice_id)"><i class="material-icons">play_arrow</i></a>
                   </div>
-                  </form>
+                  <div>
+                    <form name="editVoice" ng-submit="updateVoice(chosen_voice)">
+                      <div class="row">
+                        <label>Voice name</label>
+                        <input type="text" ng-model="chosen_voice.voice_name" placeholder="{{chosen_voice.voice_name}}" ng-required />
+                        <label>Filepath: {{chosen_voice.voicepath}}</label>
+                        <div class="row col s12">
+                          <a class="btn waves-effect" type="submit">Save Voice</a>
+                          <a class="btn cyan waves-effect" ng-click="editing = false">Cancel</a>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          </div>
-        </div>
 
 
         </div>
       </div>
-      <div class="fixed-action-btn">
+      <div class="fixed-action-btn horizontal">
         <a class="btn-floating btn-large blue" data-target="uploadModal" modal>
           <i class="large material-icons">publish</i>
         </a>
@@ -104,6 +123,5 @@
           <a class="btn modal-action modal-close waves-effect" ng-click="uploader.queue[0].upload()">Upload</a>
         </div>
       </div>
-    </div>
   </body>
 </html>

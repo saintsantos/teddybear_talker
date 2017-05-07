@@ -29,10 +29,19 @@
         return $http(xhrParams);
       }
 
+      function testJingle(id) {
+        var xhrParams = {
+          method: 'POST',
+          url: urlConstant.baseUrl + '/test/jingle/' + id
+        }
+        return $http(xhrParams);
+      }
+
       return {
         getAllJingles:getAllJingles,
         updateJingle: updateJingle,
-        deleteJingle: deleteJingle
+        deleteJingle: deleteJingle,
+        testJingle: testJingle
       }
 
     })

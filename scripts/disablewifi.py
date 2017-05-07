@@ -1,3 +1,5 @@
-import os
+#! /usr/bin/env python2.7
+import subprocess
 
-os.system("sudo vim /etc/network/interfaces")
+subprocess.call(['sudo', 'ifdown', 'wlan0'])
+

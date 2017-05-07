@@ -109,6 +109,10 @@
             })
           })
         }
+
+        $scope.testEvent = function(id) {
+          HomeService.testEvent(id);
+        }
     }
 
   angular
