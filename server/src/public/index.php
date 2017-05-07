@@ -7,7 +7,7 @@ require '../vendor/autoload.php';
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
 
-$config['db']['file'] = '/home/edwin/git/school/cse453/teddy_bear_talker/';
+$config['db']['file'] = '/home/edwin/git/school/cse453/teddy_bear_talker/database/';
 
 
 $app = new \Slim\App(["settings" => $config]);
