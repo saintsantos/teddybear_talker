@@ -3,19 +3,10 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->group('/system', function () use ($app) {
-  $app->post('/', function(Request $request, Response $response) {
-    //print_r("Got it!");
-    exec("screen -d -m -S angular /home/edwin/git/school/cse453/teddy_bear_talker/scripts/frontend.sh");
-  });
   $app->post('/down', function(Request $request, Response $response) {
     exec('screen -X -S angular quit');
     exec('screen -X -S php quit');
     //This will bring down the server when it's called
-  });
-
-  $app->post('/time', function(Request $request, Response $response) {
-    print_r("echo update time");
-    //This will update the time for the raspberry pi zero
   });
 
   $app->post('/reboot', function(Request $request, Response $response) {
@@ -24,11 +15,12 @@ $app->group('/system', function () use ($app) {
   });
 
   $app->post('/sneeze', function(Request $request, Response $response) {
+    //Make the bear sneeze
     print_r("echo sneeze");
-    //Testing sneeze functionality
   });
 
   $app->post('/date', function(Request $request, Response $response) {
+    //Updates the date and time of the bear
     $body = $request->getParsedBody();
     $day = $body["day"];
     $month = $body["month"];
