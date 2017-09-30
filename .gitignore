@@ -4,8 +4,11 @@ server/app/util/config.env
 .tags
 *.env
 *.swp
+*.pyc
+.DS_Store
 server/dist/
 scripts/env/
 server-php/src/vendor/
 server/uploads/
 server-php/src/logs/
+venv/
