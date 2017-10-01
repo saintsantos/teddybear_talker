@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import EventList from '../../components/Lists/eventList/eventList.js';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../logo.svg';
 import { Button } from 'antd';
@@ -106,9 +105,7 @@ class Events extends Component {
                     {edit}
                 </div>
                 <Button className="pull-left">
-                    <Link to='/audio'>
                         Audio
-                    </Link>
                 </Button>
                 <EventList columns={columns} data={demoEvent}/>
             </div>
