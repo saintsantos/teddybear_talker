@@ -1,35 +1,10 @@
 import React , { Component } from 'react';
+import PropTypes from 'prop-types';
 import AudioRow from './audioRow.js';
-import { ListGroup, PanelGroup, Accordion } from 'react-bootstrap';
-import { Table, Button } from 'antd';
+import { Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
 
-const demoAudio = [{
-    id: 1,
-    name: "One Jingle",
-    path: "~/one_jingle.mp3"
-}, {
-    id: 2,
-    name: "Another Jingle",
-    path: "~/another_jingle.mp3"
-}, {
-    id: 3,
-    name: "A third jingle",
-    path: "~/a_third_jingle.mp3"
-}]
-
-const columns = [
-    {
-        title: 'name',
-        dataIndex: 'name',
-        key: 'name'
-    },
-    {
-        title: 'File Path',
-        dataIndex: 'path',
-        key: 'path'
-    }
-]
-
+@observer
 class AudioList extends Component {
     constructor() {
         super();
@@ -37,14 +12,23 @@ class AudioList extends Component {
 
     render() {
         return (
-            <Table
-                columns={columns}
-                expandedRowRender={
-                    test => <Button>Test Button</Button>
-                }
-                dataSource={demoAudio}></Table>
+            <Table celled>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Name</Table.HeaderCell>
+                        <Table.HeaderCell>Actions</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {this.props.store.audio_files.map((audio) => <AudioRow key={audio.id} audio={audio} />)}
+                </Table.Body>
+            </Table>
         )
     }
+}
+
+AudioList.propTypes = {
+    store: PropTypes.any
 }
 
 export default AudioList;

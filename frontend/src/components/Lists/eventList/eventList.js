@@ -1,32 +1,36 @@
 import React , { Component } from 'react';
 import PropTypes from 'prop-types';
 import EventRow from './eventRow.js';
-import { ListGroup, PanelGroup, Accordion } from 'react-bootstrap';
-import { Table } from 'antd';
-import axios from 'axios';
+import { Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
 
 
-
+@observer
 class EventList extends Component {
     constructor() {
         super();
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log("updating...");
-    }
     render() {
         return (
-            <Table
-                columns={this.props.columns}
-                dataSource={this.props.data}></Table>
+            <Table celled>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Time</Table.HeaderCell>
+                        <Table.HeaderCell>Audio</Table.HeaderCell>
+                        <Table.HeaderCell>Actions</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {this.props.store.events.map((event) => <EventRow key={event.id} event={event} />)}
+                </Table.Body>
+            </Table>
         )
     }
 }
 
 EventList.propTypes = {
-    columns: PropTypes.arrayOf(PropTypes.object),
-    data: PropTypes.arrayOf(PropTypes.object)
+    store: PropTypes.any
 }
 
 export default EventList;

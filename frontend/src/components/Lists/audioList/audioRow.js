@@ -1,24 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, ButtonToolbar, ListGroupItem, Col, Panel } from 'react-bootstrap'
+import { Table, Button } from 'semantic-ui-react';
+import appStore from '../../../stores/appStore';
+import audioStore from '../../../stores/audioStore';
 
 class AudioRow extends Component {
     constructor(props) {
         super(props);
     }
+
+    editSound = (e) => {
+        appStore.editElement(this.props.audio.id);
+    }
+
+    deleteSound = (e) => {
+        audioStore.deleteAudio(this.props.audio);
+
+    }
     render() {
         return (
-            <Panel header={this.props.audio.name} eventKey={this.props.audio.id}>
-                <Col>
-                    {this.props.audio.path}
-                </Col>
-                <Col>
-                    <ButtonToolbar>
-                        <Button bsStyle="info">Edit</Button>
-                        <Button bsStyle="danger">Delete</Button>
-                    </ButtonToolbar>
-                </Col>
-            </Panel>
+        <Table.Row>
+            <Table.Cell>{this.props.audio.name}</Table.Cell>
+            <Table.Cell>
+                <Button color='teal' onClick={this.editSound}>Edit</Button>
+                <Button color='red' onClick={this.deleteSound}>Delete</Button>
+            </Table.Cell>
+        </Table.Row>  
         )
     }
 }
