@@ -20,7 +20,7 @@ class AudioList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.store.audio_files.map((audio) => <AudioRow key={audio.id} audio={audio} />)}
+                    {Array.from(this.props.audios).map((audio) => <AudioRow key={audio.getId} audio={audio[1]} />)}
                 </Table.Body>
             </Table>
         )
@@ -28,7 +28,7 @@ class AudioList extends Component {
 }
 
 AudioList.propTypes = {
-    store: PropTypes.any
+    audios: PropTypes.any
 }
 
 export default AudioList;

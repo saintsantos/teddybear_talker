@@ -1,55 +1,43 @@
 import { observable, action, computed } from 'mobx';
 import axios from 'axios';
 
-class AudioStore {
-    @observable audio_files;
+class Audio {
+    @observable id;
+    @observable name;
+    @observable form;
+    @observable path;
 
-    constructor(audio_files = [
-        {
-            id: 1,
-            name: "One Jingle",
-            form: 1,
-            path: "~/one_jingle.mp3"
-        }, {
-            id: 2,
-            name: "Another Jingle",
-            form: 0,
-            path: "~/another_jingle.mp3"
-        }, {
-            id: 3,
-            name: "A third jingle",
-            form: 1,
-            path: "~/a_third_jingle.mp3"
-        }
-    ]) {
-        this.audio_files = audio_files;
+    constructor(id, name, form, path) {
+        this.id = id;
+        this.name = name;
+        this.form = form;
+        this.path = path;
     }
 
-    @action fetchAudio = () => {
-        console.log("Get all audio files");
+    @computed get getName() {
+        return this.name;
     }
 
-    @action deleteAudio = (audio) => {
-        this.audio_files.remove(audio);
+    @computed get getForm() {
+        return this.getForm;
     }
 
-    @action addAudio = () => {
-        //TODO - Add the funcitonality to do the upload from here.
-        let newAudio = {
-            "id": this.audio_files.slice().length + 1,
-            "form": 1,
-            "name": "New Audio",
-            "path": "~/new_audio.mp3"
-        }
-        this.audio_files.push(newAudio);
+    @computed get getId() {
+        return this.id;
     }
 
-    @action saveAudio = (audio) => {
-        console.log(audio);
-        //TODO - Make backend call from here
+    @action updateAudio(id, name, form, path) {
+        this.name = name;
+        this.form = form;
+        this.path = path;
+        //Call the backend here
     }
+
 }
 
-const audioStore = new AudioStore();
+const audioStore = observable(new Map());
+audioStore.set(1, new Audio(1, "One Jingle", 1, "~/one_jingle.mp3"));
+audioStore.set(2, new Audio(2, "Another Jingle", 0, "~/another_jingle.mp3"));
+audioStore.set(3, new Audio(3, "A third Jingle", 1, "~/a_third_jingle.mp3"));
 export default audioStore;
-export { AudioStore };
+export { Audio };

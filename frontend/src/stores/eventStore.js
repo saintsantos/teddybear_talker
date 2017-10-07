@@ -1,7 +1,7 @@
 import { observable, action, computed } from 'mobx';
 import axios from 'axios';
 
-class Events {
+class Event {
     @observable id;
     @observable time;
     @observable voice;
@@ -39,8 +39,8 @@ class Events {
 }
 
 const eventStore = observable([]);
-eventStore.push(new Events(1, "10:34", 1, "monday"))
-eventStore.push(new Event(2, "11:15", 1, "tuesday"))
-eventStore.push(new Event(3, "12:30", 3, "wednesday"))
+eventStore.push(new Event(1, "10:30", 1, 2, "monday"))
+eventStore.push(new Event(2, "11:00", 1, 2, "tuesday"))
+eventStore.push(new Event(3, "12:00", 3, 2, "wednesday"))
 export default eventStore;
-export { Events };
+export { Event };

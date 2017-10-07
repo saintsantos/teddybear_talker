@@ -18,11 +18,18 @@ class EventList extends Component {
                     <Table.Row>
                         <Table.HeaderCell>Time</Table.HeaderCell>
                         <Table.HeaderCell>Audio</Table.HeaderCell>
+                        <Table.HeaderCell>Jingle</Table.HeaderCell>
                         <Table.HeaderCell>Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.store.events.slice().map((event) => <EventRow key={event.id} event={event} />)}
+                    {this.props.events.slice().map((event) => 
+                    <EventRow 
+                    key={event.id} 
+                    event={event}  
+                    voice={this.props.audios.get(event.voice)} 
+                    jingle={this.props.audios.get(event.jingle)}
+                    />)}
                 </Table.Body>
             </Table>
         )
@@ -30,7 +37,8 @@ class EventList extends Component {
 }
 
 EventList.propTypes = {
-    store: PropTypes.any
+    events: PropTypes.any,
+    audios: PropTypes.any
 }
 
 export default EventList;
