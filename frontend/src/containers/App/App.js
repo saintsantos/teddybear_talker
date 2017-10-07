@@ -14,7 +14,7 @@ class App extends Component {
         return (
             <Container>
                 <TopNav store={appStore}/>
-                <Events />
+                <AudioPage />
             </Container>
         )
     }

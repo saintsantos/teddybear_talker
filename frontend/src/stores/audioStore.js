@@ -26,10 +26,9 @@ class Audio {
         return this.id;
     }
 
-    @action updateAudio(id, name, form, path) {
+    @action updateAudio(id, name, form) {
         this.name = name;
         this.form = form;
-        this.path = path;
         //Call the backend here
     }
 
