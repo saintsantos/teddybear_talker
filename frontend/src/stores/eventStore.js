@@ -28,7 +28,7 @@ class Event {
         return this.jingle;
     }
 
-    @action updateTime(id, time, voice, jingle, day) {
+    @action updateEvent(id, time, voice, jingle, day) {
         this.time = time;
         this.voice = voice;
         this.jingle = jingle;

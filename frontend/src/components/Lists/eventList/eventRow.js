@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Button } from 'semantic-ui-react';
 import appStore from '../../../stores/appStore';
+import { observer } from  'mobx-react';
 import moment from 'moment';
 
+@observer
 class EventRow extends Component {
     constructor(props) {
         super(props);

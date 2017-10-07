@@ -28,26 +28,52 @@ class EditEvent extends Component {
     constructor() {
         super();
         this.state = {
+            'time': eventStore.get(appStore.editId).time,
+            'voice': eventStore.get(appStore.editId).voice,
+            'jingle': eventStore.get(appStore.editId).jingle,
+            'day': eventStore.get(appStore.editId).day
         }
         
+    }
+
+    updateClock = (value) => {
+        this.setState({'time': value.format("H:mm")})
+    }
+
+    updateVoice = (e) => {
+        this.setState({'voice': e.target.value})
+    }
+
+    updateJingle = (e) => {
+        this.setState({'jingle': e.target.value})
+    }
+
+    updateDay = (e) => {
+        this.setState({'day': e.target.value})
+    }
+
+    updateEvent = (e) => {
+        console.log(this.state);
+        eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.jingle, this.state.day);
+        appStore.closeEdit();
     }
 
     render() {
         return (
             
-            <Form onSubmit={console.log("submitting")}>
+            <Form onSubmit={this.updateEvent}>
                 <Form.Field>
                     <Header as='h4'>Time</Header>
-                    <TimePicker showSecond={false} defaultValue={now} onChange={console.log("updateclock")} format={format} use12Hours></TimePicker>
+                    <TimePicker showSecond={false} defaultValue={moment(this.state.time, "H:mm")} onChange={this.updateClock} format={format} use12Hours></TimePicker>
                 </Form.Field>
                 <Form.Group>
                     <Form.Field>
-                        <select label='Voice' onChange={console.log("Update audio name")}>
+                        <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                         </select>
                     </Form.Field>
                 </Form.Group>
                 <Form.Field>
-                    <select label='Day'  onChange={console.log("Update day")}>
+                    <select label='Day'  value={this.state.day} onChange={this.updateDay}>
                         {days.map((day) => <option value={day.value}>{day.text}</option>)}
                     </select>
                 </Form.Field>
