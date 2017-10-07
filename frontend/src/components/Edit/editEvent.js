@@ -28,58 +28,26 @@ class EditEvent extends Component {
     constructor() {
         super();
         this.state = {
-            'time': eventStore.events.find(this.findEvent).time,
-            'audio': eventStore.events.find(this.findEvent).audio,
-            'day': eventStore.events.find(this.findEvent).day
         }
+        
     }
-
-    findEvent = (event) => {
-        return event.id === appStore.editId;
-    }
-
-    handleAudioChange = (e) => {
-        this.setState({audio: e.target.value});
-    }
-
-    handleClock = (value) => {
-        this.setState({time: value.format('H:mm')})
-    }
-
-    handleDayChange = (e) => {
-        this.setState({day: e.target.value})
-    }
-
-    handleSubmit = (e) => {
-        console.log("The form was submitted");
-        console.log(e)
-        eventStore.updateEvent(appStore.editId, this.state);
-        appStore.closeEdit();
-    }
-
-    
-
 
     render() {
-        const jingleOptions = audioStore.audio_files.slice().filter((audio) => {
-            return audio.form === 1;
-        })
         return (
             
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={console.log("submitting")}>
                 <Form.Field>
                     <Header as='h4'>Time</Header>
-                    <TimePicker showSecond={false} defaultValue={now} onChange={this.handleClock} format={format} use12Hours></TimePicker>
+                    <TimePicker showSecond={false} defaultValue={now} onChange={console.log("updateclock")} format={format} use12Hours></TimePicker>
                 </Form.Field>
                 <Form.Group>
                     <Form.Field>
-                        <select label='Audio' value={this.state.audio} onChange={this.handleAudioChange}>
-                            {jingleOptions.map((option) => <option value={option.id}>{option.name}</option>)}
+                        <select label='Voice' onChange={console.log("Update audio name")}>
                         </select>
                     </Form.Field>
                 </Form.Group>
                 <Form.Field>
-                    <select label='Day' value={this.state.day} onChange={this.handleDayChange}>
+                    <select label='Day'  onChange={console.log("Update day")}>
                         {days.map((day) => <option value={day.value}>{day.text}</option>)}
                     </select>
                 </Form.Field>

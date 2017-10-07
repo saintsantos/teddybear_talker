@@ -23,12 +23,12 @@ class EventList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.events.slice().map((event) => 
+                    {Array.from(this.props.events).map((event) => 
                     <EventRow 
                     key={event.id} 
-                    event={event}  
-                    voice={this.props.audios.get(event.voice)} 
-                    jingle={this.props.audios.get(event.jingle)}
+                    event={event[1]}  
+                    voice={this.props.audios.get(event[1].voice)} 
+                    jingle={this.props.audios.get(event[1].jingle)}
                     />)}
                 </Table.Body>
             </Table>

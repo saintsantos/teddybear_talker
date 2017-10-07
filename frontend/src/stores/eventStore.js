@@ -38,9 +38,9 @@ class Event {
     
 }
 
-const eventStore = observable([]);
-eventStore.push(new Event(1, "10:30", 1, 2, "monday"))
-eventStore.push(new Event(2, "11:00", 1, 2, "tuesday"))
-eventStore.push(new Event(3, "12:00", 3, 2, "wednesday"))
+const eventStore = observable(new Map());
+eventStore.set(1, new Event(1, "10:30", 1, 2, "monday"))
+eventStore.set(2, new Event(2, "11:00", 1, 2, "tuesday"))
+eventStore.set(3, new Event(3, "12:00", 3, 2, "wednesday"))
 export default eventStore;
 export { Event };

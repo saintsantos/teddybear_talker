@@ -9,6 +9,10 @@ class EventRow extends Component {
         super(props);
     }
 
+   editEvent = (e) => {
+       appStore.editElement(this.props.event.id)
+   }
+
    render() {
         return (
             <Table.Row>
