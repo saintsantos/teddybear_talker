@@ -22,7 +22,7 @@ class EventList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.props.store.events.map((event) => <EventRow key={event.id} event={event} />)}
+                    {this.props.store.events.slice().map((event) => <EventRow key={event.id} event={event} />)}
                 </Table.Body>
             </Table>
         )

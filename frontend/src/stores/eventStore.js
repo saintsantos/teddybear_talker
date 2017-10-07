@@ -1,60 +1,46 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import axios from 'axios';
 
-class EventStore {
-    @observable events;
+class Events {
+    @observable id;
+    @observable time;
+    @observable voice;
+    @observable jingle;
+    @observable day;
 
-    constructor(events = [{
-        id: 1,
-        time: "10:34",
-        audio: 1,
-        day: "monday"
-    }, {
-        id: 2,
-        time: "11:15",
-        audio: 1,
-        day: "tuesday"
-    }, {
-        id: 3,
-        time: "12:30",
-        audio: 3,
-        day: "wednesday"
-    }]) {
-        this.events = events;
+    constructor(id, time, voice, jingle, day) {
+        this.id = id;
+        this.time = time;
+        this.voice = voice;
+        this.jingle = jingle;
+        this.day = day;
     }
 
-    @action fetchEvents = () => {
-        axios.get('http://localhost:5000/events/monday').then(res => {
-            console.log(res.data.events);
-        }).catch(error => {
-            console.log(error);
-        })
+    @computed get getTime() {
+        return this.time;
     }
 
-    @action deleteEvent = () => {
-        this.events.pop();
+    @computed get getVoice() {
+        return this.voice;
     }
 
-    @action addEvent = () => {
-        let newEvent = {
-            "id": this.events.slice().length + 1,
-            "time": "10:30",
-            "audio": 0,
-            "day": "monday"
-        }
-        this.events.push(newEvent)
+    @computed get getJingle() {
+        return this.jingle;
     }
 
-    @action updateEvent = (id, data) => {
-        console.log(data);
-        const event = this.events.find(event => event.id === id)
-        event.time = data.time;
-        event.audio = data.audio;
-        event.day = data.day;
-        console.log(event);
+    @action updateTime(id, time, voice, jingle, day) {
+        this.time = time;
+        this.voice = voice;
+        this.jingle = jingle;
+        this.day = day;
+        //Make call here
     }
+    
 }
 
-const eventStore = new EventStore();
+const eventStore = observable([]);
+eventStore.push(new Events(1, "10:34", 1, "monday"))
+eventStore.push(new Event(2, "11:15", 1, "tuesday"))
+eventStore.push(new Event(3, "12:30", 3, "wednesday"))
 export default eventStore;
-export { EventStore };
+export { Events };
