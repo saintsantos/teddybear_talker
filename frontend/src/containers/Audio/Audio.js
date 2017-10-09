@@ -8,6 +8,7 @@ import { Audio } from '../../stores/audioStore';
 import { action } from 'mobx';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import NewAudio from '../../components/New/newAudio.js';
 import './Audio.css';
 
 @observer
@@ -21,17 +22,20 @@ class AudioPage extends Component {
     render() {
         const edit = appStore.edit
         ? <Segment><EditAudio /></Segment> : false;
+        const createNew = appStore.makeNew
+        ? <NewAudio /> : false;
 
         return (
             
             <div>
                 <Segment>
-                    <Button onClick={this.addAudio}>
+                    <Button onClick={appStore.openNew}>
                         + New Audio File
                     </Button>
                     <AudioList audios={audioStore}/>
                 </Segment>
                 {edit}
+                {createNew}
             </div>
         )
     }

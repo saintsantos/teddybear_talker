@@ -3,7 +3,6 @@ import { Form } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
-import formStore from '../../stores/formStore';
 
 const forms = [
     {key: 0, text: "Voice", value: 0},

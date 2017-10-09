@@ -4,6 +4,7 @@ class AppStore {
     @observable edit;
     @observable editId;
     @observable active;
+    @observable makeNew;
 
     constructor(edit = false, editId = 1, active = 'Events') {
         this.edit = edit;
@@ -23,6 +24,14 @@ class AppStore {
 
     @action navigate = (active) => {
         this.active = active;
+    }
+
+    @action openNew = () => {
+        this.makeNew = true;
+    }
+
+    @action closeNew = () => {
+        this.makeNew = false;
     }
 }
 
