@@ -5,11 +5,13 @@ class AppStore {
     @observable editId;
     @observable active;
     @observable makeNew;
+    @observable day;
 
-    constructor(edit = false, editId = 1, active = 'Events') {
+    constructor(edit = false, editId = 1, active = 'Events', day = 'monday') {
         this.edit = edit;
         this.editId = editId;
         this.active = active;
+        this.day = day;
     }
 
     @action editElement = (id) => {
@@ -32,6 +34,10 @@ class AppStore {
 
     @action closeNew = () => {
         this.makeNew = false;
+    }
+
+    @action changeDay = (day) => {
+        this.day = day;
     }
 }
 

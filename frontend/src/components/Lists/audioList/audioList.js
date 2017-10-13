@@ -21,7 +21,7 @@ class AudioList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {Array.from(this.props.audios).map((audio) => <AudioRow key={audio.getId} audio={audio[1]} />)}
+                    {Array.from(this.props.audios).map((audio) => <AudioRow key={audio.getId} audio={audio} />)}
                 </Table.Body>
             </Table>
         )

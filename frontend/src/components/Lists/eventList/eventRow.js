@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Table, Button } from 'semantic-ui-react';
 import appStore from '../../../stores/appStore';
+import eventStore from '../../../stores/eventStore';
 import { observer } from 'mobx-react';
 import moment from 'moment';
 
@@ -12,13 +13,17 @@ class EventRow extends Component {
     }
 
    editEvent = (e) => {
-       appStore.editElement(this.props.event.id)
+       appStore.editElement(this.props.event[1].id)
+   }
+
+   deleteEvent = (e) => {
+        eventStore.delete(this.props.event[0])
    }
 
    render() {
         return (
             <Table.Row>
-                <Table.Cell>{this.props.event.time}</Table.Cell>
+                <Table.Cell>{this.props.event[1].time}</Table.Cell>
                 <Table.Cell>{this.props.voice.getName}</Table.Cell>
                 <Table.Cell>{this.props.jingle.getName}</Table.Cell>
                 <Table.Cell>
@@ -31,7 +36,7 @@ class EventRow extends Component {
 }
 
 EventRow.propTypes = {
-    event: PropTypes.any,
+    event: PropTypes.array,
     voice: PropTypes.any,
     jingle: PropTypes.any
 }

@@ -25,8 +25,8 @@ class EventList extends Component {
                 <Table.Body>
                     {Array.from(this.props.events).map((event) => 
                     <EventRow 
-                    key={event.id} 
-                    event={event[1]}  
+                    key={event.id}
+                    event={event}
                     voice={this.props.audios.get(event[1].voice)} 
                     jingle={this.props.audios.get(event[1].jingle)}
                     />)}

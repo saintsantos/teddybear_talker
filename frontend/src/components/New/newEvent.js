@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
 import eventStore from '../../stores/eventStore';
+import { Event } from '../../stores/eventStore';
 import { Segment, Button, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
@@ -33,7 +34,43 @@ class NewEvent extends Component {
 
     createEvent = (e) => {
         console.log(this.state);
+        console.log(eventStore.size);
+        //Make http request here
+        eventStore.set(eventStore.size + 1,
+            new Event(
+                eventStore.size + 1,
+                this.state.time,
+                this.state.voice,
+                this.state.jingle,
+                this.state.day
+            )
+        )
         appStore.closeNew();
+    }
+
+    getVoices = (e) => {
+        let voices = []
+        Array.from(audioStore).map((audio) => {
+            if (audio[1].form === 1) {
+                voices.push(audio[1])
+            }
+        })
+
+        console.log(voices);
+        return voices;
+
+    }
+
+    getJingles = (e) => {
+        let jingles = []
+        Array.from(audioStore).map((audio) => {
+            if (audio[1].form === 0) {
+                jingles.push(audio[1])
+            }
+        })
+
+        console.log(jingles);
+        return jingles;
     }
 
     updateClock = (value) => {
@@ -53,6 +90,8 @@ class NewEvent extends Component {
     }
 
     render() {
+        const voices = this.getVoices();
+        const jingles = this.getJingles();
         return (
             <Segment>
                 <Form onSubmit={this.createEvent}>
@@ -63,6 +102,12 @@ class NewEvent extends Component {
                     <Form.Group>
                         <Form.Field>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
+                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
+                                {voices.map((voice) => <option value={voice.id}>{voice.name}</option>)}
+                            </select>
+                            <select label='Jingle' value={this.state.jingle} onChange={this.updateJingle}>
+                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
+                                {jingles.map((jingle) => <option value={jingle.id}>{jingle.name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>
