@@ -4,9 +4,10 @@ import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
 import eventStore from '../../stores/eventStore';
 import { Event } from '../../stores/eventStore';
-import { Segment, Button, Form, Header } from 'semantic-ui-react';
+import { Segment, Form, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
+import axios from 'axios';
 
 const days = [
     {key: "Mon", text: "Monday", value: "monday"},
@@ -20,14 +21,15 @@ const days = [
 const now = moment().format("h:mm a")
 const format = 'h:mm a'
 
+// TODO - Figure out a sane way to handle times
 @observer
 class NewEvent extends Component {
     constructor() {
         super();
         this.state = {
             'time': now,
-            'voice': 0,
-            'jingle': 0,
+            'voice': 1,
+            'music': 1,
             'day': 'monday'
         }
     }
@@ -35,17 +37,27 @@ class NewEvent extends Component {
     createEvent = (e) => {
         console.log(this.state);
         console.log(eventStore.size);
+        //console.log(moment(this.state.time).format("HH:mm"))
+        //console.log(this.state.time)
         //Make http request here
-        eventStore.set(eventStore.size + 1,
-            new Event(
-                eventStore.size + 1,
-                this.state.time,
-                this.state.voice,
-                this.state.jingle,
-                this.state.day
-            )
-        )
-        appStore.closeNew();
+        axios.post(appStore.backendurl + '/events/', this.state)
+            .then((response) => {
+                console.log(response.data)
+                eventStore.set(response.data.id,
+                    new Event(
+                        response.data.id,
+                        this.state.time,
+                        this.state.voice,
+                        this.state.music,
+                        this.state.day
+                    )
+                )
+                appStore.closeNew();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
 
     getVoices = (e) => {
@@ -74,7 +86,7 @@ class NewEvent extends Component {
     }
 
     updateClock = (value) => {
-        this.setState({'time': value.format("H:mm")})
+        this.setState({'time': value.format("HH:mm")})
     }
 
     updateVoice = (e) => {
@@ -90,24 +102,22 @@ class NewEvent extends Component {
     }
 
     render() {
-        const voices = this.getVoices();
-        const jingles = this.getJingles();
         return (
             <Segment>
                 <Form onSubmit={this.createEvent}>
                     <Form.Field>
                         <Header as='h4'>Time</Header>
-                        <TimePicker showSecond={false} defaultValue={moment(this.state.time, "H:mm")} onChange={this.updateClock} format={format} use12Hours></TimePicker>
+                        <TimePicker showSecond={false} defaultValue={moment(this.state.time, ["H:mm a"])} onChange={this.updateClock} format={format} use12Hours></TimePicker>
                     </Form.Field>
                     <Form.Group>
                         <Form.Field>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
-                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
-                                {voices.map((voice) => <option value={voice.id}>{voice.name}</option>)}
+                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
+                                {this.getVoices().map((voice) => <option value={voice.id}>{voice.name}</option>)}
                             </select>
                             <select label='Jingle' value={this.state.jingle} onChange={this.updateJingle}>
-                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
-                                {jingles.map((jingle) => <option value={jingle.id}>{jingle.name}</option>)}
+                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
+                                {this.getJingles().map((jingle) => <option value={jingle.id}>{jingle.name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>

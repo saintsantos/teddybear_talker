@@ -3,13 +3,10 @@ import PropTypes from 'prop-types';
 import AudioRow from './audioRow.js';
 import { Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
+import shortid from 'shortid';
 
 @observer
 class AudioList extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <Table celled>
@@ -21,7 +18,7 @@ class AudioList extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {Array.from(this.props.audios).map((audio) => <AudioRow key={audio.getId} audio={audio} />)}
+                    {Array.from(this.props.audios).map((audio) => <AudioRow key={shortid.generate()} audio={audio} />)}
                 </Table.Body>
             </Table>
         )

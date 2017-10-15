@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import EventRow from './eventRow.js';
 import { Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
+import shortid from 'shortid';
 
 
 @observer
 class EventList extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
             <Table celled>
@@ -25,10 +22,10 @@ class EventList extends Component {
                 <Table.Body>
                     {Array.from(this.props.events).map((event) => 
                     <EventRow 
-                    key={event.id}
+                    key={shortid.generate()}
                     event={event}
                     voice={this.props.audios.get(event[1].voice)} 
-                    jingle={this.props.audios.get(event[1].jingle)}
+                    music={this.props.audios.get(event[1].music)}
                     />)}
                 </Table.Body>
             </Table>

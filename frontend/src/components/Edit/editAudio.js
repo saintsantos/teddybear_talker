@@ -3,12 +3,12 @@ import { Form } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
+import axios from 'axios';
 
 const forms = [
     {key: 0, text: "Voice", value: 0},
     {key: 1, text: "Music", value: 1},
 ]
-//TODO - Redo this nonsense
 @observer
 class EditAudio extends Component {
     constructor() {
@@ -20,12 +20,18 @@ class EditAudio extends Component {
     }
 
     saveAndClose = (e) => {
-        console.log(this.state);
-        audioStore.get(appStore.editId).updateAudio(appStore.editId, this.state.name, this.state.form);
-        appStore.closeEdit();
+        axios.patch(appStore.backendurl + '/audio/' + appStore.editId, this.state)
+            .then((response) => {
+                console.log(response.data);
+                audioStore.get(appStore.editId).updateAudio(appStore.editId, this.state.name, this.state.form);
+                appStore.closeEdit();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
-    handleChange = (e, {name, value}) => {
+    handleChange = (e) => {
         this.setState({'name': e.target.value})
     }
 

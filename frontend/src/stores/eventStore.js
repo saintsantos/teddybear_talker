@@ -1,18 +1,17 @@
 import { observable, action, computed } from 'mobx';
-import axios from 'axios';
 
 class Event {
     @observable id;
     @observable time;
     @observable voice;
-    @observable jingle;
+    @observable music;
     @observable day;
 
-    constructor(id, time, voice, jingle, day) {
+    constructor(id, time, voice, music, day) {
         this.id = id;
         this.time = time;
         this.voice = voice;
-        this.jingle = jingle;
+        this.music = music;
         this.day = day;
     }
 
@@ -24,14 +23,14 @@ class Event {
         return this.voice;
     }
 
-    @computed get getJingle() {
-        return this.jingle;
+    @computed get getmusic() {
+        return this.music;
     }
 
-    @action updateEvent(id, time, voice, jingle, day) {
+    @action updateEvent(id, time, voice, music, day) {
         this.time = time;
         this.voice = voice;
-        this.jingle = jingle;
+        this.music = music;
         this.day = day;
         //Make call here
     }
@@ -39,8 +38,5 @@ class Event {
 }
 
 const eventStore = observable(new Map());
-eventStore.set(1, new Event(1, "10:30", 1, 2, "monday"))
-eventStore.set(2, new Event(2, "11:00", 1, 2, "tuesday"))
-eventStore.set(3, new Event(3, "12:00", 3, 2, "wednesday"))
 export default eventStore;
 export { Event };

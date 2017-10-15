@@ -3,15 +3,19 @@ import { observable, action } from 'mobx';
 class AppStore {
     @observable edit;
     @observable editId;
-    @observable active;
     @observable makeNew;
     @observable day;
+    @observable backendurl;
+    @observable loading;
+    @observable activeTab
 
-    constructor(edit = false, editId = 1, active = 'Events', day = 'monday') {
+    constructor(edit = false, editId = 1, day = 'monday', backendurl = 'http://localhost:5000', loading = true, activeTab = 1) {
         this.edit = edit;
         this.editId = editId;
-        this.active = active;
         this.day = day;
+        this.backendurl = backendurl;
+        this.loading = loading;
+        this.activeTab = activeTab;
     }
 
     @action editElement = (id) => {
@@ -24,10 +28,6 @@ class AppStore {
         this.edit = false;
     }
 
-    @action navigate = (active) => {
-        this.active = active;
-    }
-
     @action openNew = () => {
         this.makeNew = true;
     }
@@ -38,6 +38,18 @@ class AppStore {
 
     @action changeDay = (day) => {
         this.day = day;
+    }
+
+    @action navAway = (activeTab) => {
+        this.activeTab = activeTab;
+    }
+
+    @action loaded = () => {
+        this.loading = false;
+    }
+
+    @action loadingScreen = () => {
+        this.loading = true;
     }
 }
 

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import appStore from '../../stores/appStore';
-import audioStore from '../../stores/audioStore';
+import audioStore, { Audio } from '../../stores/audioStore';
 import { Segment, Button, Grid, Divider } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import ReactAudioPlayer from 'react-audio-player';
+import axios from 'axios';
+import shortid from 'shortid';
+
+//TODO - Yeah... upload the audio file to the backend
 
 @observer
 class NewAudio extends Component {
@@ -18,8 +22,23 @@ class NewAudio extends Component {
     }
 
     checkUploads = (e) => {
-        console.log(this.state.accepted);
-        console.log(this.state.rejected);
+        let data = new FormData()
+        data.append('file', this.state.accepted[0])
+        if (this.state.accepted.length > 0) {
+            axios.post(appStore.backendurl + '/audio/', data)
+                .then((response) => {
+                    //console.log(response.data);
+                    audioStore.set(response.data.id, new Audio(response.data.id, response.data.name, response.data.form, response.data.path))
+                })
+            appStore.closeNew();
+        } else {
+            alert("No accepted files have been uploaded");
+            this.setState({
+                accepted: [],
+                rejected: []
+            })
+        }
+
     }
     clearList = (e) => {
         this.setState({
@@ -31,7 +50,7 @@ class NewAudio extends Component {
     render() {
         return (
             <Segment>
-                <Grid columns={3} relaxed>
+                <Grid columns={2} relaxed>
                     <Grid.Column>
                         <Segment basic>
                             <Dropzone
@@ -60,23 +79,17 @@ class NewAudio extends Component {
                         <h2>Rejected Files:</h2>
                         <ul>
                             {this.state.rejected.map((file) =>
-                            <li>
-                                <p>{file.name}</p>
+                            <li key={shortid.generate()}>
+                                <p color="red">{file.name}</p>
                             </li>
                             )}
                         </ul>
 
                     </Grid.Column>
-                    <Grid.Column>
-                        <Segment basic>
-                            <ul>
-                                <li><Button onClick={this.checkUploads}>Upload File</Button></li>
-                                <li><Button onClick={this.clearList}>Clear uploads</Button></li>
-                                <li><Button onClick={appStore.closeNew}>Cancel</Button></li>
-                            </ul>
-                        </Segment>
-                    </Grid.Column>
                 </Grid>
+                <Button onClick={this.checkUploads}>Upload File</Button>
+                <Button onClick={this.clearList}>Clear uploads</Button>
+                <Button onClick={appStore.closeNew} >Cancel</Button>
             </Segment>
         )
     }

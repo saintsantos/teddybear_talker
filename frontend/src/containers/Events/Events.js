@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import EventList from '../../components/Lists/eventList/eventList.js';
-import { Button, Segment, Dropdown, Menu } from 'semantic-ui-react';
+import { Button, Segment, Dropdown, Menu, Loader } from 'semantic-ui-react';
 import EditEvent from '../../components/Edit/editEvent.js';
-import eventStore from '../../stores/eventStore.js';
+import eventStore, { Event } from '../../stores/eventStore.js';
 import audioStore from '../../stores/audioStore.js';
 import appStore from '../../stores/appStore.js';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
 import NewEvent from '../../components/New/newEvent.js';
+import axios from 'axios';
 import './Events.css';
 
 const days = [
@@ -22,12 +22,20 @@ const days = [
 
 @observer
 class Events extends Component {
-    constructor() {
-        super();
-    }
-
     changeDay = (e, data) => {
         appStore.changeDay(data.value);
+        axios.get(appStore.backendurl + '/events/' + appStore.day)
+            .then((response) => {
+                console.log(response.data);
+                eventStore.clear()
+                response.data.events.map((event) => {
+                    eventStore.set(event.id, new Event(event.id, event.time, event.voice, event.music, event.day))
+                })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
     
     render() {

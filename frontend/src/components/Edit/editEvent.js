@@ -7,6 +7,7 @@ import audioStore from '../../stores/audioStore';
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
+import axios from 'axios';
 
 
 const days = [
@@ -19,7 +20,6 @@ const days = [
     {key: "Sun", text: "Sunday", value: "sunday"},
 ]
 
-const now = moment().hour(0).minute(0);
 const format = 'h:mm a'
 
 @observer
@@ -29,7 +29,7 @@ class EditEvent extends Component {
         this.state = {
             'time': eventStore.get(appStore.editId).time,
             'voice': eventStore.get(appStore.editId).voice,
-            'jingle': eventStore.get(appStore.editId).jingle,
+            'music': eventStore.get(appStore.editId).music,
             'day': eventStore.get(appStore.editId).day
         }
         
@@ -43,8 +43,8 @@ class EditEvent extends Component {
         this.setState({'voice': e.target.value})
     }
 
-    updateJingle = (e) => {
-        this.setState({'jingle': e.target.value})
+    updateMusic = (e) => {
+        this.setState({'music': e.target.value})
     }
 
     getVoices = (e) => {
@@ -55,21 +55,19 @@ class EditEvent extends Component {
             }
         })
 
-        console.log(voices);
         return voices;
 
     }
 
-    getJingles = (e) => {
-        let jingles = []
+    getMusics = (e) => {
+        let musics = []
         Array.from(audioStore).map((audio) => {
             if (audio[1].form === 0) {
-                jingles.push(audio[1])
+                musics.push(audio[1])
             }
         })
 
-        console.log(jingles);
-        return jingles;
+        return musics;
     }
 
     updateDay = (e) => {
@@ -77,14 +75,21 @@ class EditEvent extends Component {
     }
 
     updateEvent = (e) => {
-        console.log(this.state);
-        eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.jingle, this.state.day);
-        appStore.closeEdit();
+        axios.patch(appStore.backendurl + '/events/' + appStore.editId, this.state)
+            .then((response) => {
+                console.log(response.data);
+                eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.music, this.state.day);
+                appStore.closeEdit();
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
     }
 
     render() {
         const voices = this.getVoices();
-        const jingles = this.getJingles();
+        const musics = this.getMusics();
         return (
             <Segment>
                 <Form onSubmit={this.updateEvent}>
@@ -95,12 +100,12 @@ class EditEvent extends Component {
                     <Form.Group>
                         <Form.Field widths="equal">
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
-                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
+                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {voices.map((voice) => <option value={voice.id}>{voice.name}</option>)}
                             </select>
-                            <select label='Jingle' value={this.state.jingle} onChange={this.updateJingle}>
-                                <option value={audioStore.get(0).id}>{audioStore.get(0).name}</option>
-                                {jingles.map((jingle) => <option value={jingle.id}>{jingle.name}</option>)}
+                            <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
+                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
+                                {musics.map((music) => <option value={music.id}>{music.name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>
