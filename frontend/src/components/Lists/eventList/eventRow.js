@@ -5,6 +5,7 @@ import appStore from '../../../stores/appStore';
 import eventStore from '../../../stores/eventStore';
 import { observer } from 'mobx-react';
 import axios from 'axios';
+import moment from 'moment';
 
 @observer
 class EventRow extends Component {
@@ -33,9 +34,10 @@ class EventRow extends Component {
    }
 
    render() {
+       const time = moment(this.props.event[1].time, ["HH:mm"]).format("h:mm a")
         return (
             <Table.Row>
-                <Table.Cell>{this.props.event[1].time}</Table.Cell>
+                <Table.Cell>{time}</Table.Cell>
                 <Table.Cell>{this.props.voice.getName}</Table.Cell>
                 <Table.Cell>{this.props.music.getName}</Table.Cell>
                 <Table.Cell>

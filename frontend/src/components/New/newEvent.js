@@ -18,7 +18,7 @@ const days = [
     {key: "Sat", text: "Saturday", value: "saturday"},
     {key: "Sun", text: "Sunday", value: "sunday"},
 ]
-const now = moment().format("h:mm a")
+const now = moment().format("HH:mm")
 const format = 'h:mm a'
 
 // TODO - Figure out a sane way to handle times
@@ -35,23 +35,21 @@ class NewEvent extends Component {
     }
 
     createEvent = (e) => {
-        console.log(this.state);
-        console.log(eventStore.size);
-        //console.log(moment(this.state.time).format("HH:mm"))
-        //console.log(this.state.time)
         //Make http request here
         axios.post(appStore.backendurl + '/events/', this.state)
             .then((response) => {
-                console.log(response.data)
-                eventStore.set(response.data.id,
-                    new Event(
-                        response.data.id,
-                        this.state.time,
-                        this.state.voice,
-                        this.state.music,
-                        this.state.day
+                if (this.state.day === appStore.day) {
+                    eventStore.set(response.data.id,
+                        new Event(
+                            response.data.id,
+                            this.state.time,
+                            this.state.voice,
+                            this.state.music,
+                            this.state.day
+                        )
                     )
-                )
+                }
+                
                 appStore.closeNew();
             })
             .catch((error) => {
