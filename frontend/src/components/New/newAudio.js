@@ -54,8 +54,9 @@ class NewAudio extends Component {
                     <Grid.Column>
                         <Segment basic>
                             <Dropzone
-                            accept="audio/*"
+                            accept=".wma, .m4a, .mp3, .wav"
                             onDrop={(accepted, rejected) => {this.setState({accepted, rejected});}}
+                            maxSixe={2097152}
                             >
                             <h2>Click here and select an audio file to upload</h2>
                             </Dropzone>

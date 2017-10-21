@@ -69,9 +69,6 @@ class AudioPage extends Component {
                     <Button onClick={appStore.openNew} floated="right">
                         + New Audio File
                     </Button>
-                    <Menu compact>
-                        <Dropdown text={forms.find((form) => form.value === this.state.form).text} value={this.state.form} options={forms} simple item onChange={this.changeForm}/>
-                    </Menu>
                     <AudioList audios={audioStore}/>
                 </Segment>
                 {edit}
