@@ -6,7 +6,7 @@ from flask_cors import CORS
 from subprocess import call
 import os
 
-ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav'])
+ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
 UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
 
 app = Flask(__name__)
@@ -66,6 +66,10 @@ class AudioSchema(ma.ModelSchema):
         model = Audio
 audio_schema = AudioSchema()
 audios_schema = AudioSchema(many=True)
+
+@app.route('/hello/')
+def hello():
+    return 'Hello World!'
 
 
 @app.route('/events/<day>', methods=['GET'])
@@ -150,6 +154,8 @@ def audio_handler():
             db.session.add(audio)
             db.session.commit()
             return jsonify(audio_schema.dump(audio).data), 201
+        else:
+            return jsonify({'File Not Allowed': 'This file is not allowed'}), 400
     else:
         return jsonify(audio=audios_schema.dump(Audio.query.all()).data)
 
@@ -183,14 +189,19 @@ def clean():
 
 @app.route('/test/audio/<id>', methods=['POST'])
 def test_audio(id):
-    call(["echo", "test audio file", id])
+    audio = Audio.query.get(id)
+    call(["mplayer", audio.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/test/event/<id>', methods=['POST'])
 def test_event(id):
-    call(["echo", "test event", id])
+    event = Events.query.get(id)
+    voice = Audio.query.get(event.voice)
+    music = Audio.query.get(event.music)
+    call(["mplayer", voice.path])
+    call(["mplayer", music.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=int("5000"), debug=True)
