@@ -69,6 +69,7 @@ class AudioPage extends Component {
                     <Button onClick={appStore.openNew} floated="right">
                         + New Audio File
                     </Button>
+                    <h2>Audio Files</h2>
                     <AudioList audios={audioStore}/>
                 </Segment>
                 {edit}

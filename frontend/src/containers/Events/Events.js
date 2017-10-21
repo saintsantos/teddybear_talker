@@ -53,6 +53,7 @@ class Events extends Component {
                     <Menu compact>
                         <Dropdown text={appStore.day} value={appStore.day} options={days} simple item onChange={this.changeDay}/>
                     </Menu>
+                    <h2>All events for {appStore.day}</h2>
                     <EventList events={eventStore} audios={audioStore}/>
                 </Segment>
                 {edit}
