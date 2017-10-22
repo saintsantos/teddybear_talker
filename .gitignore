@@ -12,3 +12,5 @@ server-php/src/vendor/
 server/uploads/
 server-php/src/logs/
 venv/
+build/
+.idea/
