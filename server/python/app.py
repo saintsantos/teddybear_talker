@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from werkzeug.utils import secure_filename
@@ -9,7 +9,7 @@ import os
 ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
 UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./static/build', template_folder='./static')
 app.debug = True
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///python.db'
@@ -60,25 +60,19 @@ class EventSchema(ma.ModelSchema):
 event_schema = EventSchema()
 events_schema = EventSchema(many=True)
 
-
 class AudioSchema(ma.ModelSchema):
     class Meta:
         model = Audio
 audio_schema = AudioSchema()
 audios_schema = AudioSchema(many=True)
 
-@app.route('/hello/')
-def hello():
-    return 'Hello World!'
-
-
-@app.route('/events/<day>', methods=['GET'])
+@app.route('/api/events/<day>', methods=['GET'])
 def get_day(day):
     # print(day)
     return jsonify(events=events_schema.dump(Events.query.filter_by(day=day)).data)
 
 
-@app.route('/events/<id>', methods=['DELETE', 'PATCH'])
+@app.route('/api/events/<id>', methods=['DELETE', 'PATCH'])
 def update_event(id):
     if request.method == 'PATCH':
         update_data = request.get_json()
@@ -95,7 +89,7 @@ def update_event(id):
 
 
 # TODO - Check if an event already exists for the bear before adding a new event
-@app.route('/events/', methods=['POST'])
+@app.route('/api/events/', methods=['POST'])
 def create_events():
     event_data = request.get_json()
     print(event_data)
@@ -113,7 +107,7 @@ def create_events():
     return jsonify(event_schema.dump(event).data)
 
 
-@app.route('/audio/<id>', methods=['DELETE', 'PATCH'])
+@app.route('/api/audio/<id>', methods=['DELETE', 'PATCH'])
 def modify_audio(id):
     if request.method == 'PATCH':
         update_data = request.get_json()
@@ -129,12 +123,12 @@ def modify_audio(id):
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/audio/<form>')
+@app.route('/api/audio/<form>')
 def filter_audio(form):
     return jsonify(audio=audios_schema.dump(Audio.query.filter_by(form=form)).data)
 
 
-@app.route('/audio/', methods=['GET', 'POST'])
+@app.route('/api/audio/', methods=['GET', 'POST'])
 def audio_handler():
     # TODO - Add capabilities to rename files when they are uploaded.
     if request.method == 'POST':
@@ -160,19 +154,19 @@ def audio_handler():
         return jsonify(audio=audios_schema.dump(Audio.query.all()).data)
 
 
-@app.route('/reboot', methods=['POST'])
+@app.route('/api/reboot', methods=['POST'])
 def reboot():
     call(["echo", "Make the bear reboot"])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/date', methods=['POST'])
+@app.route('/api/date', methods=['POST'])
 def date_update():
     call(["echo", "Update the date and time of the bear"])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/clean', methods=['POST'])
+@app.route('/api/clean', methods=['POST'])
 def clean():
     db.drop_all()
     db.create_all()
@@ -187,14 +181,14 @@ def clean():
     return jsonify({'successfully reset': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/test/audio/<id>', methods=['POST'])
+@app.route('/api/test/audio/<id>', methods=['POST'])
 def test_audio(id):
     audio = Audio.query.get(id)
     call(["mplayer", audio.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
-@app.route('/test/event/<id>', methods=['POST'])
+@app.route('/api/test/event/<id>', methods=['POST'])
 def test_event(id):
     event = Events.query.get(id)
     voice = Audio.query.get(event.voice)
@@ -202,6 +196,11 @@ def test_event(id):
     call(["mplayer", voice.path])
     call(["mplayer", music.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template('react.jinja2')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=int("5000"), debug=True)
