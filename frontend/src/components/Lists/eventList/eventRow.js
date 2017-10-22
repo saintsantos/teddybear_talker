@@ -6,6 +6,7 @@ import eventStore from '../../../stores/eventStore';
 import { observer } from 'mobx-react';
 import axios from 'axios';
 import moment from 'moment';
+import DeleteEventModal from '../../Modal/DeleteEventModal.js';
 
 @observer
 class EventRow extends Component {
@@ -42,7 +43,7 @@ class EventRow extends Component {
                 <Table.Cell>{this.props.music.getName}</Table.Cell>
                 <Table.Cell>
                     <Button color='teal' onClick={this.editEvent}>Edit</Button>
-                    <Button color='red' onClick={this.deleteEvent}>Delete</Button>
+                    <DeleteEventModal deleteEvent={this.deleteEvent}/>
                     <Button color="blue" onClick={this.testEvent}>Play</Button>
                 </Table.Cell>
             </Table.Row>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import appStore from '../../stores/appStore';
 import { Button, Segment } from 'semantic-ui-react';
 import axios from 'axios';
+import RestartBearModal from '../../components/Modal/RestartBearModal';
+import ResetBearModal from '../../components/Modal/ResetBearModal';
 
 
 class Settings extends Component {
@@ -45,8 +47,8 @@ class Settings extends Component {
     render() {
         return (
             <Segment>
-                <Button color="orange" onClick={this.rebootBear}>Restart Bear</Button>
-                <Button color="red" onClick={this.hardReset}>Reset Bear</Button>
+                <RestartBearModal restartBear={this.rebootBear}/>
+                <ResetBearModal resetBear={this.hardReset}/>
                 <Button color="teal" onClick={this.updateBearDate}>Update Bear Date</Button>
             </Segment>
 

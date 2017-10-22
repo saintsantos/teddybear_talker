@@ -26,7 +26,6 @@ class Events extends Component {
         appStore.changeDay(data.value);
         axios.get(appStore.backendurl + '/events/' + appStore.day)
             .then((response) => {
-                console.log(response.data);
                 eventStore.clear()
                 response.data.events.map((event) => {
                     eventStore.set(event.id, new Event(event.id, event.time, event.voice, event.music, event.day))

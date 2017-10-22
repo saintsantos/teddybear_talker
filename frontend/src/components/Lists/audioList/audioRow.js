@@ -5,6 +5,7 @@ import appStore from '../../../stores/appStore';
 import audioStore from '../../../stores/audioStore';
 import { observer } from 'mobx-react';
 import axios from 'axios';
+import DeleteAudioModal from '../../Modal/DeleteAudioModal';
 
 @observer
 class AudioRow extends Component {
@@ -40,7 +41,7 @@ class AudioRow extends Component {
             <Table.Cell>{audioType}</Table.Cell>
             <Table.Cell>
                 <Button color='teal' onClick={this.editSound}>Edit</Button>
-                <Button color='red' onClick={this.deleteSound}>Delete</Button>
+                <DeleteAudioModal deleteAudio={this.deleteSound}/>
                 <Button color="blue" onClick={this.testSound}>Play</Button>
             </Table.Cell>
         </Table.Row>  
