@@ -4,19 +4,21 @@ import { Button, Segment } from 'semantic-ui-react';
 import axios from 'axios';
 import RestartBearModal from '../../components/Modal/RestartBearModal';
 import ResetBearModal from '../../components/Modal/ResetBearModal';
-
+import eventStore from '../../stores/eventStore';
+import audioStore from '../../stores/audioStore';
 
 class Settings extends Component {
     constructor() {
         super();
     }
 
-
     hardReset = (e) => {
         axios.post(appStore.backendurl + '/clean')
             .then((response) => {
                 console.log(response);
                 alert("Bear successfully reset")
+                eventStore.clear();
+                audioStore.clear();
             })
             .catch((error) => {
                 console.log(error);

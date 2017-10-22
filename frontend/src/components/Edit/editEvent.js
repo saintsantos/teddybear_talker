@@ -94,15 +94,19 @@ class EditEvent extends Component {
             <Segment>
                 <Form onSubmit={this.updateEvent}>
                     <Form.Field>
-                        <Header as='h4'>Time</Header>
+                        <Header as='h4'>Select time of event: </Header>
                         <TimePicker showSecond={false} defaultValue={moment(this.state.time, "H:mm")} onChange={this.updateClock} format={format} use12Hours></TimePicker>
                     </Form.Field>
                     <Form.Group>
                         <Form.Field widths="equal">
+                            <Header as='h4'>Select Voice for event: </Header>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {voices.map((voice) => <option value={voice.id}>{voice.name}</option>)}
                             </select>
+                        </Form.Field>
+                        <Form.Field widths="equal">
+                            <Header as='h4'>Select Music for event: </Header>
                             <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {musics.map((music) => <option value={music.id}>{music.name}</option>)}
@@ -110,6 +114,7 @@ class EditEvent extends Component {
                         </Form.Field>
                     </Form.Group>
                     <Form.Field>
+                        <Header as='h4'>Select day of event: </Header>
                         <select label='Day'  value={this.state.day} onChange={this.updateDay}>
                             {days.map((day) => <option value={day.value}>{day.text}</option>)}
                         </select>

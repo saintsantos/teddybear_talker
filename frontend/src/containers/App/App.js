@@ -12,7 +12,6 @@ import axios from 'axios';
 
 class App extends Component {
     render() {
-
         axios.get(appStore.backendurl + '/audio/')
             .then((response) => {
                 response.data.audio.map((audio) => {

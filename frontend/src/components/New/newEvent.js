@@ -4,7 +4,7 @@ import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
 import eventStore from '../../stores/eventStore';
 import { Event } from '../../stores/eventStore';
-import { Segment, Form, Header } from 'semantic-ui-react';
+import { Segment, Form, Header, Label } from 'semantic-ui-react';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import axios from 'axios';
@@ -66,21 +66,19 @@ class NewEvent extends Component {
             }
         })
 
-        console.log(voices);
         return voices;
 
     }
 
-    getJingles = (e) => {
-        let jingles = []
+    getMusic = (e) => {
+        let music = []
         Array.from(audioStore).map((audio) => {
             if (audio[1].form === 0) {
-                jingles.push(audio[1])
+                music.push(audio[1])
             }
         })
 
-        console.log(jingles);
-        return jingles;
+        return music;
     }
 
     updateClock = (value) => {
@@ -91,8 +89,8 @@ class NewEvent extends Component {
         this.setState({'voice': e.target.value})
     }
 
-    updateJingle = (e) => {
-        this.setState({'jingle': e.target.value})
+    updateMusic = (e) => {
+        this.setState({'music': e.target.value})
     }
 
     updateDay = (e) => {
@@ -104,22 +102,27 @@ class NewEvent extends Component {
             <Segment>
                 <Form onSubmit={this.createEvent}>
                     <Form.Field>
-                        <Header as='h4'>Time</Header>
+                        <Header as='h4'>Select time of event: </Header>
                         <TimePicker showSecond={false} defaultValue={moment(this.state.time, ["H:mm a"])} onChange={this.updateClock} format={format} use12Hours></TimePicker>
                     </Form.Field>
                     <Form.Group>
                         <Form.Field>
+                            <Header as='h4'>Select Voice for event: </Header>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {this.getVoices().map((voice) => <option value={voice.id}>{voice.name}</option>)}
                             </select>
-                            <select label='Jingle' value={this.state.jingle} onChange={this.updateJingle}>
+                        </Form.Field>
+                        <Form.Field>
+                            <Header as='h4'>Select Music for event: </Header>
+                            <select label='music' value={this.state.music} onChange={this.updateMusic}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {this.getJingles().map((jingle) => <option value={jingle.id}>{jingle.name}</option>)}
+                                {this.getMusic().map((music) => <option value={music.id}>{music.name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>
                     <Form.Field>
+                        <Header as='h4'>Select day of event: </Header>
                         <select label='Day'  value={this.state.day} onChange={this.updateDay}>
                             {days.map((day) => <option key={day.key} value={day.value}>{day.text}</option>)}
                         </select>

@@ -9,7 +9,7 @@ class AppStore {
     @observable loading;
     @observable activeTab
 
-    constructor(edit = false, editId = 1, day = 'monday', backendurl = 'http://localhost:5000', loading = true, activeTab = 1) {
+    constructor(edit = false, editId = 1, day = 'monday', backendurl = 'http://localhost:5000/api', loading = true, activeTab = 1) {
         this.edit = edit;
         this.editId = editId;
         this.day = day;
