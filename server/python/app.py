@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
 UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
 
 app = Flask(__name__, static_folder='./static/build', template_folder='./static')
-app.debug = True
+app.config['DEBUG'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///python.db'
 app.config['SQLALCHEMY_ECHO'] = False
