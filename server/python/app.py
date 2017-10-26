@@ -50,6 +50,10 @@ class Events(db.Model):
         self.music = music
         self.day = day
 
+class Active(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    event_id = db.Column(db.Integer)
+
 db.create_all()
 
 
