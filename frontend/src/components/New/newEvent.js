@@ -61,7 +61,7 @@ class NewEvent extends Component {
     getVoices = (e) => {
         let voices = []
         Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 1) {
+            if (audio[1].form === 0) {
                 voices.push(audio[1])
             }
         })
@@ -73,7 +73,7 @@ class NewEvent extends Component {
     getMusic = (e) => {
         let music = []
         Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 0) {
+            if (audio[1].form === 1) {
                 music.push(audio[1])
             }
         })

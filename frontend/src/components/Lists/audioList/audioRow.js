@@ -6,6 +6,7 @@ import audioStore from '../../../stores/audioStore';
 import { observer } from 'mobx-react';
 import axios from 'axios';
 import DeleteAudioModal from '../../Modal/DeleteAudioModal';
+import eventStore from '../../../stores/eventStore';
 
 @observer
 class AudioRow extends Component {
@@ -14,11 +15,32 @@ class AudioRow extends Component {
     }
 
     deleteSound = (e) => {
+        let deleteEvents = [];
+        if (this.props.audio[1].form == 1) {
+            deleteEvents = Array.from(eventStore).filter((event) => {
+                return event[1].music == this.props.audio[1].id;
+            })
+        }
+        else {
+            deleteEvents = Array.from(eventStore).filter((event) => {
+                console.log("checking event")
+                console.log(this.props.audio[1]);
+                return event[1].voice == this.props.audio[1].id;
+            })
+        }
+        if (deleteEvents) {
+            deleteEvents.map((event) => {
+                eventStore.delete(event[0]);
+            })
+        }
+        
         audioStore.delete(this.props.audio[0])
         axios.delete(appStore.backendurl + '/audio/' + this.props.audio[1].id)
             .then((response) => {
                 console.log(response.data);
             })
+        
+
     }
 
     testSound = (e) => {

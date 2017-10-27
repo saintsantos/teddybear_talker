@@ -50,7 +50,7 @@ class EditEvent extends Component {
     getVoices = (e) => {
         let voices = []
         Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 1) {
+            if (audio[1].form === 0) {
                 voices.push(audio[1])
             }
         })
@@ -62,7 +62,7 @@ class EditEvent extends Component {
     getMusics = (e) => {
         let musics = []
         Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 0) {
+            if (audio[1].form === 1) {
                 musics.push(audio[1])
             }
         })

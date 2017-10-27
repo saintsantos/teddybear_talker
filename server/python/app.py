@@ -136,6 +136,10 @@ def modify_audio(id):
         # Delete an audio file from both the db and the actual filesystem
         audio = Audio.query.get(id)
         os.remove(audio.path)
+        if audio.form == 1:
+            Events.query.filter_by(music=audio.id).delete()
+        else:
+            Events.query.filter_by(voice=audio.id).delete()
         Audio.query.filter_by(id=id).delete()
         db.session.commit()
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
