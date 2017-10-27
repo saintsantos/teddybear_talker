@@ -19,6 +19,10 @@ class EditAudio extends Component {
         }
     }
 
+    componentDidMount() {
+        console.log(forms);
+    }
+
     saveAndClose = (e) => {
         axios.patch(appStore.backendurl + '/audio/' + appStore.editId, this.state)
             .then((response) => {
@@ -36,7 +40,7 @@ class EditAudio extends Component {
     }
 
     handleFormChange = (e) => {
-        this.setState({'form': e.target.value});
+        this.setState({'form': parseInt(e.target.value)});
     }
 
     render() {

@@ -30,9 +30,16 @@ class EditEvent extends Component {
             'time': eventStore.get(appStore.editId).time,
             'voice': eventStore.get(appStore.editId).voice,
             'music': eventStore.get(appStore.editId).music,
-            'day': eventStore.get(appStore.editId).day
+            'day': eventStore.get(appStore.editId).day,
+            'voices': [],
+            'musics': []
         }
         
+    }
+
+    componentWillMount() {
+        this.getVoices();
+        this.getMusics();
     }
 
     updateClock = (value) => {
@@ -48,26 +55,19 @@ class EditEvent extends Component {
     }
 
     getVoices = (e) => {
-        let voices = []
-        Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 0) {
-                voices.push(audio[1])
-            }
+        let voices = Array.from(audioStore).filter((audio) => {
+            return audio[1].form === 0;
         })
+        this.setState({voices: voices})
 
-        return voices;
 
     }
 
     getMusics = (e) => {
-        let musics = []
-        Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 1) {
-                musics.push(audio[1])
-            }
+        let music = Array.from(audioStore).filter((audio) => {
+            return audio[1].form === 1;
         })
-
-        return musics;
+        this.setState({musics: music})
     }
 
     updateDay = (e) => {
@@ -75,7 +75,14 @@ class EditEvent extends Component {
     }
 
     updateEvent = (e) => {
-        axios.patch(appStore.backendurl + '/events/' + appStore.editId, this.state)
+        // Handle the data for this
+        let data = {
+            'time': this.state.time,
+            'voices': this.state.voice,
+            'music': this.state.music,
+            'day': this.state.day
+        }
+        axios.patch(appStore.backendurl + '/events/' + appStore.editId, data)
             .then((response) => {
                 console.log(response.data);
                 eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.music, this.state.day);
@@ -88,8 +95,6 @@ class EditEvent extends Component {
     }
 
     render() {
-        const voices = this.getVoices();
-        const musics = this.getMusics();
         return (
             <Segment>
                 <Form onSubmit={this.updateEvent}>
@@ -102,14 +107,14 @@ class EditEvent extends Component {
                             <Header as='h4'>Select Voice for event: </Header>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {voices.map((voice) => <option value={voice.id}>{voice.name}</option>)}
+                                {this.state.voices.map((voice) => <option value={voice[1].id}>{voice[1].name}</option>)}
                             </select>
                         </Form.Field>
                         <Form.Field widths="equal">
                             <Header as='h4'>Select Music for event: </Header>
                             <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {musics.map((music) => <option value={music.id}>{music.name}</option>)}
+                                {this.state.musics.map((music) => <option value={music[1].id}>{music[1].name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>

@@ -30,13 +30,27 @@ class NewEvent extends Component {
             'time': now,
             'voice': 1,
             'music': 1,
-            'day': 'monday'
+            'day': 'monday',
+            'musics': [],
+            'voices': []
         }
+    }
+
+    componentWillMount() {
+        this.getMusic();
+        this.getVoices();
+
     }
 
     createEvent = (e) => {
         //Make http request here
-        axios.post(appStore.backendurl + '/events/', this.state)
+        let data = {
+            'time': this.state.time,
+            'voice': this.state.voice,
+            'music': this.state.music,
+            'day': this.state.day
+        }
+        axios.post(appStore.backendurl + '/events/', data)
             .then((response) => {
                 if (this.state.day === appStore.day) {
                     eventStore.set(response.data.id,
@@ -59,26 +73,17 @@ class NewEvent extends Component {
     }
 
     getVoices = (e) => {
-        let voices = []
-        Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 0) {
-                voices.push(audio[1])
-            }
+        let voices = Array.from(audioStore).filter((audio) => {
+            return audio[1].form === 0;
         })
-
-        return voices;
-
+        this.setState({voices: voices})
     }
 
     getMusic = (e) => {
-        let music = []
-        Array.from(audioStore).map((audio) => {
-            if (audio[1].form === 1) {
-                music.push(audio[1])
-            }
+        let music = Array.from(audioStore).filter((audio) => {
+            return audio[1].form === 1;
         })
-
-        return music;
+        this.setState({musics: music})
     }
 
     updateClock = (value) => {
@@ -110,14 +115,14 @@ class NewEvent extends Component {
                             <Header as='h4'>Select Voice for event: </Header>
                             <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {this.getVoices().map((voice) => <option value={voice.id}>{voice.name}</option>)}
+                                {this.state.voices.map((voice) => <option value={voice[1].id}>{voice[1].name}</option>)}
                             </select>
                         </Form.Field>
                         <Form.Field>
                             <Header as='h4'>Select Music for event: </Header>
                             <select label='music' value={this.state.music} onChange={this.updateMusic}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {this.getMusic().map((music) => <option value={music.id}>{music.name}</option>)}
+                                {this.state.musics.map((music) => <option value={music[1].id}>{music[1].name}</option>)}
                             </select>
                         </Form.Field>
                     </Form.Group>
