@@ -17,38 +17,37 @@ DEBUG = 1
 # This code is released into the public domain
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
 def readadc(adcnum, clockpin, mosipin, misopin, cspin):
-        if ((adcnum > 7) or (adcnum < 0)):
-                return -1
-        GPIO.output(cspin, True)
+    if ((adcnum > 7) or (adcnum < 0)):
+        return -1
+    GPIO.output(cspin, True)
 
-        GPIO.output(clockpin, False)  # start clock low
-        GPIO.output(cspin, False)     # bring CS low
+    GPIO.output(clockpin, False)  # start clock low
+    GPIO.output(cspin, False)     # bring CS low
 
-        commandout = adcnum
-        commandout |= 0x18  # start bit + single-ended bit
-        commandout <<= 3    # we only need to send 5 bits here
-        for i in range(5):
-                if (commandout & 0x80):
-                        GPIO.output(mosipin, True)
-                else:
-                        GPIO.output(mosipin, False)
-                commandout <<= 1
-                GPIO.output(clockpin, True)
-                GPIO.output(clockpin, False)
+    commandout = adcnum
+    commandout |= 0x18  # start bit + single-ended bit
+    commandout <<= 3    # we only need to send 5 bits here
+    for i in range(5):
+        if (commandout & 0x80):
+            GPIO.output(mosipin, True)
+        else:
+            GPIO.output(mosipin, False)
+            commandout <<= 1
+            GPIO.output(clockpin, True)
+            GPIO.output(clockpin, False)
+    adcout = 0
+    # read in one empty bit, one null bit and 10 ADC bits
+    for i in range(12):
+        GPIO.output(clockpin, True)
+        GPIO.output(clockpin, False)
+        adcout <<= 1
+        if (GPIO.input(misopin)):
+            adcout |= 0x1
 
-        adcout = 0
-        # read in one empty bit, one null bit and 10 ADC bits
-        for i in range(12):
-                GPIO.output(clockpin, True)
-                GPIO.output(clockpin, False)
-                adcout <<= 1
-                if (GPIO.input(misopin)):
-                        adcout |= 0x1
+    GPIO.output(cspin, True)
 
-        GPIO.output(cspin, True)
-
-        adcout >>= 1       # first bit is 'null' so drop it
-        return adcout
+    adcout >>= 1       # first bit is 'null' so drop it
+    return adcout
 
 def play_event():
     # fetch query from server
@@ -94,31 +93,31 @@ tolerance = 80       # to keep from being jittery we'll only change
 
 while True:
 
-        # we'll assume that the pot didn't move
-        flex_sensor_changed = False
+    # we'll assume that the pot didn't move
+    flex_sensor_changed = False
 
-        # read the analog pin
-        flex = readadc(flex_sensor_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
-        # how much has it changed since the last read?
-        flex_diff = flex - last_read
-        # sound_path = 'love.mp3'
-        if DEBUG:
-                print "flex:", flex
-                print "flex_diff:", flex_diff
-                print "last_read", last_read
+    # read the analog pin
+    flex = readadc(flex_sensor_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+    # how much has it changed since the last read?
+    flex_diff = flex - last_read
+    # sound_path = 'love.mp3'
+    if DEBUG:
+        print "flex:", flex
+        print "flex_diff:", flex_diff
+        print "last_read", last_read
 
-        if ( flex_diff > tolerance ):
-                flex_sensor_changed = True
+    if ( flex_diff > tolerance ):
+        flex_sensor_changed = True
 
-        if DEBUG:
-                print "flex_sensor_changed", flex_sensor_changed
+    if DEBUG:
+        print "flex_sensor_changed", flex_sensor_changed
 
-        if ( flex_sensor_changed ):
-            # Play our event if the flex sensor has registered an update
-            play_event()
+    if ( flex_sensor_changed ):
+        # Play our event if the flex sensor has registered an update
+        play_event()
                 
-        # save the potentiometer reading for the next loop
-        last_read = flex
+    # save the potentiometer reading for the next loop
+    last_read = flex
 
-        # hang out and do nothing for a half second
-        time.sleep(0.5)
+    # hang out and do nothing for a half second
+    time.sleep(0.5)
