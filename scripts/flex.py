@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-
-
 # Modified by Steven Siwinski for use in UB's 'Teddy Bear Talker'. AKA:'Project Irie'
-
 import time
 import os
 from subprocess import call
