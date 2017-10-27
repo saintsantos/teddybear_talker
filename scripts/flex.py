@@ -5,7 +5,7 @@
 
 import time
 import os
-import subprocess
+from subprocess import call
 import sqlite3
 import sys
 import RPi.GPIO as GPIO
@@ -50,6 +50,23 @@ def readadc(adcnum, clockpin, mosipin, misopin, cspin):
         adcout >>= 1       # first bit is 'null' so drop it
         return adcout
 
+def play_event():
+    # fetch query from server
+    c.execute("Select * from active")
+    result = c.fetchone()
+    # print result
+    event = result[0]
+    c.execute("SELECT * from events inner join audio as voice on voice.id=events.voice inner join audio as music on music.id=events.music where events.id=%d" % event)
+    result = c.fetchone()
+    # print result
+    voice_path = result[7]
+    music_path = result[10]
+    if music_path != "None":
+        call(['mplayer', music_path])
+    if voice_path != "None":
+        call(['mplayer', voice_path])
+
+
 # change these as desired - they're the pins connected from the
 # SPI port on the ADC to the Cobbler
 SPICLK = 18
@@ -64,7 +81,7 @@ GPIO.setup(SPICLK, GPIO.OUT)
 GPIO.setup(SPICS, GPIO.OUT)
 
 # establish connection to database
-conn = sqlite3.connect('/home/pi/teddybear_talker/database/bearfinal.db')
+conn = sqlite3.connect('/home/pi/teddybear_talker/server/python/python.db')
 c = conn.cursor()
 
 # Flex sensor connected to adc #0
@@ -97,21 +114,9 @@ while True:
                 print "flex_sensor_changed", flex_sensor_changed
 
         if ( flex_sensor_changed ):
-                # fetch query from server
-                c.execute("Select * from active")
-                result = c.fetchone()
-                print result
-                event = result[0]
-                c.execute("SELECT * from events inner join voice on voice.voice_id=events.voice_id inner join jingle on jingle.jingle_id=events.jingle_id where events.event_id=%d" % event)
-                result = c.fetchone()
-                print result
-                voice_path = result[8]
-                jingle_path = result[12]
-                if jingle_path != "None":
-                    subprocess.Popen(['mpg123', '-q', jingle_path]).wait()
-                if voice_path != "None":
-                    subprocess.Popen(['mpg123', '-q', voice_path]).wait()
-
+            # Play our event if the flex sensor has registered an update
+            play_event()
+                
         # save the potentiometer reading for the next loop
         last_read = flex
 
