@@ -7,9 +7,16 @@ import { observer } from 'mobx-react';
 import axios from 'axios';
 import moment from 'moment';
 import DeleteEventModal from '../../Modal/DeleteEventModal.js';
+import Halogen from 'halogen';
 
 @observer
 class EventRow extends Component {
+    constructor() {
+        super();
+        this.state = {
+            playing: false
+        }
+    }
    editEvent = (e) => {
        appStore.editElement(this.props.event[1].id)
    }
@@ -24,18 +31,36 @@ class EventRow extends Component {
    }
 
    testEvent = (e) => {
+       this.setState({playing: true});
        console.log(eventStore.get(this.props.event[1].id))
        axios.post(appStore.backendurl + '/test/event/' + this.props.event[1].id)
            .then((response) => {
            console.log(response);
+           this.setState({playing: false})
            })
            .catch((error) => {
            console.log(error);
+           this.setState({playing: false})
            })
    }
 
    render() {
        const time = moment(this.props.event[1].time, ["HH:mm"]).format("h:mm a")
+       let playButton = null
+       if (this.state.playing) {
+           playButton = (
+            <Button className='disabled' color='blue' onClick={this.testEvent}>
+                <div><Halogen.PulseLoader color={'#ffffff'}/></div>
+            </Button>
+           
+        )
+       } else {
+           playButton = (
+            <Button color='blue' onClick={this.testEvent}>
+                <div>Play</div>
+            </Button>
+        )
+       }
         return (
             <Table.Row>
                 <Table.Cell>{time}</Table.Cell>
@@ -44,7 +69,8 @@ class EventRow extends Component {
                 <Table.Cell>
                     <Button color='teal' onClick={this.editEvent}>Edit</Button>
                     <DeleteEventModal deleteEvent={this.deleteEvent}/>
-                    <Button color="blue" onClick={this.testEvent}>Play</Button>
+                    {playButton}
+                    
                 </Table.Cell>
             </Table.Row>
         )

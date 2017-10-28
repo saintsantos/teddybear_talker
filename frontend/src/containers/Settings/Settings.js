@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import appStore from '../../stores/appStore';
-import { Button, Segment } from 'semantic-ui-react';
+import { Button, Segment, Grid, Label, Header, Divider } from 'semantic-ui-react';
 import axios from 'axios';
 import RestartBearModal from '../../components/Modal/RestartBearModal';
 import ResetBearModal from '../../components/Modal/ResetBearModal';
@@ -49,9 +49,22 @@ class Settings extends Component {
     render() {
         return (
             <Segment>
-                <RestartBearModal restartBear={this.rebootBear}/>
-                <ResetBearModal resetBear={this.hardReset}/>
-                <Button color="teal" onClick={this.updateBearDate}>Update Bear Date</Button>
+                <Header as='h1'>Settings</Header>
+                <Divider />
+                <Grid.Row>
+                    <Header as='h4'>Reboot Tabil</Header>
+                    <RestartBearModal restartBear={this.rebootBear}/>
+                </Grid.Row>
+                <Divider />
+                <Grid.Row>
+                    <Header as='h4'>Remove all files and Events from Tabil</Header>
+                    <ResetBearModal resetBear={this.hardReset}/>
+                </Grid.Row>
+                <Divider />
+                <Grid.Row>
+                    <Header as='h4'>Update Date of Tabil</Header>
+                    <Button color="teal" onClick={this.updateBearDate}>Update Bear Date</Button>
+                </Grid.Row>
             </Segment>
 
         )
