@@ -11,7 +11,7 @@ ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
 UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
 
 # Globals for our API
-app = Flask(__name__, static_folder='./static/build', template_folder='./static')
+app = Flask(__name__, static_folder='./build/static', template_folder='./build')
 app.config['DEBUG'] = False
 app.config['UPLOAD_FOLDER'] = UPLOAD_DIR
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///python.db'
@@ -231,7 +231,7 @@ def test_event(id):
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def catch_all(path):
-    return render_template('react.jinja2')
+    return render_template('index.html')
 
 # Actually start our app
 if __name__ == '__main__':
