@@ -78,7 +78,6 @@ audios_schema = AudioSchema(many=True)
 @app.route('/api/events/<day>', methods=['GET'])
 def get_day(day):
     # Returns an array of events specified by the <day> string sent to the endpoint
-    # print(day)
     return jsonify(events=events_schema.dump(Events.query.order_by(Events.time).filter_by(day=day)).data)
 
 
@@ -105,7 +104,6 @@ def update_event(id):
 def create_events():
     # Create a new event
     event_data = request.get_json()
-    print(event_data)
     error = event_schema.validate(event_data, partial=True)
     if error:
         return jsonify(error), 400

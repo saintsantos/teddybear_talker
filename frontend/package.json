@@ -43,7 +43,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js && mv ./build/ ../server/python/",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "clean": "rm -rf ../server/python/build/"
   },
   "devDependencies": {
     "babel-core": "6.25.0",
