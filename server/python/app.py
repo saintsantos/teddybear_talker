@@ -79,7 +79,7 @@ audios_schema = AudioSchema(many=True)
 def get_day(day):
     # Returns an array of events specified by the <day> string sent to the endpoint
     # print(day)
-    return jsonify(events=events_schema.dump(Events.query.filter_by(day=day)).data)
+    return jsonify(events=events_schema.dump(Events.query.order_by(Events.time).filter_by(day=day)).data)
 
 
 @app.route('/api/events/<id>', methods=['DELETE', 'PATCH'])
