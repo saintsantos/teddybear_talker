@@ -98,15 +98,17 @@ def update_event(id):
         db.session.commit()
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
-
 # TODO - Check if an event already exists for the bear before adding a new event
 @app.route('/api/events/', methods=['POST'])
 def create_events():
     # Create a new event
     event_data = request.get_json()
-    # existing_event = Events.query.filter(day=event_data['day'], time=event_data['time'])
-    # if existing_event:
-    #     return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
+    time = event_data['time']
+    existing_event = events_schema.dump(Events.query.filter_by(time=time)).data
+    if existing_event:
+        for event in existing_event:
+            if event['day'] == event_data['day']:
+                return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
     error = event_schema.validate(event_data, partial=True)
     if error:
         return jsonify(error), 400
