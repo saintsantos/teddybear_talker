@@ -4,13 +4,10 @@
 # Modified by Steven Siwinski and Edwin Santos for use in UB's 'Teddy Bear Talker'. AKA:'Project Irie'
 
 import time
-import os
 import subprocess
 import sqlite3
-import sys
 import RPi.GPIO as GPIO
-import datetime
-from operator import itemgetter
+from datetime import datetime
 
 GPIO.setmode(GPIO.BCM)
 DEBUG = 0
@@ -80,49 +77,52 @@ GPIO.setup(LEDPIN,GPIO.OUT)
 
 last_wifi = 'down\n'
 # establish connection to database
-conn = sqlite3.connect('/home/pi/release.db')
+conn = sqlite3.connect('~/teddybear_talker/server/python/python.db')
 c = conn.cursor()
 
-def getrecentevent():
-    day = datetime.datetime.today().weekday()
-    weekday = {
-            0: "monday",
-            1: "tuesday",
-            2: "wednesday",
-            3: "thursday",
-            4: "friday",
-            5: "saturday",
-            6: "sunday"
-            }
-    day = weekday[day]
-    events = []
-    current = datetime.datetime.now()
-    currentTime = current.time()
+weekday = {
+    0: "monday",
+    1: "tuesday",
+    2: "wednesday",
+    3: "thursday",
+    4: "friday",
+    5: "saturday",
+    6: "sunday"
+  }
 
-    for row in c.execute("select * from events where events.day='%s' order by time(timeDay) desc" % day):
-        events.append(row)
-    #print events
-    for x in events:
-        #print x
-        timestring = x[1] + ':59'
-        eventtime = datetime.datetime.strptime(timestring, "%H:%M:%S")
-        #print eventtime.time() <= currentTime
-        if eventtime.time() <= currentTime:
-            c.execute("select * from active")
-            active = c.fetchone()
-            #print x
-            if active == None:
-                #print "active empty"
-                c.execute("insert into active (active_id) values (%d)" % x[0])
-            else:
-                #print "active not empty"
-                c.execute("UPDATE active set active_id=%d" % x[0])
-            conn.commit()
-            break
+def getrecentevent():
+    c = conn.cursor()
+  day = datetime.today().weekday()
+  day = weekday[day]
+  # print day
+  events = []
+  current = datetime.now()
+  currentTime = current.time()
+
+  for row in c.execute("select * from events where events.day='%s' order by time(time) desc" % day):
+      events.append(row)
+  # print events
+  for x in events:
+      #print x
+      timestring = x[1] + ':59'
+      eventtime = datetime.strptime(timestring, "%H:%M:%S")
+      # print eventtime.time() <= currentTime
+      if eventtime.time() <= currentTime:
+          c.execute("select * from active")
+          active = c.fetchone()
+          # print x
+          if active == None:
+              # print "active empty"
+              c.execute("insert into active (event_id) values (%d)" % x[0])
+          else:
+              # print "active not empty"
+              c.execute("UPDATE active set event_id=%d" % x[0])
+          conn.commit()
+          break
 
 def play_event():
-    # fetch query from server
-    c.execute("Select * from active")
+    c = conn.cursor()
+    c.execute("Select event_id from active")
     result = c.fetchone()
     # print result
     event = result[0]
@@ -130,7 +130,7 @@ def play_event():
     result = c.fetchone()
     # print result
     voice_path = result[7]
-    music_path = result[10]
+    music_path = result[11]
     if music_path != "None":
         call(['mplayer', music_path])
     if voice_path != "None":
