@@ -104,6 +104,9 @@ def update_event(id):
 def create_events():
     # Create a new event
     event_data = request.get_json()
+    existing_event = Events.query.filter(day=event_data['day'], time=event_data['time'])
+    if existing_event:
+        return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
     error = event_schema.validate(event_data, partial=True)
     if error:
         return jsonify(error), 400
@@ -187,6 +190,11 @@ def reboot():
 @app.route('/api/date', methods=['POST'])
 def date_update():
     # Update the date and time of the bear
+    date = request.get_json()
+    date_comps = date['now'].split(" ")
+    print(date_comps)
+    date_format = date[2] + " " + date[1] + " " + date[4] + " " date[3]
+    # call([f'sudo date --set={date_format}'])
     call(["echo", "Update the date and time of the bear"])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 

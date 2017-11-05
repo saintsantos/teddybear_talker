@@ -6,6 +6,7 @@ import RestartBearModal from '../../components/Modal/RestartBearModal';
 import ResetBearModal from '../../components/Modal/ResetBearModal';
 import eventStore from '../../stores/eventStore';
 import audioStore from '../../stores/audioStore';
+import moment from 'moment';
 
 class Settings extends Component {
     constructor() {
@@ -37,7 +38,10 @@ class Settings extends Component {
     }
 
     updateBearDate = (e) => {
-        axios.post(appStore.backendurl + '/date')
+        const data = {
+            'now': moment().format('ddd MMM D HH:mm:ss YYYY')
+        }
+        axios.post(appStore.backendurl + '/date', data)
             .then((response) => {
                 console.log(response);
             })
