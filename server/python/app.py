@@ -193,7 +193,7 @@ def date_update():
     date = request.get_json()
     date_comps = date['now'].split(" ")
     print(date_comps)
-    date_format = date[2] + " " + date[1] + " " + date[4] + " " date[3]
+    date_format = date[2] + " " + date[1] + " " + date[4] + " " + date[3]
     # call([f'sudo date --set={date_format}'])
     call(["echo", "Update the date and time of the bear"])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
