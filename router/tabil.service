@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve Tabil
+After=network.target
+
+[Service]
+User=pi
+Group=www-data
+WorkingDirectory=/home/pi/teddybear_talker/server/python
+Environment="PATH=/home/pi/teddybear_talker/server/python/venv/bin"
+ExecStart=/home/pi/teddybear_talker/server/python/venv/bin/gunicorn --workers 2 --bind unix:/home/pi/teddybear_talker/server/python/tabil.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
