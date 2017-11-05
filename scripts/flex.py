@@ -12,6 +12,7 @@ from datetime import datetime
 GPIO.setmode(GPIO.BCM)
 DEBUG = 0
 
+root = '/Users/edwinsantos/git/personal/teddybear_talker/scripts/'
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
 # This code is released into the public domain
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
@@ -159,7 +160,7 @@ while True:
         if power_switch == 0:
             #fall in here when the power putton is held down
             #play a "goodnight" sound
-            subprocess.call(['mplayer', 'goodbye.mp3'], False)
+            subprocess.call(['mplayer', root + 'goodbye.mp3'], False)
             #call shutdown
             #this is a dirty way of doing it, think of fixing in the future
             subprocess.call(['sudo','shutdown','-h','now'],False)
@@ -227,7 +228,7 @@ while True:
                 play_event()
 
         if ( force_diff > 80 ):	#the 60 is the tolerence for the nose sensor
-                subprocess.Popen(['mplayer', '/home/pi/scripts/nose.mp3'])
+                subprocess.Popen(['mplayer', root + 'nose.mp3'])
 
         # save the potentiometer reading for the next loop
         last_read = flex1
