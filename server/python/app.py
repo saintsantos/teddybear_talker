@@ -104,9 +104,9 @@ def update_event(id):
 def create_events():
     # Create a new event
     event_data = request.get_json()
-    existing_event = Events.query.filter(day=event_data['day'], time=event_data['time'])
-    if existing_event:
-        return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
+    # existing_event = Events.query.filter(day=event_data['day'], time=event_data['time'])
+    # if existing_event:
+    #     return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
     error = event_schema.validate(event_data, partial=True)
     if error:
         return jsonify(error), 400
