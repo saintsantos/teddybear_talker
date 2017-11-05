@@ -78,7 +78,7 @@ class EditEvent extends Component {
         // Handle the data for this
         let data = {
             'time': this.state.time,
-            'voices': this.state.voice,
+            'voice': this.state.voice,
             'music': this.state.music,
             'day': this.state.day
         }
