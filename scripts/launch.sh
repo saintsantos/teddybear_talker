@@ -6,3 +6,4 @@ sudo ln -s /etc/nginx/sites-available /stc/nginx/sites-enabled
 sudo cp /home/pi/teddybear_talker/router/tabil.service /etc/systemd/system/tabil.service
 sudo systemctl daemon-reload
 sudo systemctl start tabil
+sudo systemctl restart nginx
