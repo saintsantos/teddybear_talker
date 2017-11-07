@@ -7,6 +7,7 @@ import Dropzone from 'react-dropzone';
 import ReactAudioPlayer from 'react-audio-player';
 import axios from 'axios';
 import shortid from 'shortid';
+import Halogen from 'halogen';
 
 //TODO - Yeah... upload the audio file to the backend
 
@@ -17,7 +18,8 @@ class NewAudio extends Component {
         this.state = {
             accepted: [],
             rejected: [],
-            upload: false
+            upload: false,
+            loading: false,
         }
     }
 
@@ -25,12 +27,14 @@ class NewAudio extends Component {
         let data = new FormData()
         data.append('file', this.state.accepted[0])
         if (this.state.accepted.length > 0) {
+            this.setState({loading: true})
             axios.post(appStore.backendurl + '/audio/', data)
                 .then((response) => {
-                    //console.log(response.data);
+                    console.log(response.data);
+                    this.setState({loading: false})
                     audioStore.set(response.data.id, new Audio(response.data.id, response.data.name, response.data.form, response.data.path))
+                    appStore.closeNew();
                 })
-            appStore.closeNew();
         } else {
             alert("No accepted files have been uploaded");
             this.setState({
@@ -48,6 +52,18 @@ class NewAudio extends Component {
     }
 
     render() {
+        let uploadButton = null
+        if (this.state.loading) {
+            uploadButton = (
+                <Button className='disabled' color='green'>
+                    <div><Halogen.DotLoader color={'#ffffff'} /></div>
+                </Button>
+            )
+        } else {
+            uploadButton = (
+                <Button color='green' onClick={this.checkUploads}>Upload File</Button>
+            )
+        }
         return (
             <Segment>
                 <Grid columns={2} relaxed>
@@ -88,7 +104,7 @@ class NewAudio extends Component {
 
                     </Grid.Column>
                 </Grid>
-                <Button onClick={this.checkUploads}>Upload File</Button>
+                {uploadButton}
                 <Button onClick={this.clearList}>Clear uploads</Button>
                 <Button onClick={appStore.closeNew} >Cancel</Button>
             </Segment>
