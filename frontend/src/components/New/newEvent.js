@@ -32,7 +32,8 @@ class NewEvent extends Component {
             'music': 1,
             'day': 'monday',
             'musics': [],
-            'voices': []
+            'voices': [],
+            'loading': false,
         }
     }
 
@@ -44,6 +45,7 @@ class NewEvent extends Component {
 
     createEvent = (e) => {
         //Make http request here
+        this.setState({loading: true})
         let data = {
             'time': this.state.time,
             'voice': this.state.voice,
@@ -63,11 +65,13 @@ class NewEvent extends Component {
                         )
                     )
                 }
+                this.setState({loading: false});
                 
                 appStore.closeNew();
             })
             .catch((error) => {
-                console.log(error);
+                alert(error.response.data.error)
+                this.setState({loading: false});
             })
 
     }
@@ -103,6 +107,17 @@ class NewEvent extends Component {
     }
 
     render() {
+
+        let uploadButton = null;
+        if (this.state.loading) {
+            uploadButton = (
+                <Form.Button className='disabled' type="submit" value="Submit">Save</Form.Button>
+            )
+        } else {
+            uploadButton = (
+                <Form.Button type="submit" value="Submit">Save</Form.Button>
+            )
+        }
         return (
             <Segment>
                 <Form onSubmit={this.createEvent}>
@@ -133,7 +148,7 @@ class NewEvent extends Component {
                         </select>
                     </Form.Field>
                     <Form.Group>
-                        <Form.Button type="submit" value="Submit">Save</Form.Button>
+                        {uploadButton}
                         <Form.Button onClick={appStore.closeNew}>Cancel</Form.Button>
                     </Form.Group>
                 </Form>

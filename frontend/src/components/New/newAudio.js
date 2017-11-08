@@ -30,10 +30,13 @@ class NewAudio extends Component {
             this.setState({loading: true})
             axios.post(appStore.backendurl + '/audio/', data)
                 .then((response) => {
-                    console.log(response.data);
                     this.setState({loading: false})
                     audioStore.set(response.data.id, new Audio(response.data.id, response.data.name, response.data.form, response.data.path))
                     appStore.closeNew();
+                })
+                .catch((error) => {
+                    this.setState({loading: false})
+                    alert(error.response.data.error)
                 })
         } else {
             alert("No accepted files have been uploaded");

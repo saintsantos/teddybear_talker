@@ -108,7 +108,7 @@ def create_events():
     if existing_event:
         for event in existing_event:
             if event['day'] == event_data['day']:
-                return jsonify({'Exists': 'Event already exists'}), 400, {'ContentType': 'application/json'}
+                return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
     error = event_schema.validate(event_data, partial=True)
     if error:
         return jsonify(error), 400
@@ -165,6 +165,10 @@ def audio_handler():
             return jsonify({'No file': 'No file chosen'}), 400
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
+            existing_audio = audios_schema.dump(Audio.query.filter_by(name=filename)).data
+            existing_path = audios_schema.dump(Audio.query.filter_by(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))).data
+            if existing_audio or existing_path:
+                return jsonify({'error': 'File with this name already exists on bear'}), 400
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             audio = Audio(
                 name=filename,
@@ -175,7 +179,7 @@ def audio_handler():
             db.session.commit()
             return jsonify(audio_schema.dump(audio).data), 201
         else:
-            return jsonify({'File Not Allowed': 'This file is not allowed'}), 400
+            return jsonify({'error': 'This file is not allowed'}), 400
     else:
         # Get the list of all audio files on the bear
         return jsonify(audio=audios_schema.dump(Audio.query.all()).data)
