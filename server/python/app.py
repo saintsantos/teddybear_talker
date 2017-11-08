@@ -132,6 +132,9 @@ def modify_audio(id):
         error = audio_schema.validate(update_data, partial=True)
         if error:
             return jsonify(error), 400
+        existing_name = audios_schema.dump(Audio.query.filter_by(name=update_data['name'])).data
+        if existing_name:
+            return jsonify({'error': 'Audio file with that name already exists'}), 400
         audio = Audio.query.filter_by(id=id).update(update_data)
         db.session.commit()
         return jsonify(audio_schema.dump(audio).data), 200, {'ContentType': 'application/json'}

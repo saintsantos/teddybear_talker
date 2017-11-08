@@ -31,7 +31,7 @@ class EditAudio extends Component {
                 appStore.closeEdit();
             })
             .catch((error) => {
-                console.log(error);
+                alert(error.response.data.error);
             })
     }
 
