@@ -43,7 +43,7 @@ class EditEvent extends Component {
     }
 
     updateClock = (value) => {
-        this.setState({'time': value.format("H:mm")})
+        this.setState({'time': value.format("HH:mm")})
     }
 
     updateVoice = (e) => {
@@ -90,6 +90,7 @@ class EditEvent extends Component {
             })
             .catch((error) => {
                 console.log(error);
+                alert(error.response.data.error);
             })
 
     }

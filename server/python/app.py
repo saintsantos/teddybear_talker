@@ -89,6 +89,11 @@ def update_event(id):
         errors = event_schema.validate(update_data, partial=True)
         if errors:
             return jsonify(errors), 400
+        existing_event = events_schema.dump(Events.query.filter_by(time=update_data['time'])).data
+        if existing_event:
+            for event in existing_event:
+                if event['day'] == update_data['day']:
+                    return jsonify({'error': 'An event at that time already exists'}), 400, {'ContentType': 'application/json'}
         event = Events.query.filter_by(id=id).update(update_data)
         db.session.commit()
         return jsonify(event_schema.dump(event).data), 200, {'ContentType': 'application/json'}
