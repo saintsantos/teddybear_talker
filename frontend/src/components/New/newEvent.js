@@ -8,6 +8,7 @@ import { Segment, Form, Header, Label } from 'semantic-ui-react';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import axios from 'axios';
+import Halogen from 'halogen';
 
 const days = [
     {key: "Mon", text: "Monday", value: "monday"},
@@ -111,11 +112,14 @@ class NewEvent extends Component {
         let uploadButton = null;
         if (this.state.loading) {
             uploadButton = (
-                <Form.Button className='disabled' type="submit" value="Submit">Save</Form.Button>
+                <Form.Button className='disabled' color='green' type="submit" value="Submit">
+                    <div><Halogen.DotLoader color={'#ffffff'} /></div>
+                </Form.Button>
+
             )
         } else {
             uploadButton = (
-                <Form.Button type="submit" value="Submit">Save</Form.Button>
+                <Form.Button type="submit" color='green' value="Submit">Save</Form.Button>
             )
         }
         return (

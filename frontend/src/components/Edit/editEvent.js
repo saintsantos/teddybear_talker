@@ -8,6 +8,7 @@ import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
 import axios from 'axios';
+import Halogen from 'halogen';
 
 
 const days = [
@@ -32,7 +33,8 @@ class EditEvent extends Component {
             'music': eventStore.get(appStore.editId).music,
             'day': eventStore.get(appStore.editId).day,
             'voices': [],
-            'musics': []
+            'musics': [],
+            'loading': false
         }
         
     }
@@ -82,20 +84,35 @@ class EditEvent extends Component {
             'music': this.state.music,
             'day': this.state.day
         }
+        this.setState({loading: true});
         axios.patch(appStore.backendurl + '/events/' + appStore.editId, data)
             .then((response) => {
                 console.log(response.data);
                 eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.music, this.state.day);
+                this.setState({loading: false});
                 appStore.closeEdit();
             })
             .catch((error) => {
                 console.log(error);
+                this.setState({loading: false});
                 alert(error.response.data.error);
             })
 
     }
 
     render() {
+        let saveButton = null;
+        if (this.state.loading) {
+            saveButton = (
+                <Form.Button className='disabled' color='green' type="submit" value="Submit">
+                    <div><Halogen.DotLoader color={'#ffffff'}/></div>
+                </Form.Button>
+            )
+        } else {
+            saveButton = (
+                <Form.Button color='green' type="submit" value="Submit">Save</Form.Button>
+            )
+        }
         return (
             <Segment>
                 <Form onSubmit={this.updateEvent}>
@@ -126,7 +143,7 @@ class EditEvent extends Component {
                         </select>
                     </Form.Field>
                     <Form.Group>
-                        <Form.Button type="submit" value="Submit">Save</Form.Button>
+                        {saveButton}
                         <Form.Button onClick={appStore.closeEdit}>Cancel</Form.Button>
                     </Form.Group>
                 </Form>
