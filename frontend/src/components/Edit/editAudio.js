@@ -56,13 +56,13 @@ class EditAudio extends Component {
         let saveButton = null;
         if (this.state.loading) {
             saveButton = (
-                <Form.Button className='disabled' type='Submit'>
+                <Form.Button className='disabled' color='green' type='Submit'>
                     <div><Halogen.DotLoader color={'#ffffff'} /></div>
                 </Form.Button>
             )
         } else {
             saveButton = (
-                <Form.Button color={'#ffffff'} type='Submit'>Save</Form.Button>
+                <Form.Button color='green' type='Submit'>Save</Form.Button>
             )
         }
         return (
