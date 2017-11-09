@@ -16,13 +16,11 @@ class Settings extends Component {
     hardReset = (e) => {
         axios.post(appStore.backendurl + '/clean')
             .then((response) => {
-                console.log(response);
-                alert("Bear successfully reset")
+                alert("Bear successfully reset, pease reload app");
                 eventStore.clear();
                 audioStore.clear();
             })
             .catch((error) => {
-                console.log(error);
                 alert("Bear not successfully reset");
             })
     }
@@ -30,10 +28,10 @@ class Settings extends Component {
     rebootBear = (e) => {
         axios.post(appStore.backendurl + '/reboot')
             .then((response) => {
-                console.log(response)
+                alert("Bear is rebooting. Please wait 60 seconds");
             })
             .catch((error) => {
-                console.log(error)
+                alert("Bear failed to reset. Please manually turn the bear off and on.");
             })
     }
 
@@ -43,10 +41,10 @@ class Settings extends Component {
         }
         axios.post(appStore.backendurl + '/date', data)
             .then((response) => {
-                console.log(response);
+                alert("Bear time and date successfully updated");
             })
             .catch((error) => {
-                console.log(error);
+                alert("Bear time and date failed to successfully update. Please try again");
             })
     }
 
