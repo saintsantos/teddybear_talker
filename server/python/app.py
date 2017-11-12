@@ -8,7 +8,7 @@ import os
 
 # Allowed file extensions and the directory to upload our audio files to (changes on the raspberry pi)
 ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
-UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
+UPLOAD_DIR = '/home/pi/audio/'
 
 # Globals for our API
 app = Flask(__name__, static_folder='./build/static', template_folder='./build')
@@ -233,7 +233,7 @@ def clean():
 def test_audio(id):
     # Test an audio file to see how it sounds
     audio = Audio.query.get(id)
-    call(["mplayer", audio.path])
+    call(["/usr/bin/mplayer", audio.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
@@ -243,8 +243,8 @@ def test_event(id):
     event = Events.query.get(id)
     voice = Audio.query.get(event.voice)
     music = Audio.query.get(event.music)
-    call(["mplayer", voice.path])
-    call(["mplayer", music.path])
+    call(["/usr/bin/mplayer", voice.path])
+    call(["/usr/bin/mplayer", music.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 # This endpoint is catch all for any urls in our react app. Allows for proper app refreshes
