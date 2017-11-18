@@ -146,9 +146,9 @@ def play_event():
     voice_path = result[7]
     music_path = result[11]
     if music_path != "None":
-        call(['/usr/bin/omxplayer', music_path])
+        subprocess.call(['/usr/bin/omxplayer', music_path])
     if voice_path != "None":
-        call(['/usr/bin/omxplayer', voice_path])
+        subprocess.call(['/usr/bin/omxplayer', voice_path])
     
 
 # Flex sensor connected to adc #0
@@ -211,7 +211,7 @@ while True:
     if ( flex_sensor_changed ):
         # fetch query from server
         getrecentevent()
-        # play_event()
+        play_event()
 
     if ( force_diff > 80 ):	#the 60 is the tolerence for the nose sensor
         subprocess.Popen(['/usr/bin/omxplayer', root + 'scripts/nose.mp3'])
