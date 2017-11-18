@@ -8,7 +8,7 @@ import os
 
 # Allowed file extensions and the directory to upload our audio files to (changes on the raspberry pi)
 ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
-UPLOAD_DIR = '/home/pi/audio/'
+UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
 
 # Globals for our API
 app = Flask(__name__, static_folder='./build/static', template_folder='./build')
@@ -92,7 +92,7 @@ def update_event(id):
         existing_event = events_schema.dump(Events.query.filter_by(time=update_data['time'])).data
         if existing_event:
             for event in existing_event:
-                if event['day'] == update_data['day']:
+                if event['day'] == update_data['day'] and event['id'] != int(id):
                     return jsonify({'error': 'An event at that time already exists'}), 400, {'ContentType': 'application/json'}
         event = Events.query.filter_by(id=id).update(update_data)
         db.session.commit()
@@ -138,7 +138,7 @@ def modify_audio(id):
         if error:
             return jsonify(error), 400
         existing_name = audios_schema.dump(Audio.query.filter_by(name=update_data['name'])).data
-        if existing_name:
+        if len(existing_name) == 1 and existing_name[0]['id'] != int(id):
             return jsonify({'error': 'Audio file with that name already exists'}), 400
         audio = Audio.query.filter_by(id=id).update(update_data)
         db.session.commit()
