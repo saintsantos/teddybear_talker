@@ -233,7 +233,7 @@ def clean():
 def test_audio(id):
     # Test an audio file to see how it sounds
     audio = Audio.query.get(id)
-    call(["/usr/bin/mplayer", audio.path])
+    call(["/usr/bin/omxplayer", audio.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
@@ -243,8 +243,8 @@ def test_event(id):
     event = Events.query.get(id)
     voice = Audio.query.get(event.voice)
     music = Audio.query.get(event.music)
-    call(["/usr/bin/mplayer", voice.path])
-    call(["/usr/bin/mplayer", music.path])
+    call(["/usr/bin/omxplayer", voice.path])
+    call(["/usr/bin/omxplayer", music.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 # This endpoint is catch all for any urls in our react app. Allows for proper app refreshes
