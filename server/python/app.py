@@ -216,6 +216,15 @@ def date_update():
 @app.route('/api/clean', methods=['POST'])
 def clean():
     # Drop all the tables and recreate for a clean installation
+    weekdays = [
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday',
+        'sunday',
+    ]
     db.drop_all()
     db.create_all()
     call(["echo", "Reset the bear"])
@@ -225,6 +234,14 @@ def clean():
         form=-1,
     )
     db.session.add(audio)
+    for day in weekdays:
+        event = Events(
+            time="00:00",
+            voice=1,
+            music=1,
+            day=day
+        )
+        db.session.add(event)
     db.session.commit()
     return jsonify({'successfully reset': True}), 200, {'ContentType': 'application/json'}
 
