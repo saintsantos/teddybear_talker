@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 from datetime import datetime
 
 GPIO.setmode(GPIO.BCM)
-DEBUG = 0
+DEBUG = 1
 
 root = '/home/pi/teddybear_talker/'
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
@@ -94,30 +94,41 @@ weekday = {
 def getrecentevent():
     c = conn.cursor()
     day = datetime.today().weekday()
-    day = weekday[day]
-    # print day
+    if DEBUG:
+        print day
     events = []
     current = datetime.now()
     currentTime = current.time()
-
-    for row in c.execute("select * from events where events.day='%s' order by time(time) desc" % day):
-        events.append(row)
-    # print events
-        for x in events:
-            #print x
-            timestring = x[1] + ':59'
-            eventtime = datetime.strptime(timestring, "%H:%M:%S")
-            # print eventtime.time() <= currentTime
-            if eventtime.time() <= currentTime:
-                c.execute("select * from active")
-                active = c.fetchone()
-                # print x
-                if active == None:
-                    # print "active empty"
-                    c.execute("insert into active (event_id) values (%d)" % x[0])
-                else:
-                    # print "active not empty"
-                    c.execute("UPDATE active set event_id=%d" % x[0])
+    
+    while not events:
+        for row in c.execute("select * from events order by time(time) desc"):
+            events.append(row)
+            if DEBUG:
+                print events
+                print day
+                print weekday[day]
+            if not events:
+                day -= 1
+    for x in events:
+        if DEBUG:
+            print x
+        timestring = x[1] + ':59'
+        eventtime = datetime.strptime(timestring, "%H:%M:%S")
+        if DEBUG:
+            print eventtime.time() <= currentTime
+        if eventtime.time() <= currentTime:
+            c.execute("select * from active")
+            active = c.fetchone()
+            if DEBUG:
+                print x
+            if active == None:
+                if DEBUG:
+                    print "active empty"
+                c.execute("insert into active (event_id) values (%d)" % x[0])
+            else:
+                if DEBUG:
+                    print "active not empty"
+                c.execute("UPDATE active set event_id=%d" % x[0])
         conn.commit()
         break
 
@@ -125,11 +136,13 @@ def play_event():
     c = conn.cursor()
     c.execute("Select event_id from active")
     result = c.fetchone()
-    # print result
+    if DEBUG:
+        print result
     event = result[0]
     c.execute("SELECT * from events inner join audio as voice on voice.id=events.voice inner join audio as music on music.id=events.music where events.id=%d" % event)
     result = c.fetchone()
-    # print result
+    if DEBUG:
+        print result
     voice_path = result[7]
     music_path = result[11]
     if music_path != "None":
@@ -155,58 +168,58 @@ while True:
     if power_switch == 0:
         #fall in here when the power putton is held down
         #play a "goodnight" sound
-        subprocess.call(['/usr/bin/omxplayer', root + 'goodbye.mp3'], False)
+        subprocess.call(['/usr/bin/omxplayer', root + 'scripts/goodbye.mp3'], False)
         #call shutdown
         #this is a dirty way of doing it, think of fixing in the future
         subprocess.call(['sudo','shutdown','-h','now'],False)
 
-        # we'll assume that the sensor is not triggered
-        flex_sensor_changed = False
+    # we'll assume that the sensor is not triggered
+    flex_sensor_changed = False
 
-        # Read first chest sensor
-        flex1 = readadc(flex_sensor_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
-        # Read second chest sensor
-        flex2 = readadc(1, SPICLK, SPIMOSI, SPIMISO, SPICS)
-        # Read nose sensor
-        force = readadc(2, SPICLK, SPIMOSI, SPIMISO, SPICS)
+    # Read first chest sensor
+    flex1 = readadc(flex_sensor_adc, SPICLK, SPIMOSI, SPIMISO, SPICS)
+    # Read second chest sensor
+    flex2 = readadc(1, SPICLK, SPIMOSI, SPIMISO, SPICS)
+    # Read nose sensor
+    force = readadc(2, SPICLK, SPIMOSI, SPIMISO, SPICS)
 
 
-        # how much has it changed since the last read?
-        flex_diff = flex1 - last_read
+    # how much has it changed since the last read?
+    flex_diff = flex1 - last_read
 
-        flex_diff2 = flex2 - last_read2
+    flex_diff2 = flex2 - last_read2
 
-        force_diff = force - last_force
+    force_diff = force - last_force
+
+    if DEBUG:
+        print "flex:", flex1
+        print "flex2", flex2
+        print "force", force
+        print "flex_diff:", flex_diff
+        print "flex_diff2:", flex_diff2
+        print "force_diff:", force_diff
+        print "last_read", last_read
+        print "last_read2", last_read2
+        print "last_force", last_force
+
+    if ( (flex_diff > tolerance) or (flex_diff2 > tolerance) ):
+        flex_sensor_changed = True
 
         if DEBUG:
-                print "flex:", flex1
-                print "flex2", flex2
-                print "force", force
-                print "flex_diff:", flex_diff
-                print "flex_diff2:", flex_diff2
-                print "force_diff:", force_diff
-                print "last_read", last_read
-                print "last_read2", last_read2
-                print "last_force", last_force
+            print "flex_sensor_changed", flex_sensor_changed
 
-        if ( (flex_diff > tolerance) or (flex_diff2 > tolerance) ):
-                flex_sensor_changed = True
+    if ( flex_sensor_changed ):
+        # fetch query from server
+        getrecentevent()
+        # play_event()
 
-        if DEBUG:
-                print "flex_sensor_changed", flex_sensor_changed
+    if ( force_diff > 80 ):	#the 60 is the tolerence for the nose sensor
+        subprocess.Popen(['/usr/bin/omxplayer', root + 'scripts/nose.mp3'])
 
-        if ( flex_sensor_changed ):
-                # fetch query from server
-                getrecentevent()
-                play_event()
+    # save the potentiometer reading for the next loop
+    last_read = flex1
+    last_read2 = flex2
+    last_force = force
 
-        if ( force_diff > 80 ):	#the 60 is the tolerence for the nose sensor
-                subprocess.Popen(['/usr/bin/omxplayer', root + 'nose.mp3'])
-
-        # save the potentiometer reading for the next loop
-        last_read = flex1
-        last_read2 = flex2
-        last_force = force
-
-        # hang out and do nothing for a half second
-        time.sleep(0.2)
+    # hang out and do nothing for a half second
+    time.sleep(0.2)
