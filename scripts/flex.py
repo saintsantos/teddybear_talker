@@ -104,20 +104,20 @@ def getrecentevent():
         events.append(row)
     # print events
         for x in events:
-        #print x
-        timestring = x[1] + ':59'
-        eventtime = datetime.strptime(timestring, "%H:%M:%S")
-        # print eventtime.time() <= currentTime
-        if eventtime.time() <= currentTime:
-            c.execute("select * from active")
-            active = c.fetchone()
-            # print x
-            if active == None:
-                # print "active empty"
-                c.execute("insert into active (event_id) values (%d)" % x[0])
-            else:
-                # print "active not empty"
-                c.execute("UPDATE active set event_id=%d" % x[0])
+            #print x
+            timestring = x[1] + ':59'
+            eventtime = datetime.strptime(timestring, "%H:%M:%S")
+            # print eventtime.time() <= currentTime
+            if eventtime.time() <= currentTime:
+                c.execute("select * from active")
+                active = c.fetchone()
+                # print x
+                if active == None:
+                    # print "active empty"
+                    c.execute("insert into active (event_id) values (%d)" % x[0])
+                else:
+                    # print "active not empty"
+                    c.execute("UPDATE active set event_id=%d" % x[0])
         conn.commit()
         break
 
@@ -150,7 +150,7 @@ tolerance = 50       # to keep from being jittery we'll only change
 
 while True:
     GPIO.output(LEDPIN, 1)
-	power_switch = GPIO.input(POWSW)
+    power_switch = GPIO.input(POWSW)
     
     if power_switch == 0:
         #fall in here when the power putton is held down
