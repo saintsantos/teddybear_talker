@@ -8,7 +8,7 @@ import os
 
 # Allowed file extensions and the directory to upload our audio files to (changes on the raspberry pi)
 ALLOWED_EXTENSIONS = set(['mp3', 'wma', 'wav', 'm4a'])
-UPLOAD_DIR = '/Users/edwinsantos/Music/audio/'
+UPLOAD_DIR = '/home/pi/audio/'
 
 # Globals for our API
 app = Flask(__name__, static_folder='./build/static', template_folder='./build')
@@ -197,7 +197,8 @@ def audio_handler():
 @app.route('/api/reboot', methods=['POST'])
 def reboot():
     # Reboot the bear
-    call(["echo", "Make the bear reboot"])
+    call(["/bin/echo", "Make the bear reboot"])
+    call(["/usr/bin/sudo", "reboot"])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 
@@ -227,7 +228,7 @@ def clean():
     ]
     db.drop_all()
     db.create_all()
-    call(["echo", "Reset the bear"])
+    call(["/bin/echo", "Reset the bear"])
     audio = Audio(
         name='none',
         path='none',
