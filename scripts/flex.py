@@ -12,7 +12,7 @@ from datetime import datetime
 GPIO.setmode(GPIO.BCM)
 DEBUG = 0
 
-root = '/Users/edwinsantos/git/personal/teddybear_talker/scripts/'
+root = '/home/pi/teddybear_talker/'
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
 # This code is released into the public domain
 # read SPI data from MCP3008 chip, 8 possible adc's (0 thru 7)
@@ -78,7 +78,7 @@ GPIO.setup(LEDPIN,GPIO.OUT)
 
 last_wifi = 'down\n'
 # establish connection to database
-conn = sqlite3.connect('~/teddybear_talker/server/python/python.db')
+conn = sqlite3.connect(root + '/server/python/python.db')
 c = conn.cursor()
 
 weekday = {
@@ -93,33 +93,33 @@ weekday = {
 
 def getrecentevent():
     c = conn.cursor()
-  day = datetime.today().weekday()
-  day = weekday[day]
-  # print day
-  events = []
-  current = datetime.now()
-  currentTime = current.time()
+    day = datetime.today().weekday()
+    day = weekday[day]
+    # print day
+    events = []
+    current = datetime.now()
+    currentTime = current.time()
 
-  for row in c.execute("select * from events where events.day='%s' order by time(time) desc" % day):
-      events.append(row)
-  # print events
-  for x in events:
-      #print x
-      timestring = x[1] + ':59'
-      eventtime = datetime.strptime(timestring, "%H:%M:%S")
-      # print eventtime.time() <= currentTime
-      if eventtime.time() <= currentTime:
-          c.execute("select * from active")
-          active = c.fetchone()
-          # print x
-          if active == None:
-              # print "active empty"
-              c.execute("insert into active (event_id) values (%d)" % x[0])
-          else:
-              # print "active not empty"
-              c.execute("UPDATE active set event_id=%d" % x[0])
-          conn.commit()
-          break
+    for row in c.execute("select * from events where events.day='%s' order by time(time) desc" % day):
+        events.append(row)
+    # print events
+        for x in events:
+        #print x
+        timestring = x[1] + ':59'
+        eventtime = datetime.strptime(timestring, "%H:%M:%S")
+        # print eventtime.time() <= currentTime
+        if eventtime.time() <= currentTime:
+            c.execute("select * from active")
+            active = c.fetchone()
+            # print x
+            if active == None:
+                # print "active empty"
+                c.execute("insert into active (event_id) values (%d)" % x[0])
+            else:
+                # print "active not empty"
+                c.execute("UPDATE active set event_id=%d" % x[0])
+        conn.commit()
+        break
 
 def play_event():
     c = conn.cursor()
@@ -149,43 +149,16 @@ tolerance = 50       # to keep from being jittery we'll only change
                     # probably going to need to adjust this once the sensor is in the bear
 
 while True:
-        GPIO.output(LEDPIN, 1)
-        wifi_switch = GPIO.input(19)
+    GPIO.output(LEDPIN, 1)
 	power_switch = GPIO.input(POWSW)
-       # if not last_wifi and wifi_switch:
-            #print('switch is active')
-        if DEBUG:
-            print(wifi_switch)
-
-        if power_switch == 0:
-            #fall in here when the power putton is held down
-            #play a "goodnight" sound
-            subprocess.call(['/usr/bin/omxplayer', root + 'goodbye.mp3'], False)
-            #call shutdown
-            #this is a dirty way of doing it, think of fixing in the future
-            subprocess.call(['sudo','shutdown','-h','now'],False)
-
-        if wifi_switch == 1:
-
-            out = subprocess.check_output("cat /sys/class/net/wlan0/operstate", shell=True)
-	    if DEBUG:
-                print out
-            if out == 'down\n':
-                #print "Bring up wifi"
-                #last_wifi = 'up\n'
-                subprocess.call(["sudo", "ifup", "wlan0"])
-            #subprocess.call(["/home/pi/teddybear_talker/scripts/launch.py"])
-
-        #if last_wifi and not wifi_switch:
-            #print('switch is deactive')
-            #print(wifi_switch)
-            else:
-                #print "Tear down wifi"
-                #last_wifi = 'down\n'
-                subprocess.call(["sudo", "ifdown", "wlan0"])
-            #subprocess.call(["/home/pi/teddybear_talker/scripts/teardown.py"])
-
-        #last_wifi = wifi_switch
+    
+    if power_switch == 0:
+        #fall in here when the power putton is held down
+        #play a "goodnight" sound
+        subprocess.call(['/usr/bin/omxplayer', root + 'goodbye.mp3'], False)
+        #call shutdown
+        #this is a dirty way of doing it, think of fixing in the future
+        subprocess.call(['sudo','shutdown','-h','now'],False)
 
         # we'll assume that the sensor is not triggered
         flex_sensor_changed = False
