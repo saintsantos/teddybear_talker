@@ -8,6 +8,7 @@ nvm install node
 
 # build frontend
 cd /home/pi/teddybear_talker/frontend
+npm install
 npm run build
 
 # nginx configuration
