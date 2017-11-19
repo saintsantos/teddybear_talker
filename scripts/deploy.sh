@@ -6,16 +6,11 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | b
 source ~/.bashrc
 nvm install node
 
-# build frontend
-cd /home/pi/teddybear_talker/frontend
-npm install
-npm run build
-
 # enable speaker
 sudo dtc -I dts -O dtb -o /boot/dt-blob.bin dt-blob.dts
 
 # nginx configuration
-sudo cp tabil /etc/nginx/sites-available/tabil
+sudo cp /home/pi/teddybear_talker/router/tabil /etc/nginx/sites-available/tabil
 sudo ln -s /etc/nginx/sites-available/tabil /etc/nginx/sites-enabled/tabil
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
@@ -31,6 +26,18 @@ sudo cp /home/pi/teddybear_talker/router/dnsmasq.conf /etc/dnsmasq.conf
 sudo cp /home/pi/teddybear_talker/router/hostapd.conf /etc/hostapd/hostapd.conf
 sudo systemctl restart dnsmasq
 sudo systemctl restart hostapd
+
+# setup server
+cd /home/pi/teddybear_talker/server/python
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install gunicorn
+
+# build frontend
+cd /home/pi/teddybear_talker/frontend
+npm install
+npm run build
 
 # Service setup
 sudo cp /home/pi/teddybear_talker/services/tabil.service /etc/systemd/system/tabil.service
