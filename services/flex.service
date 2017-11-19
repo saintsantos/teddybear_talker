@@ -1,0 +1,15 @@
+[Unit]
+Description=Simplified dlex service
+After=syslog.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/teddybear_talker/scripts/
+ExecStart=/home/pi/teddybear_talker/scripts/flex.py
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
