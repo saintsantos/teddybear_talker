@@ -6,7 +6,7 @@ After=network.target
 User=pi
 Group=www-data
 WorkingDirectory=/home/pi/teddybear_talker/server/python
-Environment="PATH=/home/pi/teddybear_talker/server/python/venv/bin"
+Environment="PATH=/home/pi/teddybear_talker/server/python/venv/bin:/bin:/usr/bin"
 ExecStart=/home/pi/teddybear_talker/server/python/venv/bin/gunicorn --workers 2 --bind unix:/home/pi/teddybear_talker/server/python/tabil.sock -m 007 wsgi:app
 
 [Install]
