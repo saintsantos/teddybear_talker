@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install necessary packages
-sudo apt install python3-dev git python3-venv nginx hostapd dnsmasq
+sudo apt install python3-dev git python3-venv nginx hostapd dnsmasq device-tree-compiler
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
 source ~/.bashrc
 nvm install node
@@ -10,6 +10,9 @@ nvm install node
 cd /home/pi/teddybear_talker/frontend
 npm install
 npm run build
+
+# enable speaker
+sudo dtc -I dts -O dtb -o /boot/dt-blob.bin dt-blob.dts
 
 # nginx configuration
 sudo cp tabil /etc/nginx/sites-available/tabil
