@@ -21,14 +21,14 @@ sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 
 #backup all essentials
-sudo mv /etc/network/interfaces /etc/network/interfaces.orig
-sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-sudo mv /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.orig
+sudo cp /etc/network/interfaces /etc/network/interfaces.orig
+sudo cp /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+sudo cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.orig
 
 # networking setup
-sudo mv /home/pi/teddybear_talker/router/interfaces /etc/network/interfaces
-sudo mv /home/pi/teddybear_talker/router/dnsmasq.conf /etc/dnsmasq.conf
-sudo mv /home/pi/teddybear_talker/router/hostapd.conf /etc/hostapd/hostapd.conf
+sudo cp /home/pi/teddybear_talker/router/interfaces /etc/network/interfaces
+sudo cp /home/pi/teddybear_talker/router/dnsmasq.conf /etc/dnsmasq.conf
+sudo cp /home/pi/teddybear_talker/router/hostapd.conf /etc/hostapd/hostapd.conf
 sudo systemctl restart dnsmasq
 sudo systemctl restart hostapd
 
