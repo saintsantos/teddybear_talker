@@ -6,6 +6,9 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | b
 source ~/.bashrc
 nvm install node
 
+# clone teddybear talker
+git clone https://github.com/saintsantos/teddybear_talker.git
+
 # enable speaker
 sudo dtc -I dts -O dtb -o /boot/dt-blob.bin dt-blob.dts
 
