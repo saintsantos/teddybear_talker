@@ -171,7 +171,7 @@ while True:
         subprocess.call(['/usr/bin/omxplayer', root + 'scripts/goodbye.mp3'], False)
         #call shutdown
         #this is a dirty way of doing it, think of fixing in the future
-        subprocess.call(['sudo','shutdown','-h','now'],False)
+        subprocess.call(['sudo','poweroff'],False)
 
     # we'll assume that the sensor is not triggered
     flex_sensor_changed = False
