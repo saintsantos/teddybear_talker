@@ -1,4 +1,4 @@
-#!/usr/bin/env python -p
+#!/usr/bin/env python
 
 
 # Modified by Steven Siwinski and Edwin Santos for use in UB's 'Teddy Bear Talker'. AKA:'Project Irie'
