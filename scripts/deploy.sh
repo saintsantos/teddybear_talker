@@ -1,10 +1,7 @@
 #!/bin/bash
 
-# Install necessary packages
-sudo apt install python3-dev python3-venv nginx hostapd dnsmasq device-tree-compiler
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh | bash
-source ~/.bashrc
-nvm install node
+echo "Installation complete"
+echo "Please run 'source ~/.bashrc && nvm install node' before continuing"
 
 # enable speaker
 sudo dtc -I dts -O dtb -o /boot/dt-blob.bin dt-blob.dts
