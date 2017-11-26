@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 from datetime import datetime
 
 GPIO.setmode(GPIO.BCM)
-DEBUG = 1
+DEBUG = 0
 
 root = '/home/pi/teddybear_talker/'
 # Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
