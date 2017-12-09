@@ -7,8 +7,8 @@ import audioStore from '../../stores/audioStore';
 import TimePicker from 'rc-time-picker';
 import moment from 'moment';
 import 'rc-time-picker/assets/index.css';
-import axios from 'axios';
 import Halogen from 'halogen';
+import { updateEvent } from '../../services/http';
 
 
 const days = [
@@ -85,8 +85,8 @@ class EditEvent extends Component {
             'day': this.state.day
         }
         this.setState({loading: true});
-        axios.patch(appStore.backendurl + '/events/' + appStore.editId, data)
-            .then((response) => {
+        let updatePromise = updateEvent(appStore.editId, data);
+            updatePromise.then((response) => {
                 console.log(response.data);
                 eventStore.get(appStore.editId).updateEvent(appStore.editId, this.state.time, this.state.voice, this.state.music, this.state.day);
                 this.setState({loading: false});

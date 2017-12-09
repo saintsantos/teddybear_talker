@@ -5,9 +5,9 @@ import audioStore, { Audio } from '../../stores/audioStore';
 import { Segment, Button, Grid, Divider } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import ReactAudioPlayer from 'react-audio-player';
-import axios from 'axios';
 import shortid from 'shortid';
 import Halogen from 'halogen';
+import { addAudio } from '../../services/http';
 
 //TODO - Yeah... upload the audio file to the backend
 
@@ -28,15 +28,15 @@ class NewAudio extends Component {
         data.append('file', this.state.accepted[0])
         if (this.state.accepted.length > 0) {
             this.setState({loading: true})
-            axios.post(appStore.backendurl + '/audio/', data)
-                .then((response) => {
+            let addResponse = addAudio(data);
+                addResponse.then((response) => {
                     this.setState({loading: false})
                     audioStore.set(response.data.id, new Audio(response.data.id, response.data.name, response.data.form, response.data.path))
                     appStore.closeNew();
                 })
                 .catch((error) => {
                     this.setState({loading: false})
-                    alert(error.response.data.error)
+                    alert(error.response.data.error);
                 })
         } else {
             alert("No accepted files have been uploaded");

@@ -9,6 +9,7 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import NewAudio from '../../components/New/newAudio.js';
 import axios from 'axios';
+import { getAudio } from '../../services/http';
 import './Audio.css';
 
 const forms = [
@@ -27,8 +28,8 @@ class AudioPage extends Component {
     }
     changeForm = (e, data) => {
         if (data.value === -1) {
-            axios.get(appStore.backendurl + '/audio/')
-                .then((response) => {
+            let allAudioResponse = getAudio();
+                allAudioResponse.then((response) => {
                     audioStore.clear();
                     response.data.audio.map((audio) => {
                         audioStore.set(audio.id, new Audio(audio.id, audio.name, audio.form, audio.path));

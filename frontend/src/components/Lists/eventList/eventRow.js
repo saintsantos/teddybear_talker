@@ -8,6 +8,7 @@ import axios from 'axios';
 import moment from 'moment';
 import DeleteEventModal from '../../Modal/DeleteEventModal.js';
 import Halogen from 'halogen';
+import { deleteEvent, testEvent } from '../../../services/http';
 
 @observer
 class EventRow extends Component {
@@ -23,8 +24,8 @@ class EventRow extends Component {
 
    deleteEvent = (e) => {
        eventStore.delete(this.props.event[0])
-       axios.delete(appStore.backendurl + '/events/' + this.props.event[1].id)
-           .then((response) => {
+       let deleteResponse = deleteEvent(this.props.event[1].id);
+           deleteResponse.then((response) => {
            console.log(response);
            })
 
@@ -33,8 +34,8 @@ class EventRow extends Component {
    testEvent = (e) => {
        this.setState({playing: true});
        console.log(eventStore.get(this.props.event[1].id))
-       axios.post(appStore.backendurl + '/test/event/' + this.props.event[1].id)
-           .then((response) => {
+       let testResponse = testEvent(this.props.event[1].id);
+           testResponse.then((response) => {
            console.log(response);
            this.setState({playing: false})
            })

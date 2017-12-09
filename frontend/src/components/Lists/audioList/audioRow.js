@@ -8,6 +8,7 @@ import axios from 'axios';
 import DeleteAudioModal from '../../Modal/DeleteAudioModal';
 import eventStore from '../../../stores/eventStore';
 import Halogen from 'halogen';
+import { deleteAudio, testAudio } from '../../../services/http';
 
 @observer
 class AudioRow extends Component {
@@ -42,8 +43,8 @@ class AudioRow extends Component {
         }
         
         audioStore.delete(this.props.audio[0])
-        axios.delete(appStore.backendurl + '/audio/' + this.props.audio[1].id)
-            .then((response) => {
+        let deleteResponse = deleteAudio(this.props.audio[1].id);
+            deleteResponse.then((response) => {
                 console.log(response.data);
             })
         
@@ -53,8 +54,8 @@ class AudioRow extends Component {
     testSound = (e) => {
         this.setState({playing: true});
         console.log(audioStore.get(this.props.audio[1].id));
-        axios.post(appStore.backendurl + '/test/audio/' + this.props.audio[1].id)
-            .then((response) => {
+        let testResponse = testAudio(this.props.audio[1].id);
+            testResponse.then((response) => {
             console.log(response);
             this.setState({playing: false})
             })

@@ -7,8 +7,8 @@ import { Event } from '../../stores/eventStore';
 import { Segment, Form, Header, Label } from 'semantic-ui-react';
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
-import axios from 'axios';
 import Halogen from 'halogen';
+import { addEvent } from '../../services/http';
 
 const days = [
     {key: "Mon", text: "Monday", value: "monday"},
@@ -53,8 +53,8 @@ class NewEvent extends Component {
             'music': this.state.music,
             'day': this.state.day
         }
-        axios.post(appStore.backendurl + '/events/', data)
-            .then((response) => {
+        let addResponse = addEvent(data);
+            addResponse.then((response) => {
                 if (this.state.day === appStore.day) {
                     eventStore.set(response.data.id,
                         new Event(

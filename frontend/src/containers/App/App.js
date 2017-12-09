@@ -9,6 +9,7 @@ import eventStore, { Event } from '../../stores/eventStore';
 import { Container } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import axios from 'axios';
+import { getAudio, getEvents } from '../../services/http';
 
 class App extends Component {
     render() {

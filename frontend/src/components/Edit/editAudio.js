@@ -3,8 +3,8 @@ import { Form } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import appStore from '../../stores/appStore';
 import audioStore from '../../stores/audioStore';
-import axios from 'axios';
 import Halogen from 'halogen';
+import { updateAudio } from '../../services/http';
 
 const forms = [
     {key: 0, text: "Voice", value: 0},
@@ -31,8 +31,8 @@ class EditAudio extends Component {
             'name': this.state.name,
             'form': this.state.form
         }
-        axios.patch(appStore.backendurl + '/audio/' + appStore.editId, data)
-            .then((response) => {
+        let updatePromise = updateAudio(appStore.editId, data);
+            updatePromise.then((response) => {
                 console.log(response.data);
                 audioStore.get(appStore.editId).updateAudio(appStore.editId, this.state.name, this.state.form);
                 this.setState({loading: false});

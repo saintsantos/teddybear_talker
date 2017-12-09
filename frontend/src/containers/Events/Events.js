@@ -8,6 +8,7 @@ import appStore from '../../stores/appStore.js';
 import { observer } from 'mobx-react';
 import NewEvent from '../../components/New/newEvent.js';
 import axios from 'axios';
+import { getEvents } from '../../services/http';
 import './Events.css';
 
 const days = [
@@ -24,8 +25,8 @@ const days = [
 class Events extends Component {
     changeDay = (e, data) => {
         appStore.changeDay(data.value);
-        axios.get(appStore.backendurl + '/events/' + appStore.day)
-            .then((response) => {
+        let eventResponse = getEvents(appStore.day);
+            eventResponse.then((response) => {
                 eventStore.clear()
                 response.data.events.map((event) => {
                     eventStore.set(event.id, new Event(event.id, event.time, event.voice, event.music, event.day))
