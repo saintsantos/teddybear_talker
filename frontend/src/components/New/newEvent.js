@@ -9,16 +9,8 @@ import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import Halogen from 'halogen';
 import { addEvent } from '../../services/http';
+import { DAYS } from '../constants/constants';
 
-const days = [
-    {key: "Mon", text: "Monday", value: "monday"},
-    {key: "Tues", text: "Tuesday", value: "tuesday"},
-    {key: "Wed", text: "Wednesday", value: "wednesday"},
-    {key: "Thurs", text: "Thursday", value: "thursday"},
-    {key: "Fri", text: "Friday", value: "friday"},
-    {key: "Sat", text: "Saturday", value: "saturday"},
-    {key: "Sun", text: "Sunday", value: "sunday"},
-]
 const now = moment().format("HH:mm")
 const format = 'h:mm a'
 
@@ -148,7 +140,7 @@ class NewEvent extends Component {
                     <Form.Field>
                         <Header as='h4'>Select day of event: </Header>
                         <select label='Day'  value={this.state.day} onChange={this.updateDay}>
-                            {days.map((day) => <option key={day.key} value={day.value}>{day.text}</option>)}
+                            {DAYS.map((day) => <option key={day.key} value={day.value}>{day.text}</option>)}
                         </select>
                     </Form.Field>
                     <Form.Group>

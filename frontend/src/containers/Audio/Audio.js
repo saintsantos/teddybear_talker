@@ -7,13 +7,8 @@ import appStore from '../../stores/appStore';
 import { observer } from 'mobx-react';
 import NewAudio from '../../components/New/newAudio.js';
 import { getAudio } from '../../services/http';
+import { FORMS } from '../../components/constants/constants';
 import './Audio.css';
-
-const forms = [
-    {key: "Any", text: "Any", value: -1},
-    {key: "Music", text: "Music", value: 1},
-    {key: "Voice", text: "Voice", value: 0}
-]
 
 @observer
 class AudioPage extends Component {
