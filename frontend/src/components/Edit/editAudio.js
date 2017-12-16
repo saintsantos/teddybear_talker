@@ -21,10 +21,6 @@ class EditAudio extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(forms);
-    }
-
     saveAndClose = (e) => {
         this.setState({loading: true});
         let data = {

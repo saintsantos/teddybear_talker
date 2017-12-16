@@ -4,11 +4,8 @@ import { Button, Segment, Dropdown, Menu } from 'semantic-ui-react';
 import EditAudio from '../../components/Edit/editAudio.js';
 import audioStore from '../../stores/audioStore';
 import appStore from '../../stores/appStore';
-import { Audio } from '../../stores/audioStore';
-import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import NewAudio from '../../components/New/newAudio.js';
-import axios from 'axios';
 import { getAudio } from '../../services/http';
 import './Audio.css';
 
@@ -28,30 +25,11 @@ class AudioPage extends Component {
     }
     changeForm = (e, data) => {
         if (data.value === -1) {
-            let allAudioResponse = getAudio();
-                allAudioResponse.then((response) => {
-                    audioStore.clear();
-                    response.data.audio.map((audio) => {
-                        audioStore.set(audio.id, new Audio(audio.id, audio.name, audio.form, audio.path));
-                    })
-                    this.setState({form: data.value})
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-
+            getAudio();
+            this.setState({form: data.value})
         } else {
-            axios.get(appStore.backendurl + '/audio/' + data.value)
-                .then((response) => {
-                    audioStore.clear();
-                    response.data.audio.map((audio) => {
-                        audioStore.set(audio.id, new Audio(audio.id, audio.name, audio.form, audio.path));
-                    })
-                    this.setState({form: data.value})
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
+            getAudio();
+            this.setState({form: data.value})
         }
 
 

@@ -7,37 +7,12 @@ import audioStore from '../../stores/audioStore.js';
 import appStore from '../../stores/appStore.js';
 import { observer } from 'mobx-react';
 import NewEvent from '../../components/New/newEvent.js';
-import axios from 'axios';
 import { getEvents } from '../../services/http';
+import DayPicker from '../../components/DayPicker/DayPicker';
 import './Events.css';
-
-const days = [
-    {key: "Mon", text: "Monday", value: "monday"},
-    {key: "Tues", text: "Tuesday", value: "tuesday"},
-    {key: "Wed", text: "Wednesday", value: "wednesday"},
-    {key: "Thurs", text: "Thursday", value: "thursday"},
-    {key: "Fri", text: "Friday", value: "friday"},
-    {key: "Sat", text: "Saturday", value: "saturday"},
-    {key: "Sun", text: "Sunday", value: "sunday"},
-]
 
 @observer
 class Events extends Component {
-    changeDay = (e, data) => {
-        appStore.changeDay(data.value);
-        let eventResponse = getEvents(appStore.day);
-            eventResponse.then((response) => {
-                eventStore.clear()
-                response.data.events.map((event) => {
-                    eventStore.set(event.id, new Event(event.id, event.time, event.voice, event.music, event.day))
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-    }
-    
     render() {
         const edit = appStore.edit
         ? <EditEvent /> : false;
@@ -50,9 +25,7 @@ class Events extends Component {
                     <Button onClick={appStore.openNew} floated="right">
                         + New Event
                     </Button>
-                    <Menu compact>
-                        <Dropdown text={appStore.day} value={appStore.day} options={days} simple item onChange={this.changeDay}/>
-                    </Menu>
+                    <DayPicker />
                     <h2>All events for {appStore.day}</h2>
                     <EventList events={eventStore} audios={audioStore}/>
                 </Segment>
