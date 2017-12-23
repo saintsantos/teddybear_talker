@@ -8,7 +8,8 @@ const getAudio = function() {
   request
   .then((response) => {
     audioStore.clear();
-    response.data.audio.map((audio) => {
+    console.log(response);
+    response.data.audios.map((audio) => {
       audioStore.set(audio.id, new Audio(audio.id, audio.name, audio.form, audio.path));
     })
   })

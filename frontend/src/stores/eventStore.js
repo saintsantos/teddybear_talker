@@ -32,7 +32,6 @@ class Event {
         this.voice = voice;
         this.music = music;
         this.day = day;
-        //Make call here
     }
     
 }

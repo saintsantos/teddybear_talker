@@ -13,24 +13,8 @@ import { getAudio, getEvents } from '../../services/http';
 
 class App extends Component {
     render() {
-        axios.get(appStore.backendurl + '/audio/')
-            .then((response) => {
-                response.data.audio.map((audio) => {
-                    audioStore.set(audio.id, new Audio(audio.id, audio.name, audio.form, audio.path));
-                })
-                axios.get(appStore.backendurl + '/events/' + appStore.day)
-                    .then((response) => {
-                        response.data.events.map((event) => {
-                            eventStore.set(event.id, new Event(event.id, event.time, event.voice, event.music, event.day))
-                        })
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        getAudio()
+        getEvents()
 
         return (
             <Router>

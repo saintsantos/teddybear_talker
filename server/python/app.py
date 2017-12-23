@@ -106,7 +106,7 @@ def get_day(day):
     events = []
     for event in Events.select().where(Events.day == day):
         events.append(model_to_dict(event))
-    return jsonify({'data': events}), 200
+    return jsonify({'events': events}), 200
 
 
 @app.route('/api/events/<id>', methods=['DELETE', 'PATCH'])
@@ -124,7 +124,7 @@ def update_event(id):
             event = Events.get(Events.id == id)
             event_response = model_to_dict(event)
             db.close()
-            return jsonify({'data': event_response}), 200, {'ContentType': 'application/json'}
+            return jsonify({'event': event_response}), 200, {'ContentType': 'application/json'}
         return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
         # Validation and event similarity checking complete, move onto update
         
@@ -164,7 +164,7 @@ def create_events():
         event.save()
         event_response = model_to_dict(event)
         db.close()
-        return jsonify({'data': event_response}), 201
+        return jsonify({'event': event_response}), 201
     db.close()
     return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
 
@@ -187,7 +187,7 @@ def modify_audio(id):
             audio = Audio.get(Audio.id == id)
             audio_response = model_to_dict(audio)
             db.close()
-            return jsonify({'data': audio_response}), 200, {'ContentType': 'application/json'}
+            return jsonify({'audio': audio_response}), 200, {'ContentType': 'application/json'}
         return jsonify({'error': 'Audio file with that name already exists'}), 400
         
     else:
@@ -229,7 +229,7 @@ def audio_handler():
                 audio.save()
                 audio_response = model_to_dict(audio)
                 db.close()
-                return jsonify({'data': audio_response}), 201
+                return jsonify({'audio': audio_response}), 201
             return jsonify({'error': 'File with this name already exists on bear'}), 400
     else:
         # Get the list of all audio files on the bear
@@ -238,7 +238,7 @@ def audio_handler():
         for audio in Audio.select():
             audios.append(model_to_dict(audio))
         db.close()
-        return jsonify({'data': audios}), 200
+        return jsonify({'audios': audios}), 200
 
 
 # System calls for the bear

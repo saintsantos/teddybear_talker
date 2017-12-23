@@ -66,7 +66,7 @@ class EventButtons extends Component {
 
 EventButtons.propTypes = {
   id: PropTypes.number,
-  index: PropTypes.number,
+  index: PropTypes.string,
 }
 
 export default EventButtons;

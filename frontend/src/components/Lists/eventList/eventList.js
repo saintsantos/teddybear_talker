@@ -14,8 +14,8 @@ class EventList extends Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Time</Table.HeaderCell>
-                        <Table.HeaderCell>Audio</Table.HeaderCell>
-                        <Table.HeaderCell>Jingle</Table.HeaderCell>
+                        <Table.HeaderCell>Voice</Table.HeaderCell>
+                        <Table.HeaderCell>Music</Table.HeaderCell>
                         <Table.HeaderCell>Actions</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -24,8 +24,6 @@ class EventList extends Component {
                     <EventRow 
                     key={shortid.generate()}
                     event={event}
-                    voice={this.props.audios.get(event[1].voice)} 
-                    music={this.props.audios.get(event[1].music)}
                     />)}
                 </Table.Body>
             </Table>

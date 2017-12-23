@@ -19,14 +19,10 @@ class EventRow extends Component {
         return (
             <Table.Row>
                 <Table.Cell>{time}</Table.Cell>
-                <Table.Cell>{this.props.voice.getName}</Table.Cell>
-                <Table.Cell>{this.props.music.getName}</Table.Cell>
+                <Table.Cell>{this.props.event[1].voice.name}</Table.Cell>
+                <Table.Cell>{this.props.event[1].voice.name}</Table.Cell>
                 <Table.Cell>
-                    {/* <Button color='teal' onClick={this.editEvent}>Edit</Button>
-                    <DeleteEventModal deleteEvent={this.deleteEvent}/>
-                    {playButton} */}
                     <EventButtons id={this.props.event[1].id} index={this.props.event[0]}/>
-                    
                 </Table.Cell>
             </Table.Row>
         )
@@ -35,8 +31,6 @@ class EventRow extends Component {
 
 EventRow.propTypes = {
     event: PropTypes.array,
-    voice: PropTypes.any,
-    music: PropTypes.any
 }
 
 export default EventRow;
