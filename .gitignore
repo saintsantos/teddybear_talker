@@ -15,3 +15,4 @@ venv/
 build/
 .idea/
 python.db
+tabil.db
