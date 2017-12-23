@@ -1,7 +1,4 @@
 from flask import Flask, request, jsonify, render_template
-from flask_sqlalchemy import SQLAlchemy
-# from flask_marshmallow import Marshmallow
-# from marshmallow import Schema, fields, ValidationError, validate
 from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
 from werkzeug.utils import secure_filename
