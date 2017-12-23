@@ -19,7 +19,6 @@ app.config['DATABASE_NAME'] = 'tabil.db'
 db = SqliteDatabase(app.config['DATABASE_NAME'])
 CORS(app)
 
-
 # Check our list of allowed files to see if our uploaded file is acceptable
 def allowed_file(filename):
     # check if our filetype is allowed
@@ -66,9 +65,8 @@ class AudioSchema(Schema):
     form = fields.Int()
 
 class AudioEventSchema(AudioSchema):
+    # Override audio schema to make id an accepted field
     id = fields.Int()
-
-audio_schema = AudioSchema()
 
 class EventSchema(Schema):
     id = fields.Int(dump_only=True)
@@ -82,7 +80,7 @@ class EventSchema(Schema):
         validate=must_not_be_blank
     )
     day = fields.String(
-        validate=validate.ContainsOnly(
+        validate=validate.OneOf(
             choices=[
                 'monday',
                 'tuesday',
@@ -97,8 +95,8 @@ class EventSchema(Schema):
     class Meta:
         model = Events
 
+audio_schema = AudioSchema()
 event_schema = EventSchema()
-
 
 
 # Event endpoints
@@ -108,30 +106,28 @@ def get_day(day):
     events = []
     for event in Events.select().where(Events.day == day):
         events.append(model_to_dict(event))
-
     return jsonify({'data': events}), 200
 
 
 @app.route('/api/events/<id>', methods=['DELETE', 'PATCH'])
 def update_event(id):
     if request.method == 'PATCH':
-        # Update an event
         update_data = request.get_json()
-        # TODO - Figure out why validation is busted here
-        # errors = event_schema.validate(update_data, partial=True)
-        # if errors:
-        #     return jsonify(errors), 400
-        # existing_event = events_schema.dump(Events.query.filter_by(time=update_data['time'])).data
-        existing_event = Events.get(Events.time == update_data['time'], Events.day == update_data['day'])
-        if existing_event:
-            return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
+        errors = event_schema.validate(update_data, partial=True)
+        if errors:
+            return jsonify(errors), 400
+        try:
+            db.connect()
+            Events.get(Events.time == update_data['time'], Events.day == update_data['day'])
+        except DoesNotExist:
+            Events.update(**update_data).where(Events.id == id).execute()
+            event = Events.get(Events.id == id)
+            event_response = model_to_dict(event)
+            db.close()
+            return jsonify({'data': event_response}), 200, {'ContentType': 'application/json'}
+        return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
         # Validation and event similarity checking complete, move onto update
-        db.connect()
-        Events.update(**update_data).where(Events.id == id).execute()
-        event = Events.get(Events.id == id)
-        event_response = model_to_dict(event)
-        db.close()
-        return jsonify({'data': event_response}), 200, {'ContentType': 'application/json'}
+        
     else:
         # Delete an event
         db.connect()
@@ -143,40 +139,34 @@ def update_event(id):
 # TODO - Check if an event already exists for the bear before adding a new event
 @app.route('/api/events/', methods=['POST'])
 def create_events():
-    # Add a check to see if the audio file is a voice or music file:
-    # Create a new event
     event_data = request.get_json()
-    # Check here:
+    db.connect()
     music = Audio.get(Audio.id == event_data['music']['id'])
     voice = Audio.get(Audio.id == event_data['voice']['id'])
-    if (music.form != 1 or music.form != -1):
+    if (music.form != 1 and music.form != -1):
         return jsonify({'error': 'Audio chosen for music is not the correct form'}), 400, {'ContentType': 'application/json'} 
-    if (voice.form != 0 or voice.form != -1):
+    if (voice.form != 0 and voice.form != -1):
         return jsonify({'error': 'Audio chosen for voice is not the correct form'}), 400, {'ContentType': 'application/json'}
 
-
-    # TODO - Figure out why validation is broken here (Day validation)
-    # error = event_schema.validate(event_data, partial=True)
-    # if error:
-    #    return jsonify(error), 400
-
-    existing_event = Events.get(Events.time == event_data['time'], Events.day == event_data['day'])
-    if existing_event:
-        return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
-
-    # Once we get here, there are no duplicate events and our data from the frontend is validated
-    # We can then proceed with creating the event
-    db.connect()
-    event = Events(
-        time=event_data['time'],
-        voice=event_data['voice']['id'],
-        music=event_data['music']['id'],
-        day=event_data['day'],
+    error = event_schema.validate(event_data, partial=True)
+    if error:
+       return jsonify(error), 400
+    
+    try:
+        Events.get(Events.time == event_data['time'], Events.day == event_data['day'])
+    except DoesNotExist:
+        event = Events(
+            time=event_data['time'],
+            voice=event_data['voice']['id'],
+            music=event_data['music']['id'],
+            day=event_data['day'],
         )
-    event.save()
-    event_response = model_to_dict(event)
+        event.save()
+        event_response = model_to_dict(event)
+        db.close()
+        return jsonify({'data': event_response}), 201
     db.close()
-    return jsonify({'data': event_response}), 201
+    return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
 
 
 # Audio endpoints
@@ -188,15 +178,18 @@ def modify_audio(id):
         error = audio_schema.validate(update_data, partial=True)
         if error:
             return jsonify(error), 400
-        existing_name = Audio.get(Audio.name == update_data['name'])
-        if existing_name:
-            return jsonify({'error': 'Audio file with that name already exists'}), 400
-        db.connect()
-        Audio.update(**update_data).where(Audio.id == id).execute()
-        audio = Audio.get(Audio.id == id)
-        audio_response = model_to_dict(audio)
-        db.close()
-        return jsonify({'data': audio_response}), 200, {'ContentType': 'application/json'}
+        # Check if we have an audio file in our DB with the same name we want to update to
+        try:
+            db.connect()
+            Audio.get(Audio.name == update_data['name'])
+        except DoesNotExist:
+            Audio.update(**update_data).where(Audio.id == id).execute()
+            audio = Audio.get(Audio.id == id)
+            audio_response = model_to_dict(audio)
+            db.close()
+            return jsonify({'data': audio_response}), 200, {'ContentType': 'application/json'}
+        return jsonify({'error': 'Audio file with that name already exists'}), 400
+        
     else:
         # Delete an audio file from both the db and the actual filesystem
         db.connect()
@@ -210,13 +203,6 @@ def modify_audio(id):
         db.close()
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
-
-# @app.route('/api/audio/<form>')
-# def filter_audio(form):
-    # Experimental filtering by audio type
-    #return jsonify(Audio.query.filter_by(form=form)).data)
-
-
 @app.route('/api/audio/', methods=['GET', 'POST'])
 def audio_handler():
     if request.method == 'POST':
@@ -228,26 +214,25 @@ def audio_handler():
             return jsonify({'No file': 'No file chosen'}), 400
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            existing_audio = Audio.get(Audio.name == filename)
-            existing_path = Audio.get(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            if existing_audio or existing_path:
-                return jsonify({'error': 'File with this name already exists on bear'}), 400
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        update_data = request.get_json()
-        db.connect()
-        audio = Audio(
-            name=update_data['name'],
-            path=os.path.join(app.config['UPLOAD_FOLDER'], update_data['name']),
-            form=0,
-        )
-        audio.save()
-        audio_response = model_to_dict(audio)
-        db.close()
-        return jsonify({'data': audio_response}), 201
-        # else:
-        #    return jsonify({'error': 'This file is not allowed'}), 400
+            try:
+                db.connect()
+                Audio.get(Audio.name == filename)
+            except DoesNotExist:
+                # TODO - Rethink this a bit
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                update_data = request.get_json()
+                audio = Audio(
+                    name=update_data['name'],
+                    path=os.path.join(app.config['UPLOAD_FOLDER'], update_data['name']),
+                    form=0,
+                )
+                audio.save()
+                audio_response = model_to_dict(audio)
+                db.close()
+                return jsonify({'data': audio_response}), 201
+            return jsonify({'error': 'File with this name already exists on bear'}), 400
     else:
-        # Get the list of all audio files on the bea
+        # Get the list of all audio files on the bear
         db.connect()
         audios = []
         for audio in Audio.select():
@@ -321,9 +306,9 @@ def test_audio(id):
 @app.route('/api/test/event/<id>', methods=['POST'])
 def test_event(id):
     # Test an event functions properly
-    event = Events.query.get(id)
-    voice = Audio.query.get(event.voice)
-    music = Audio.query.get(event.music)
+    event = Events.get(Events.id == id)
+    voice = event.voice
+    music = event.music
     call(["/usr/bin/omxplayer", voice.path])
     call(["/usr/bin/omxplayer", music.path])
     return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
