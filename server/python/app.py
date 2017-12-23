@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from peewee import *
+from peewee import SqliteDatabase, Model, PrimaryKeyField, CharField, ForeignKeyField, IntegerField, DoesNotExist
 from playhouse.shortcuts import model_to_dict, dict_to_model
 from werkzeug.utils import secure_filename
 from marshmallow import Schema, fields, ValidationError, validate
