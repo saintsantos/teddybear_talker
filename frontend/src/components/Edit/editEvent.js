@@ -10,6 +10,8 @@ import 'rc-time-picker/assets/index.css';
 import Halogen from 'halogen';
 import { updateEvent } from '../../services/http';
 import { DAYS } from '../constants/constants';
+import VoicePicker from '../AudioPicker/VoicePicker';
+import MusicPicker from '../AudioPicker/MusicPicker';
 
 const format = 'h:mm a'
 
@@ -28,12 +30,7 @@ class EditEvent extends Component {
         }
         
     }
-
-    componentWillMount() {
-        this.getVoices();
-        this.getMusics();
-    }
-
+    
     updateClock = (value) => {
         this.setState({'time': value.format("HH:mm")})
     }
@@ -53,17 +50,6 @@ class EditEvent extends Component {
         this.setState({voices: voices})
 
 
-    }
-
-    getMusics = (e) => {
-        let music = Array.from(audioStore).filter((audio) => {
-            return audio[1].form === 1;
-        })
-        this.setState({musics: music})
-    }
-
-    updateDay = (e) => {
-        this.setState({'day': e.target.value})
     }
 
     updateEvent = (e) => {
@@ -113,17 +99,19 @@ class EditEvent extends Component {
                     <Form.Group>
                         <Form.Field widths="equal">
                             <Header as='h4'>Select Voice for event: </Header>
-                            <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
+                            <VoicePicker updateFunc={this.updateVoice} voice={this.state.voice} />
+                            {/* <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {this.state.voices.map((voice) => <option value={voice[1].id}>{voice[1].name}</option>)}
-                            </select>
+                            </select> */}
                         </Form.Field>
                         <Form.Field widths="equal">
                             <Header as='h4'>Select Music for event: </Header>
-                            <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
+                            <MusicPicker updateFunc={this.updateMusic} music={this.state.music} />
+                            {/* <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
                                 <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
                                 {this.state.musics.map((music) => <option value={music[1].id}>{music[1].name}</option>)}
-                            </select>
+                            </select> */}
                         </Form.Field>
                     </Form.Group>
                     <Form.Field>
