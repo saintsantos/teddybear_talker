@@ -12,6 +12,7 @@ import { updateEvent } from '../../services/http';
 import { DAYS } from '../constants/constants';
 import VoicePicker from '../AudioPicker/VoicePicker';
 import MusicPicker from '../AudioPicker/MusicPicker';
+import WeekDayPicker from '../DayPicker/WeekDayPicker';
 
 const format = 'h:mm a'
 
@@ -24,8 +25,6 @@ class EditEvent extends Component {
             'voice': eventStore.get(appStore.editId).voice,
             'music': eventStore.get(appStore.editId).music,
             'day': eventStore.get(appStore.editId).day,
-            'voices': [],
-            'musics': [],
             'loading': false
         }
         
@@ -100,25 +99,15 @@ class EditEvent extends Component {
                         <Form.Field widths="equal">
                             <Header as='h4'>Select Voice for event: </Header>
                             <VoicePicker updateFunc={this.updateVoice} voice={this.state.voice} />
-                            {/* <select label='Voice' value={this.state.voice} onChange={this.updateVoice}>
-                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {this.state.voices.map((voice) => <option value={voice[1].id}>{voice[1].name}</option>)}
-                            </select> */}
                         </Form.Field>
                         <Form.Field widths="equal">
                             <Header as='h4'>Select Music for event: </Header>
                             <MusicPicker updateFunc={this.updateMusic} music={this.state.music} />
-                            {/* <select label='Jingle' value={this.state.music} onChange={this.updateMusic}>
-                                <option value={audioStore.get(1).id}>{audioStore.get(1).name}</option>
-                                {this.state.musics.map((music) => <option value={music[1].id}>{music[1].name}</option>)}
-                            </select> */}
                         </Form.Field>
                     </Form.Group>
                     <Form.Field>
                         <Header as='h4'>Select day of event: </Header>
-                        <select label='Day'  value={this.state.day} onChange={this.updateDay}>
-                            {DAYS.map((day) => <option value={day.value}>{day.text}</option>)}
-                        </select>
+                        <WeekDayPicker updateFune={this.updateDay} day={this.state.day} />
                     </Form.Field>
                     <Form.Group>
                         {saveButton}
