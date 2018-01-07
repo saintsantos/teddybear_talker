@@ -98,6 +98,15 @@ class EventSchema(Schema):
 audio_schema = AudioSchema()
 event_schema = EventSchema()
 
+@app.before_request
+def before_request():
+    db.connect()
+
+@app.after_request
+def after_request(response):
+    db.close()
+    return response
+
 
 # Event endpoints
 @app.route('/api/events/<day>', methods=['GET'])
@@ -117,30 +126,25 @@ def update_event(id):
         if errors:
             return jsonify(errors), 400
         try:
-            db.connect()
             Events.get(Events.time == update_data['time'], Events.day == update_data['day'])
         except DoesNotExist:
             Events.update(**update_data).where(Events.id == id).execute()
             event = Events.get(Events.id == id)
             event_response = model_to_dict(event)
-            db.close()
             return jsonify({'event': event_response}), 200, {'ContentType': 'application/json'}
         return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
         # Validation and event similarity checking complete, move onto update
         
     else:
         # Delete an event
-        db.connect()
-        Events.get(Events.id == id)
+        event = Events.get(Events.id == id)
         event.delete_instance()
-        db.close()
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 # TODO - Check if an event already exists for the bear before adding a new event
 @app.route('/api/events/', methods=['POST'])
 def create_events():
     event_data = request.get_json()
-    db.connect()
     music = Audio.get(Audio.id == event_data['music']['id'])
     voice = Audio.get(Audio.id == event_data['voice']['id'])
     if (music.form != 1 and music.form != -1):
@@ -163,9 +167,7 @@ def create_events():
         )
         event.save()
         event_response = model_to_dict(event)
-        db.close()
         return jsonify({'event': event_response}), 201
-    db.close()
     return jsonify({'error': 'Event already exists'}), 400, {'ContentType': 'application/json'}
 
 
@@ -180,19 +182,16 @@ def modify_audio(id):
             return jsonify(error), 400
         # Check if we have an audio file in our DB with the same name we want to update to
         try:
-            db.connect()
             Audio.get(Audio.name == update_data['name'])
         except DoesNotExist:
             Audio.update(**update_data).where(Audio.id == id).execute()
             audio = Audio.get(Audio.id == id)
             audio_response = model_to_dict(audio)
-            db.close()
             return jsonify({'audio': audio_response}), 200, {'ContentType': 'application/json'}
         return jsonify({'error': 'Audio file with that name already exists'}), 400
         
     else:
         # Delete an audio file from both the db and the actual filesystem
-        db.connect()
         audio = Audio.get(Audio.id == id)
         os.remove(audio.path)
         if audio.form == 1:
@@ -200,7 +199,6 @@ def modify_audio(id):
         else:
             Events.delete().where(Audio.id == audio.id)
         audio.delete_instance()
-        db.close()
         return jsonify({'success': True}), 200, {'ContentType': 'application/json'}
 
 @app.route('/api/audio/', methods=['GET', 'POST'])
@@ -215,7 +213,6 @@ def audio_handler():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             try:
-                db.connect()
                 Audio.get(Audio.name == filename)
             except DoesNotExist:
                 # TODO - Rethink this a bit
@@ -228,16 +225,13 @@ def audio_handler():
                 )
                 audio.save()
                 audio_response = model_to_dict(audio)
-                db.close()
                 return jsonify({'audio': audio_response}), 201
             return jsonify({'error': 'File with this name already exists on bear'}), 400
     else:
         # Get the list of all audio files on the bear
-        db.connect()
         audios = []
         for audio in Audio.select():
             audios.append(model_to_dict(audio))
-        db.close()
         return jsonify({'audios': audios}), 200
 
 
@@ -264,7 +258,6 @@ def date_update():
 @app.route('/api/clean', methods=['POST'])
 def clean():
     # Drop all the tables and recreate for a clean installation
-    db.connect()
     weekdays = [
         'monday',
         'tuesday',
@@ -291,7 +284,6 @@ def clean():
             day=day
         )
         event.save()
-    db.close()
     return jsonify({'successfully reset': True}), 200, {'ContentType': 'application/json'}
 
 
