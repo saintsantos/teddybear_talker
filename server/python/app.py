@@ -113,7 +113,7 @@ def after_request(response):
 def get_day(day):
     # Returns an array of events specified by the <day> string sent to the endpoint
     events = []
-    for event in Events.select().where(Events.day == day):
+    for event in Events.select().where(Events.day == day).order_by(Events.time.asc()):
         events.append(model_to_dict(event))
     return jsonify({'events': events}), 200
 
