@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'audio.apps.AudioConfig',
-    'event.apps.EventConfig'
+    'event.apps.EventConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
