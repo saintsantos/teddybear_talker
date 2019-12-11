@@ -1,0 +1,5 @@
+from node:13.3.0-alpine
+
+Add . /src/
+WORKDIR /src/
+RUN npm install
