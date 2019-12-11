@@ -1,0 +1,6 @@
+from python:3.6.9-alpine3.9
+
+Add . /src/
+WORKDIR /src/
+RUN pip install --no-cache-dir -r requirements.txt
+
