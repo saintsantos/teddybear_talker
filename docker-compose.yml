@@ -1,0 +1,16 @@
+version: '3'
+services:
+    server:
+        build: ./server/teddybeartalker
+        volumes:
+            - ./server/teddybeartalker:/src/
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+            - "8000:8000"
+    app:
+        build: ./tabil-app
+        volumes:
+            - ./tabil-app:/src/
+        command: npm run serve
+        ports: 
+            - "8080:8080"
