@@ -2,4 +2,5 @@ from node:dubnium-alpine3.10
 
 Add . /src/
 WORKDIR /src/
+RUN npm install -g @vue/cli
 RUN npm install
