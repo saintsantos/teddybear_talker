@@ -1,4 +1,4 @@
-from node:13.3.0-alpine
+from node:dubnium-alpine3.10
 
 Add . /src/
 WORKDIR /src/
