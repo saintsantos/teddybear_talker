@@ -4,7 +4,7 @@ blinker==1.4
 click==6.7
 Flask==0.12.2
 Flask-API==1.0
-Flask-Cors==3.0.3
+Flask-Cors==3.0.9
 flask-marshmallow==0.8.0
 Flask-Potion==0.14.1
 Flask-RESTful==0.3.6
