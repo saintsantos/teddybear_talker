@@ -20,7 +20,7 @@
     "mobx-react-devtools": "^4.2.15",
     "mobx-react-form": "^1.32.2",
     "mobx-utils": "^3.2.1",
-    "moment": "^2.18.1",
+    "moment": "^2.29.4",
     "object-assign": "4.1.1",
     "promise": "8.0.1",
     "prop-types": "^15.6.0",
